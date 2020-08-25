@@ -30,12 +30,23 @@ module.exports = {
   // lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
   devServer: {
+    open:true,//自动打开浏览器
     port: port,
-    open: true,
-    overlay: {
-      warnings: false,
-      errors: true
-    },
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8080', //请求本地 需要jeecg-boot后台项目
+        changeOrigin: true, //代理换host
+        pathRewrite: {
+          '^/api': ''
+        }
+        // secure: false //https配置
+      },
+    }
+    // open: true,
+    // overlay: {
+    //   warnings: false,
+    //   errors: true
+    // },
     // before: require('./mock/mock-server.js')
   },
   configureWebpack: {

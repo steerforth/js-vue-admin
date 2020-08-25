@@ -11,11 +11,8 @@ export function isExternal(path) {
 }
 
 /**
- * TODO
- * @param {string} str
- * @returns {Boolean}
+ * @param {Object} str
  */
-export function validUsername(str) {
-  const valid_map = ['admin', 'editor']
-  return valid_map.indexOf(str.trim()) >= 0
+export function validPhone(str) {
+  return (/^1(3|4|5|6|7|8|9)\d{9}$/).test(str)
 }
