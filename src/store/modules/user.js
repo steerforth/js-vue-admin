@@ -66,6 +66,8 @@ const actions = {
         if (!response) {
           return reject('验证失败,请重新登录.')
         }
+        //TODO
+        response.avatar = 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1598458930149&di=48acfe28d4df8d657de0fb9280d14be6&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201707%2F10%2F20170710210234_y3Kf5.jpeg'
 
         const { roles, name, avatar } = response
 
