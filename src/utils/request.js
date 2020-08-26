@@ -69,10 +69,11 @@ service.interceptors.response.use(
       // }
       return Promise.reject(new Error(res.errMsg || 'Error'))
     } else {
-      return res
+      return res.body
     }
   },
   error => {
+    //TODO 401,500等判断
     console.log('err' + error) // for debug
     Message({
       message: error.message,

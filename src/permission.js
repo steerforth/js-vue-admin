@@ -26,21 +26,30 @@ router.beforeEach(async(to, from, next) => {
       next({ path: '/' })
       NProgress.done()
     } else {
-      const hasGetUserInfo = store.getters.name
-      if (hasGetUserInfo) {
+      const hasRoles = store.getters.roles && store.getters.roles.length > 0
+      if (hasRoles) {
         next()
       } else {
         try {
-          //TODO
           // get user info
-          await store.dispatch('user/getInfo')
+          // note: roles must be a object array! such as: ['admin'] or ,['developer','editor']
+          const { roles } = await store.dispatch('user/getInfo')
 
-          next()
+          debugger
+          // generate accessible routes map based on roles
+          const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
+           debugger
+          // dynamically add accessible routes
+          router.addRoutes(accessRoutes)
+
+          // hack method to ensure that addRoutes is complete
+          // set the replace: true, so the navigation will not leave a history record
+          next({ ...to, replace: true })
         } catch (error) {
+          console.log(error)
           // remove token and go to login page to re-login
-          //TODO 只移除本地缓存token
           await store.dispatch('user/resetToken')
-          Message.error(error || 'Has Error')
+          Message.error(error || '出错鸟!')
           next(`/login?redirect=${to.path}`)
           NProgress.done()
         }
@@ -51,9 +60,11 @@ router.beforeEach(async(to, from, next) => {
 
     if (whiteList.indexOf(to.path) !== -1) {
       // in the free login whitelist, go directly
+      debugger
       next()
     } else {
       // other pages that do not have permission to access are redirected to the login page.
+      debugger
       next(`/login?redirect=${to.path}`)
       NProgress.done()
     }

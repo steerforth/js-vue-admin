@@ -28,6 +28,7 @@ module.exports = {
   outputDir: 'dist',
   assetsDir: 'static',
   // lintOnSave: process.env.NODE_ENV === 'development',
+  lintOnSave: false,
   productionSourceMap: false,
   devServer: {
     open:true,//自动打开浏览器
@@ -52,6 +53,7 @@ module.exports = {
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
     // it can be accessed in index.html to inject the correct title.
+    devtool: 'source-map', //开启调试
     name: name,
     resolve: {
       alias: {

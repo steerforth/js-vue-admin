@@ -4,12 +4,8 @@ export function login(data) {
   return request.post('/user/login',null,{params:data})
 }
 
-export function getInfo(token) {
-  return request({
-    url: '/user/info',
-    method: 'get',
-    params: { token }
-  })
+export function getInfo() {
+  return request.get('/user/info')
 }
 
 export function logout() {
