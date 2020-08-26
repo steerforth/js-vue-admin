@@ -59,7 +59,8 @@ module.exports = {
       alias: {
         '@': resolve('src')
       }
-    }
+    },
+	//TODO externals 配置外部引入，减少chunk-vendors.js文件的大小
   },
   chainWebpack(config) {
     // it can improve the speed of the first screen, it is recommended to turn on preload

@@ -28,6 +28,7 @@ export default {
     // use $_ for mixins properties
     // https://vuejs.org/v2/style-guide/index.html#Private-property-names-essential
     $_isMobile() {
+      //获取设备宽度
       const rect = body.getBoundingClientRect()
       return rect.width - 1 < WIDTH
     },

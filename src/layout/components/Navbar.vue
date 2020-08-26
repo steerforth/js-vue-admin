@@ -53,6 +53,9 @@ export default {
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
+    // 1.async 定义的函数会默认的返回一个Promise对象resolve的
+    // 2.await 关键字 只能放在 async 函数内部， await关键字的作用 就是获取 Promise中返回的内容， 获取的是Promise函数中resolve或者reject的值
+    // 3.如果await 后面并不是一个Promise的返回值，则会按照同步程序返回值处
     async logout() {
       await this.$store.dispatch('user/logout')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)

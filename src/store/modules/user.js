@@ -15,6 +15,7 @@ const state = getDefaultState()
 
 const mutations = {
   RESET_STATE: (state) => {
+    // 对象属性合并,前面为目标,后面都是源
     Object.assign(state, getDefaultState())
   },
   SET_TOKEN: (state, token) => {

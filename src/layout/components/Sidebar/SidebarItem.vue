@@ -7,7 +7,7 @@
         </el-menu-item>
       </app-link>
     </template>
-
+    <!-- popper-append-to-body,是否将弹出菜单插入至 body 元素 -->
     <el-submenu v-else ref="subMenu" :index="resolvePath(item.path)" popper-append-to-body>
       <template slot="title">
         <item v-if="item.meta" :icon="item.meta && item.meta.icon" :title="item.meta.title" />
@@ -33,7 +33,9 @@ import FixiOSBug from './FixiOSBug'
 
 export default {
   name: 'SidebarItem',
+  //驼峰命名法<AppLink>和<app-link>都可以使
   components: { Item, AppLink },
+  //混入
   mixins: [FixiOSBug],
   props: {
     // route object
@@ -57,6 +59,7 @@ export default {
     return {}
   },
   methods: {
+    //子菜单为一个或没有
     hasOneShowingChild(children = [], parent) {
       const showingChildren = children.filter(item => {
         if (item.hidden) {
@@ -81,6 +84,7 @@ export default {
 
       return false
     },
+    //处理外部链接或本地路径
     resolvePath(routePath) {
       if (isExternal(routePath)) {
         return routePath
@@ -88,6 +92,7 @@ export default {
       if (isExternal(this.basePath)) {
         return this.basePath
       }
+      //返回拼接的绝对路径
       return path.resolve(this.basePath, routePath)
     }
   }

@@ -1,5 +1,7 @@
+<!-- 面包屑导航栏 -->
 <template>
   <el-breadcrumb class="app-breadcrumb" separator="/">
+    <!-- transition-group实现动画 -->
     <transition-group name="breadcrumb">
       <el-breadcrumb-item v-for="(item,index) in levelList" :key="item.path">
         <span v-if="item.redirect==='noRedirect'||index==levelList.length-1" class="no-redirect">{{ item.meta.title }}</span>
@@ -19,6 +21,7 @@ export default {
     }
   },
   watch: {
+    // 监听路由的变化
     $route() {
       this.getBreadcrumb()
     }

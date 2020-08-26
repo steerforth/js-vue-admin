@@ -1,3 +1,4 @@
+<!-- a标签或路由 -->
 <template>
   <component :is="type" v-bind="linkProps(to)">
     <slot />
