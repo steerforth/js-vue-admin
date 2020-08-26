@@ -8,9 +8,9 @@ export function getInfo() {
   return request.get('/user/info')
 }
 
-export function logout() {
-  return request({
-    url: '/user/logout',
-    method: 'post'
-  })
-}
+// export function logout() {
+//   return request({
+//     url: '/user/logout',
+//     method: 'post'
+//   })
+// }

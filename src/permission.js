@@ -35,10 +35,9 @@ router.beforeEach(async(to, from, next) => {
           // note: roles must be a object array! such as: ['admin'] or ,['developer','editor']
           const { roles } = await store.dispatch('user/getInfo')
 
-          debugger
           // generate accessible routes map based on roles
           const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
-           debugger
+
           // dynamically add accessible routes
           router.addRoutes(accessRoutes)
 
@@ -57,14 +56,11 @@ router.beforeEach(async(to, from, next) => {
     }
   } else {
     /* has no token*/
-
     if (whiteList.indexOf(to.path) !== -1) {
       // in the free login whitelist, go directly
-      debugger
       next()
     } else {
       // other pages that do not have permission to access are redirected to the login page.
-      debugger
       next(`/login?redirect=${to.path}`)
       NProgress.done()
     }

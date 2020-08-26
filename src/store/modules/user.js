@@ -1,4 +1,4 @@
-import { logout, getInfo } from '@/api/userService'
+import { getInfo } from '@/api/userService'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -84,17 +84,21 @@ const actions = {
   },
 
   // user logout
-  logout({ commit, state }) {
-    return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
-        //TODO 暂时后台移除不了token
-        // removeToken() // must remove  token  first
-        resetRouter()
-        commit('RESET_STATE')
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
+  logout({ commit }) {
+    return new Promise((resolve) => {
+		//TODO 暂时后台移除不了token
+		resetRouter()
+		commit('RESET_STATE')
+		removeToken()
+		resolve()
+      // logout(state.token).then(() => {
+      //   removeToken() // must remove  token  first
+      //   resetRouter()
+      //   commit('RESET_STATE')
+      //   resolve()
+      // }).catch(error => {
+      //   reject(error)
+      // })
     })
   },
 
