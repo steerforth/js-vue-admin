@@ -25,6 +25,7 @@ export default {
   },
   methods: {
     toggleClick() {
+      //子组件调用父组件方法
       this.$emit('toggleClick')
     }
   }

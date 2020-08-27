@@ -1,8 +1,4 @@
-const TableParam = {
-  NAV_BAR: 50,
-  PADDING_BOTTOM: 20,
-  DIFF: 60,
-  DEFAULT_TABLE: 540
-}
-
-export default TableParam
+export const NAV_BAR = 50
+export const PADDING_BOTTOM = 20
+export const DIFF = 60
+export const DEFAULT_TABLE = 540
