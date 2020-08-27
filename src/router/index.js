@@ -6,6 +6,10 @@ Vue.use(Router)
 /* Layout */
 import Layout from '@/layout'
 
+/* Router Modules */
+import fileFlowRouter from './modules/file-flow'
+import stasticsTableRouter from './modules/stastics-table'
+
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -36,13 +40,11 @@ export const constantRoutes = [
     component: () => import('@/views/login/index'),
     hidden: true
   },
-
   {
     path: '/404',
     component: () => import('@/views/error-page/404'),
     hidden: true
   },
-
   {
     path: '/',
     component: Layout,
@@ -51,10 +53,10 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      meta: { title: '首页', icon: 'dashboard' }
     }]
   },
-
+  stasticsTableRouter,
   {
     path: '/example',
     component: Layout,
@@ -160,53 +162,36 @@ export const constantRoutes = [
     ]
   },
 
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
 ]
 
 //异步动态加载
 export const asyncRoutes = [
-{
-    path: '/permission',
-    component: Layout,
-    redirect: '/permission/page',
-    alwaysShow: true, // will always show the root menu
-    name: 'Permission',
-    meta: {
-      title: '权限',
-      icon: 'lock',
-      roles: ['menu-ExcelFile'] // you can set roles in root nav
-    },
-    children: [
-      {
-        path: 'page',
-        component: () => import('@/views/form/index2'),
-        name: 'PagePermission',
-        meta: {
-          title: '子权限',
-          roles: ['menu-ExcelFile'] // or you can only set roles in sub nav
-        }
-      },
-      // {
-      //   path: 'directive',
-      //   component: () => import('@/views/permission/directive'),
-      //   name: 'DirectivePermission',
-      //   meta: {
-      //     title: 'Directive Permission'
-      //     // if do not set roles, means: this page does not require permission
-      //   }
-      // },
-      // {
-      //   path: 'role',
-      //   component: () => import('@/views/permission/role'),
-      //   name: 'RolePermission',
-      //   meta: {
-      //     title: 'Role Permission',
-      //     roles: ['admin']
-      //   }
-      // }
-    ]
-  },
+  fileFlowRouter,
+// {
+//     path: '/permission',
+//     component: Layout,
+//     redirect: '/permission/page',
+//     alwaysShow: true, // 显示时，自动展开
+//     name: 'Permission',
+//     meta: {
+//       title:'主权限',
+//       icon: 'nested',
+//       roles: ['menu-OrderFile'] // you can set roles in root nav
+//     },
+//     children: [
+//       {
+//         path: 'page',
+//         component: () => import('@/views/form/index2'),
+//         name: 'PagePermission',
+//         meta: {
+//           title: '权限',
+//           roles: ['menu-OrderFile'] // or you can only set roles in sub nav
+//         }
+//       },
+//     ]
+//   },
+  // 404 page must be placed at the end !!!
+  { path: '*', redirect: '/404', hidden: true }
 ]
 
 const createRouter = () => new Router({
