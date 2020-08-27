@@ -76,7 +76,12 @@
     deliverStatistic
   } from '@/api/orderService'
   import '@/utils/date'
-  import {NAV_BAR ,PADDING_BOTTOM, DIFF, DEFAULT_TABLE} from '@/utils/dynamic-table'
+  import {
+    NAV_BAR,
+    PADDING_BOTTOM,
+    DIFF,
+    DEFAULT_TABLE
+  } from '@/utils/dynamic-table'
   import Xlsx from 'xlsx'
 
   export default {
@@ -139,6 +144,7 @@
         tableHeight: DEFAULT_TABLE
       }
     },
+    //TODO 切换侧边栏时el-table__body-wrapper会变化
     // watch:{
     //   '$store.state.app.sidebar.opened'() {
     //     this.$nextTick(() => {
