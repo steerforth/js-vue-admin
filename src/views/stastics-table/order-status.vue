@@ -1,10 +1,10 @@
 <template>
   <div class="app-container">
     <sticky :z-index="10" :class="'sub-navbar'">
-      <el-cascader style='width:320px;margin-right: 5px;' :options="optionsForMulti" :props="propsForMulti" placeholder="请选择投放人/站点"
+      <el-cascader style='min-width:280px;margin-right: 5px;' :options="optionsForMulti" :props="propsForMulti" placeholder="投放人/站点"
         collapse-tags clearable v-model="condition.advertiserShopIds">
       </el-cascader>
-      <el-select v-model="condition.targetMarket" placeholder="请选择目标市场" style='margin-right: 5px;'>
+      <el-select v-model="condition.targetMarket" placeholder="目标市场" style='margin-right: 5px;'>
         <el-option v-for="item in optionsForShopArea" :key="item" :label="item" :value="item">
         </el-option>
       </el-select>
@@ -316,7 +316,7 @@
                 return prev;
               }
             }, 0);
-            if (index == 2) {
+            if (index == 2 || index == 14) {
               sums[index] = sums[index].toFixed(2);
             }
           } else {
@@ -330,13 +330,15 @@
 </script>
 
 <style lang="scss" scoped>
-  /* 解决初次加载统计不显示的BUG */
-  .el-table {
-    overflow: visible !important;
-  }
 
   /* 解决el-button转圈遮罩层为正方形的BUG */
-  .el-loading-mask {
-    border-radius: 50%
+  // .el-button{
+  //   .el-loading-mask {
+  //     border-radius: !important 50%
+  //   }
+  // }
+  .el-loading-mask{
+    border-radius: !important 50%;
   }
+
 </style>

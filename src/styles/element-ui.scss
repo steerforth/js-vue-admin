@@ -47,3 +47,10 @@
 .el-range-separator {
   box-sizing: content-box;
 }
+
+
+/* 解决初次加载统计不显示的BUG */
+.el-table {
+  overflow: visible !important;
+}
+
