@@ -23,7 +23,8 @@
     "path-to-regexp": "6.1.0",
     "normalize.css": "7.0.0",
     "qs": "6.9.4",
-    "xlsx": "0.16.6"
+    "xlsx": "0.16.6",
+    "echarts": "4.8.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

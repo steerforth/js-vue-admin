@@ -12,6 +12,12 @@ const stasticsTableRouter = {
   },
   children: [
     {
+      path: 'order-sale',
+      component: () => import('@/views/stastics-table/order-sale'),
+      name: 'OrderSale',
+      meta: { title: '订单销量图'}
+    },
+    {
       path: 'order-status',
       component: () => import('@/views/stastics-table/order-status'),
       name: 'OrderList',

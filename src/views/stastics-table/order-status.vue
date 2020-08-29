@@ -1,10 +1,10 @@
 <template>
   <div class="app-container">
     <sticky :z-index="10" :class="'sub-navbar'">
-      <el-cascader style='min-width:280px;margin-right: 5px;' :options="optionsForMulti" :props="propsForMulti" placeholder="投放人/站点"
+      <el-cascader style='min-width:310px;margin-right: 5px;' :options="optionsForMulti" :props="propsForMulti" placeholder="投放人/站点"
         collapse-tags clearable v-model="condition.advertiserShopIds">
       </el-cascader>
-      <el-select v-model="condition.targetMarket" placeholder="目标市场" style='margin-right: 5px;'>
+      <el-select v-model="condition.targetMarket" clearable placeholder="地区" style='margin-right: 5px;'>
         <el-option v-for="item in optionsForShopArea" :key="item" :label="item" :value="item">
         </el-option>
       </el-select>

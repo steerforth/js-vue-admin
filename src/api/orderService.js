@@ -11,3 +11,14 @@ export function deliverStatistic(data) {
     }
   })
 }
+
+export function saleStatistic(data) {
+  return request.post('/order/statistics', null, {
+    params: data,
+    paramsSerializer: params => {
+      return qs.stringify(params, {
+        indices: false
+      })
+    }
+  })
+}
