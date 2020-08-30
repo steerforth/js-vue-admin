@@ -76,28 +76,30 @@ service.interceptors.response.use(
     console.log('err:' + error.message) // for debug
 
     let tip = null;
-    switch (error.response.status) {
-    	case 500:
-    		tip = "服务器系统内部错误"
-    		break;
-    	case 401:
-    		tip = "未授权"
-    		break;
-    	case 403:
-        tip = "无权限执行此操作"
-    		break;
-    	case 404:
-        tip = "请求的路径不存在"
-    		break;
-    	case 408:
-        tip = "请求超时"
-    		break;
-    	default:
-    		tip = "未知错误:status=" + error.response.status
+    if(error.response){
+      switch (error.response.status) {
+      	case 500:
+      		tip = "服务器系统内部错误"
+      		break;
+      	case 401:
+      		tip = "未授权"
+      		break;
+      	case 403:
+          tip = "无权限执行此操作"
+      		break;
+      	case 404:
+          tip = "请求的路径不存在"
+      		break;
+      	case 408:
+          tip = "请求超时"
+      		break;
+      	default:
+      		tip = "未知错误:status=" + error.response.status
+      }
     }
 
     Message({
-      message: tip,
+      message: tip || error.message,
       type: 'error',
       duration: 5 * 1000
     })

@@ -23,6 +23,12 @@ const stasticsTableRouter = {
       name: 'OrderList',
       meta: { title: '订单状态表'}
     },
+    {
+      path: 'sign-ranking',
+      component: () => import('@/views/stastics-table/sign-ranking'),
+      name: 'signRanking',
+      meta: { title: '签收排行'}
+    },
   ]
 }
 export default stasticsTableRouter

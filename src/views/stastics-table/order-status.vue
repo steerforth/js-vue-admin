@@ -169,6 +169,7 @@
       })
       window.onresize = () => {
         return (() => {
+          //TODO 偶尔会报错
           this.$set(this, 'tableHeight', window.innerHeight - this.$refs.table.$el.offsetTop - NAV_BAR -
             PADDING_BOTTOM - DIFF);
         })()
@@ -331,14 +332,9 @@
 
 <style lang="scss" scoped>
 
-  /* 解决el-button转圈遮罩层为正方形的BUG */
-  // .el-button{
-  //   .el-loading-mask {
-  //     border-radius: !important 50%
-  //   }
-  // }
-  .el-loading-mask{
-    border-radius: !important 50%;
+  /* 解决el-button转圈遮罩层为正方形的BUG ::v-deep样式穿透*/
+  ::v-deep .el-loading-mask{
+    border-radius: 50%;
   }
 
 </style>

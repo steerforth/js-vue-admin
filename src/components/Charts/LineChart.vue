@@ -1,5 +1,5 @@
 <template>
-   <div :id="id" :class="className" :style="{height:height,width:width}"/>
+   <div :class="className" :style="{height:height,width:width}"/>
    <!-- :dataColor="dataColor" :legends="legends" :xData="xData" :yData="yData" :xColor="xColor" -->
 </template>
 
@@ -16,10 +16,6 @@
       className: {
         type: String,
         default: ''
-      },
-      id: {
-        type: String,
-        default: 'chart'
       },
       width: {
         type: String,
@@ -153,8 +149,8 @@
     },
     methods: {
       initChart() {
-        //TODO this.chart = echarts.init(this.$el);
-        this.chart = echarts.init(document.getElementById(this.id))
+        this.chart = echarts.init(this.$el)
+        // this.chart = echarts.init(document.getElementById(this.id))
         // console.log('chart init:'+this.chart)
         this.setOptions();
       },

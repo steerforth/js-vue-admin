@@ -21,7 +21,7 @@
       </el-tooltip>
     </sticky>
     <div class="chart-container">
-      <line-chart id="chart" width="100%" height="100%" :dataColor="chartDataColor" :legends="chartLegends" :xData="chartXData" :yData="chartYData"></line-chart>
+      <line-chart width="100%" height="100%" :dataColor="chartDataColor" :legends="chartLegends" :xData="chartXData" :yData="chartYData"></line-chart>
     </div>
   </div>
 </template>
@@ -171,14 +171,17 @@
       		targetMarket: this.condition.targetMarket,
       	}
         let that = this;
+        that.loading = true
       	saleStatistic(data).then(
           res=>{
+            that.loading = false
             var myChart = that.chart;
             //echart赋值
             that.$set(that,"chartXData",res.coordinates);
             that.$set(that,"chartYData",res.datas);
           },
           err=>{
+            that.loading = false
             console.log(err);
           }
         )
@@ -195,6 +198,10 @@
     position: relative;
     width: 100%;
     height: calc(100vh - 138px);
+  }
+
+  ::v-deep .el-loading-mask{
+    border-radius: 50%;
   }
 
 </style>
