@@ -126,21 +126,20 @@
         }
       }
     },
-    beforeMount: function() {
+    beforeMount() {
       this.loadMapForCity();
     },
-    mounted: function() {
+    mounted() {
       this.$nextTick(() => {
-        this.resizeTableHeight();
+        this.handleResize();
       })
-      window.onresize = () => {
-        return (() => {
-          this.resizeTableHeight();
-        })()
-      };
+      window.addEventListener('resize', this.handleResize)
+    },
+    destroyed() {
+      window.removeEventListener('resize', this.handleResize)
     },
     methods: {
-      resizeTableHeight() {
+      handleResize() {
         this.$set(this, 'tableHeight', window.innerHeight - this.$refs.table.$el.offsetTop - NAV_BAR - PADDING_BOTTOM -
           this.$refs.pagination.$el.offsetHeight);
       },

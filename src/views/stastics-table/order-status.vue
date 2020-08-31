@@ -164,17 +164,15 @@
       // alert('diff:'+DIFF)
       //navBar:50 offsetTop:68 bottom:20
       this.$nextTick(() => {
-        this.$set(this, 'tableHeight', window.innerHeight - this.$refs.table.$el.offsetTop - NAV_BAR -
-          PADDING_BOTTOM - DIFF);
+        // this.$set(this, 'tableHeight', window.innerHeight - this.$refs.table.$el.offsetTop - NAV_BAR -
+        //   PADDING_BOTTOM - DIFF)
+          this.handleResize()
       })
-      window.onresize = () => {
-        return (() => {
-          //TODO 偶尔会报错
-          this.$set(this, 'tableHeight', window.innerHeight - this.$refs.table.$el.offsetTop - NAV_BAR -
-            PADDING_BOTTOM - DIFF);
-        })()
-      }
+      window.addEventListener('resize', this.handleResize)
       this.loadShops();
+    },
+    destroyed() {
+      window.removeEventListener('resize', this.handleResize)
     },
     computed: {
       initTime() {
@@ -187,6 +185,10 @@
       },
     },
     methods: {
+      handleResize(){
+        this.$set(this, 'tableHeight', window.innerHeight - this.$refs.table.$el.offsetTop - NAV_BAR -
+          PADDING_BOTTOM - DIFF);
+      },
       loadShops() {
         let that = this;
         shopList().then(

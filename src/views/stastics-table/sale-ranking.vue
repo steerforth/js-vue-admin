@@ -1,5 +1,38 @@
 <template>
   <div class="app-container">
+    <!-- <el-row class="sub-navbar" :gutter="10">
+      <el-col :span="4">
+        <el-select v-model="condition.checkResult" style='margin-right:5px;' @change="getList">
+          <el-option v-for="item in optionsForCheckResult" :key="item.value" :label="item.label" :value="item.value">
+        </el-option>
+        </el-select>
+      </el-col>
+      <el-col :span="4">
+        <el-select v-model="condition.targetMarket" clearable placeholder="地区" style='margin-right:5px;' @change="getList">
+          <el-option v-for="item in optionsForShopArea" :key="item" :label="item" :value="item">
+          </el-option>
+        </el-select>
+      </el-col>
+      <el-col :span="4">
+        <el-select v-model="condition.shopOwner" clearable placeholder="店铺所属" style='margin-right:5px;' @change="getList">
+          <el-option v-for="item in optionsForShopOwner" :key="item" :label="item" :value="item">
+          </el-option>
+        </el-select>
+      </el-col>
+      <el-col :span="4">
+        <el-date-picker style='margin-right: 5px;' v-model="condition.time" type="datetimerange" align="right"
+          unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['09:00:00','09:00:00']"
+          value-format="yyyy-MM-dd HH:mm:ss" :picker-options="pickerOptions" @change="getList">
+        </el-date-picker>
+      </el-col>
+      <el-col :span="4">
+        <el-select v-model="condition.advertiser" clearable placeholder="投放人" style='margin-right:5px;' @change="getList">
+          <el-option v-for="item in optionsForAdvertiser" :key="item" :label="item" :value="item">
+          </el-option>
+        </el-select>
+      </el-col>
+
+    </el-row> -->
     <sticky :z-index="10" :class="'sub-navbar'">
       <el-select v-model="condition.checkResult" style='margin-right:5px;' @change="getList">
         <el-option v-for="item in optionsForCheckResult" :key="item.value" :label="item.label" :value="item.value">
@@ -119,16 +152,13 @@
     },
     mounted() {
       this.$nextTick(() => {
-        this.$set(this, 'tableHeight', window.innerHeight - this.$refs.table.$el.offsetTop - NAV_BAR -
-          PADDING_BOTTOM);
+        this.handleResize()
       })
-      window.onresize = () => {
-        return (() => {
-          this.$set(this, 'tableHeight', window.innerHeight - this.$refs.table.$el.offsetTop - NAV_BAR -
-            PADDING_BOTTOM);
-        })()
-      }
+      window.addEventListener('resize', this.handleResize)
       this.loadShops();
+    },
+    destroyed() {
+      window.removeEventListener('resize', this.handleResize)
     },
     computed: {
       initTime() {
@@ -142,7 +172,11 @@
       },
     },
     methods: {
-      getList: function(){
+      handleResize(){
+        this.$set(this, 'tableHeight', window.innerHeight - this.$refs.table.$el.offsetTop - NAV_BAR -
+          PADDING_BOTTOM);
+      },
+      getList(){
       	// $('.container').scrollTop(0);
       	if(this.condition.time == null){
       		this.$message({
@@ -199,10 +233,10 @@
             console.log(err)
           })
       },
-      indexMethod:function(index){
+      indexMethod(index){
       	return index+1;
       },
-      tableRowClassName:function({row, rowIndex}){
+      tableRowClassName({row, rowIndex}){
       	if (rowIndex === 0) {
       		return 'first-row';
       	} else if (rowIndex === 1) {
