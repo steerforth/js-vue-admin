@@ -26,13 +26,13 @@ const stasticsTableRouter = {
     {
       path: 'sale-ranking',
       component: () => import('@/views/stastics-table/sale-ranking'),
-      name: 'saleRanking',
+      name: 'SaleRanking',
       meta: { title: '销量排行'}
     },
     {
       path: 'sign-ranking',
       component: () => import('@/views/stastics-table/sign-ranking'),
-      name: 'signRanking',
+      name: 'SignRanking',
       meta: { title: '签收排行'}
     }
   ]

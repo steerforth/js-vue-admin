@@ -25,11 +25,11 @@
     <el-table ref="table" v-loading="loading" :data="tableData" :row-class-name="tableRowClassName" :height="tableHeight" border style="width:100%;">
       <el-table-column type="index" :index="indexMethod">
       </el-table-column>
-      <el-table-column prop="goodsName" label="产品名称" width=300>
+      <el-table-column prop="goodsName" label="产品名称" width=300 align="center">
       </el-table-column>
-      <el-table-column prop="skuCode" label="skuCode">
+      <el-table-column prop="skuCode" label="skuCode" align="center">
       </el-table-column>
-      <el-table-column prop="sum" label="销售/下单量" sortable>
+      <el-table-column prop="sum" label="销售/下单量" align="center" ssortable>
       </el-table-column>
     </el-table>
   </div>
