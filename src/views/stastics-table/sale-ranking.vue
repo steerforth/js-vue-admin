@@ -251,6 +251,9 @@
 </script>
 
 <style lang="scss" scoped>
+  ::v-deep .el-input {
+    font-size: 12px;
+  }
   ::v-deep .el-table {
     .first-row {
         background: #FF8888;
