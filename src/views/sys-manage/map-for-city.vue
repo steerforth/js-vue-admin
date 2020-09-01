@@ -1,27 +1,25 @@
 <template>
   <div class="app-container">
     <sub-navbar :z-index="10" :class="'sub-navbar'">
-      <el-select style="margin-right: 5px;" v-model="condition.type">
+      <el-select v-model="condition.type">
         <el-option v-for="item in options" :key="item.type" :label="item.name" :value="item.type">
         </el-option>
       </el-select>
-      <el-input style="margin-right: 5px;max-width: 230px;" placeholder="请输入城市名称" v-model="condition.query" clearable
+      <el-input placeholder="请输入城市名称" v-model="condition.query" clearable
         @keyup.enter.native="loadMapForCity">
       </el-input>
       <el-tooltip class="item" effect="dark" content="查询" placement="right-end">
         <el-button v-loading="loading" icon="el-icon-search" circle @click="loadMapForCity"></el-button>
       </el-tooltip>
-      <!-- <el-upload
-        action="https://jsonplaceholder.typicode.com/posts/"
-        :limit="1"
-        data="condition.type"
-        :accept="'.xls, .xlsx'"
-        show-file-list=false
-        :on-change="handleFileChange"
-        :file-list="fileList">
-        <el-button size="small" type="primary">点击上传</el-button>
-        <div slot="tip" class="el-upload__tip">只能上传xls/xlsx文件</div>
-      </el-upload> -->
+      <el-upload
+        style="display: inline-block;"
+        action="noaction"
+        :show-file-list="false"
+        :http-request="uploadFile">
+        <el-tooltip class="item" effect="dark" content="文件上传" placement="right-end">
+          <el-button icon="el-icon-upload2" circle></el-button>
+        </el-tooltip>
+      </el-upload>
     </sub-navbar>
     <el-table v-loading="loading" ref="table" :data="mapForCityPage.records" :height="tableHeight" stripe style="width: 100%">
       <el-table-column label="类型" prop="type" :formatter="formatType" align="center">
@@ -66,7 +64,7 @@
 </template>
 
 <script>
-  import SubNavbar from '@/components/SubNavbar' // 粘性header组件
+  import SubNavbar from '@/components/SubNavbar'
   import {
     page,
     deleteOne,
@@ -79,6 +77,7 @@
     DIFF,
     DEFAULT_TABLE
   } from '@/utils/dynamic-table'
+  import { getFileExtensions } from '@/utils/string'
 
   export default {
     name: 'MapForCity',
@@ -90,10 +89,10 @@
       return {
         loading: false,
         options: [{
-          name: "Yokesi",
+          name: "Yokesi物流",
           type: 1
         }, {
-          name: "Imile",
+          name: "Imile物流",
           type: 2
         }],
         uploading: false,
@@ -108,7 +107,6 @@
           size: 50,
         },
         tableHeight: DEFAULT_TABLE,
-        fileList:[],
         dialogTitle: '',
         dialogFormVisible: false,
         formData: {},
@@ -177,32 +175,27 @@
       handleFileChange(file, fileList){
 
       },
-      upload: function(e) {
-        // this.uploading = true;
-        // var formData = new FormData();
-        // formData.append("file", $("#file")[0].files[0]);
-        // var url = App.Constants.HOST + "/mapForCity/file/upload?type="+this.condition.type;
-        // $.ajax({
-        // 	type: "POST",
-        // 	url: url,
-        // 	data: formData,
-        // 	processData: false,
-        // 	contentType: false,
-        // 	success: res=>{
-        // 		if(!res.success){
-        // 			App.alert(res.errMsg);
-        // 		}else{
-        // 			this.$message({
-        // 			   message: '导入成功',
-        // 			   type: 'success'
-        // 			});
-        // 		}
-        // 		this.loadMapForCity();
-        // 		$("#file")[0].value = '';
-        // 	},
-        // });
+      uploadFile(params){
+        const file = params.file,
+        fileName = file.name,
+        // fileType = file.type,
+        isExcel = getFileExtensions(fileName).indexOf(".xls") != -1;
+        if (!isExcel) {
+          this.$message.error("只能上传excel格式.xls,.xlsx!")
+          return
+        }
+        const form = new FormData()
+        form.append("file", file)
+        let that = this
+        upload(form,that.condition).then(
+          res => {
+            that.$message.success(res)
+            that.loadMapForCity()
+          },
+          err => {
 
-        // this.uploading = false;
+          }
+        )
       },
       remove(row) {
         this.$confirm('此操作将删除"原城市名:' + row.k + ',新城市名:' + row.v + '"的记录, 是否继续?', '提示', {
@@ -220,10 +213,7 @@
           )
         }).catch(action => {
           if (action === 'cancel') {
-            this.$message({
-              type: 'info',
-              message: '已取消删除'
-            });
+            this.$message.info('已取消删除')
           }
         });
 
@@ -251,10 +241,7 @@
             )
             this.$set(this, "dialogFormVisible", false);
           } else {
-            this.$message({
-              message: '请填写正确的表单内容',
-              type: 'warning'
-            });
+            this.$message.warning('请填写正确的表单内容')
             return false;
           }
         });
@@ -264,5 +251,8 @@
   }
 </script>
 
-<style>
+<style lang="scss" scoped>
+  .el-input{
+    max-width: 230px;
+  }
 </style>

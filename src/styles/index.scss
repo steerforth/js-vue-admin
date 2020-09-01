@@ -103,8 +103,13 @@ div:focus {
   padding: 0 10px;
   transition: 600ms ease position;
   background: linear-gradient(90deg, rgba(32, 182, 249, 1) 0%, rgba(32, 182, 249, 1) 0%, rgba(33, 120, 241, 1) 100%, rgba(33, 120, 241, 1) 100%);
+  box-shadow: 0 1px 0px 2px rgba(0, 21, 41, 0.08);
 
   > div:nth-child(n){
+    margin-right: 5px;
+  }
+
+  > button:nth-child(n){
     margin-right: 5px;
   }
 
