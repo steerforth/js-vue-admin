@@ -38,7 +38,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
+    <!-- <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
       <el-form :model="formData" ref="formData" :rules="rules" label-position="right" label-width="120px">
         <el-row>
           <el-col :span="24">
@@ -59,7 +59,7 @@
         <el-button @click="dialogFormVisible = false">取 消</el-button>
         <el-button type="primary" @click="saveForm('formData')">保 存</el-button>
       </div>
-    </el-dialog>
+    </el-dialog> -->
     <el-pagination ref="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="condition.index"
       :page-sizes="[50, 100, 200]" :page-size="condition.size" layout="sizes, prev, pager, next, total" :total="mapForCityPage.total">
     </el-pagination>
@@ -222,9 +222,7 @@
 
       },
       handleRouter(id){
-        this.$router.push({ path: '/sys-manage/map-for-city/edit/1'})
-        // this.$router.push({ path: '/sys-manage/log-manage'})
-        // this.$router.push('/')
+        this.$router.push({ path: `/sys-manage/map-for-city/edit/${id}`})
       },
       edit(row) {
         var entity = {};
