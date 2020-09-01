@@ -31,7 +31,10 @@
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <el-button data-funccode='btn-DelSku' @click="remove(scope.row)" type="danger" size="mini">删除</el-button>
-          <el-button data-funccode='btn-EditSku' @click="edit(scope.row)" size="mini">编辑</el-button>
+          <!-- <el-button data-funccode='btn-EditSku' @click="edit(scope.row)" size="mini">编辑</el-button> -->
+          <!-- <router-link :to="'/sys-manage/map-for-city/edit/'+scope.row.id" class="link-type"> -->
+            <el-button data-funccode='btn-EditSku' size="mini" @click="handleRouter(scope.row.id)">编辑</el-button>
+          <!-- </router-link> -->
         </template>
       </el-table-column>
     </el-table>
@@ -217,6 +220,11 @@
           }
         });
 
+      },
+      handleRouter(id){
+        this.$router.push({ path: '/sys-manage/map-for-city/edit/1'})
+        // this.$router.push({ path: '/sys-manage/log-manage'})
+        // this.$router.push('/')
       },
       edit(row) {
         var entity = {};

@@ -57,7 +57,7 @@
         <el-table-column prop="failedStatus" label="拒签" header-align="center" align="center">
         </el-table-column>
       </el-table-column>
-      <el-table-column prop="amount4" label="结算" header-align="center" align="center">
+      <el-table-column prop="amount4" label="物流结算" header-align="center" align="center">
         <el-table-column prop="settled" label="单数/单" header-align="center" align="center">
         </el-table-column>
         <el-table-column prop="settledTotal" label="结算款/元" header-align="center" align="center">

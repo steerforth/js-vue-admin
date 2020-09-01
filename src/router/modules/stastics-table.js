@@ -20,7 +20,7 @@ const stasticsTableRouter = {
     {
       path: 'order-status',
       component: () => import('@/views/stastics-table/order-status'),
-      name: 'OrderList',
+      name: 'OrderStatus',
       meta: { title: '订单状态表'}
     },
     {

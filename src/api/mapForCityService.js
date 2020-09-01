@@ -18,3 +18,7 @@ export function upload(formData,condition){
     params: condition
   })
 }
+
+export function getById(id) {
+  return request.get('/mapForCity',{ params: {id:id} })
+}

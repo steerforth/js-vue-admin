@@ -1,0 +1,112 @@
+<template>
+  <el-form :model="formData" ref="postForm" :rules="rules" label-position="right" label-width="120px">
+    <sticky :z-index="10" :class-name="'sub-navbar'">
+      <el-button @click="cancel">取 消</el-button>
+      <el-button type="primary" @click="submitForm">保 存</el-button>
+    </sticky>
+    <el-row>
+      <el-col :span="24">
+        <el-form-item label="原城市名" prop="k">
+          <el-input v-model="formData.k"></el-input>
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="24">
+        <el-form-item label="映射城市名" prop="v">
+          <el-input v-model="formData.v"></el-input>
+        </el-form-item>
+      </el-col>
+    </el-row>
+  </el-form>
+  <!-- <div slot="footer" class="dialog-footer">
+
+  </div> -->
+</template>
+
+<script>
+import Sticky from '@/components/Sticky'
+import { getById } from '@/api/mapForCityService'
+
+export default {
+  name: 'MapForCityDetail',
+  components: { Sticky },
+  props: {
+    isEdit: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data(){
+    return{
+      loading: false,
+      postForm: {},
+      rules: {
+        k: {
+          required: true,
+          message: '请输入原城市名',
+          trigger: ['change', 'blur']
+        },
+        v: {
+          required: true,
+          message: '请输入映射城市名',
+          trigger: ['change', 'blur']
+        },
+      }
+      // tempRoute: {}
+    }
+  },
+  created() {
+    alert(11)
+    if (this.isEdit) {
+      const id = this.$route.params && this.$route.params.id
+      debugger
+      this.fetchData(id)
+    }
+
+    // Why need to make a copy of this.$route here?
+    // Because if you enter this page and quickly switch tag, may be in the execution of the setTagsViewTitle function, this.$route is no longer pointing to the current page
+    // https://github.com/PanJiaChen/vue-element-admin/issues/1221
+    // this.tempRoute = Object.assign({}, this.$route)
+  },
+  methods:{
+    fetchData(id) {
+      let that = this
+      getById(id).then(
+        res => {
+          that.postForm = res
+        },
+        err => {
+
+        }
+      )
+    },
+    submitForm() {
+      this.$refs.postForm.validate(valid => {
+        if (valid) {
+          let that = this
+          that.loading = true
+          update(data).then(
+            res => {
+              that.loading = false
+            },
+            err => {
+              that.loading = false
+            }
+          )
+        } else {
+          this.$message.warning('请填写正确的表单内容')
+          return false
+        }
+      })
+    },
+    cancel(){
+      this.$router.go(-1)
+    }
+  },
+
+}
+</script>
+
+<style>
+</style>
