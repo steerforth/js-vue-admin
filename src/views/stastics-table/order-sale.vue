@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
-    <sticky :z-index="10" :class="'sub-navbar'">
-      <el-cascader style='min-width:310px;margin-right: 5px;'
+    <sub-navbar :z-index="10" :class="'sub-navbar'">
+      <el-cascader style='min-width:310px'
       	:options="optionsForMulti"
       	:props="propsForMulti"
       	collapse-tags
@@ -9,17 +9,17 @@
         placeholder="投放人/站点"
       	v-model="condition.advertiserShopIds">
       </el-cascader>
-      <el-select v-model="condition.targetMarket" clearable placeholder="地区" style='margin-right: 5px;'>
+      <el-select v-model="condition.targetMarket" clearable placeholder="地区">
         <el-option v-for="item in optionsForShopArea" :key="item" :label="item" :value="item">
         </el-option>
       </el-select>
-      <el-date-picker style='margin-right: 5px;' v-model="condition.time" type="daterange" align="right" unlink-panels
+      <el-date-picker v-model="condition.time" type="daterange" align="right" unlink-panels
         range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" value-format="yyyy-MM-dd" :picker-options="pickerOptions">
       </el-date-picker>
       <el-tooltip class="item" effect="dark" content="查询" placement="right-end">
         <el-button v-loading="loading" icon="el-icon-search" circle @click="reloadChart"></el-button>
       </el-tooltip>
-    </sticky>
+    </sub-navbar>
     <div class="chart-container">
       <line-chart width="100%" height="100%" :dataColor="chartDataColor" :legends="chartLegends" :xData="chartXData" :yData="chartYData"></line-chart>
     </div>
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-  import Sticky from '@/components/Sticky' // 粘性header组件
+  import SubNavbar from '@/components/SubNavbar'
   import LineChart from '@/components/Charts/LineChart'
   import {
     shopList
@@ -40,7 +40,7 @@
   export default {
     name: 'OrderSaleChart',
     components: {
-      Sticky,LineChart
+      SubNavbar,LineChart
     },
     filters: {},
     data() {

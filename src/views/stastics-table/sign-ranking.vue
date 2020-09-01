@@ -1,23 +1,23 @@
 <template>
   <div class="app-container">
-    <sticky :z-index="10" :class="'sub-navbar'">
-      <el-select v-model="condition.targetMarket" clearable placeholder="地区" style='margin-right: 5px;' @change="getList">
+    <sub-navbar :z-index="10" :class="'sub-navbar'">
+      <el-select v-model="condition.targetMarket" clearable placeholder="地区" @change="getList">
         <el-option v-for="item in optionsForShopArea" :key="item" :label="item" :value="item">
         </el-option>
       </el-select>
-      <el-select v-model="condition.deliverType" clearable placeholder="物流类别" style='margin-right: 5px;' @change="getList">
+      <el-select v-model="condition.deliverType" clearable placeholder="物流类别" @change="getList">
         <el-option v-for="item in optionsForDeliverType" :key="item.value" :label="item.name" :value="item.value">
         </el-option>
       </el-select>
-      <el-select v-model="condition.passageway" clearable placeholder="物流公司" style='margin-right: 5px;' @change="getList">
+      <el-select v-model="condition.passageway" clearable placeholder="物流公司" @change="getList">
         <el-option v-for="item in optionsForPassageway" :key="item" :label="item" :value="item">
         </el-option>
       </el-select>
-      <el-date-picker style='margin-right: 5px;' v-model="condition.time" type="datetimerange" align="right"
+      <el-date-picker v-model="condition.time" type="datetimerange" align="right"
         unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['09:00:00','09:00:00']"
         value-format="yyyy-MM-dd HH:mm:ss" :picker-options="pickerOptions" @change="getList">
       </el-date-picker>
-    </sticky>
+    </sub-navbar>
     <div class="chart-container">
       <pie-chart width="100%" height="100%" :legends="chartLegends" :chartData="chartData"></pie-chart>
     </div>
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-  import Sticky from '@/components/Sticky' // 粘性header组件
+  import SubNavbar from '@/components/SubNavbar' // 粘性header组件
   import PieChart from '@/components/Charts/PieChart'
   import {
     targetMarkets
@@ -61,7 +61,7 @@
   export default {
     name: 'SignRanking',
     components: {
-      Sticky,
+      SubNavbar,
       PieChart
     },
     filters: {},
@@ -244,18 +244,15 @@
 </script>
 
 <style lang="scss" scoped>
-  /**
-   * 一行显示不下
-   * ::v-deep样式穿透组件
-   */
-  ::v-deep .el-input {
-    font-size: 12px;
-  }
-
+  
   .chart-container {
     min-height: 100px;
   }
 
+  /**
+   * 一行显示不下
+   * ::v-deep样式穿透组件
+   */
   ::v-deep .el-table {
     .first-row {
       background: #FF8888;

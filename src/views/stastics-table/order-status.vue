@@ -1,14 +1,14 @@
 <template>
   <div class="app-container">
-    <sticky :z-index="10" :class="'sub-navbar'">
-      <el-cascader style='min-width:310px;margin-right: 5px;' :options="optionsForMulti" :props="propsForMulti" placeholder="投放人/站点"
+    <sub-navbar :z-index="10" :class="'sub-navbar'">
+      <el-cascader style='min-width:310px' :options="optionsForMulti" :props="propsForMulti" placeholder="投放人/站点"
         collapse-tags clearable v-model="condition.advertiserShopIds">
       </el-cascader>
-      <el-select v-model="condition.targetMarket" clearable placeholder="地区" style='margin-right: 5px;'>
+      <el-select v-model="condition.targetMarket" clearable placeholder="地区">
         <el-option v-for="item in optionsForShopArea" :key="item" :label="item" :value="item">
         </el-option>
       </el-select>
-      <el-date-picker style='margin-right: 5px;' v-model="condition.time" type="daterange" align="right" unlink-panels
+      <el-date-picker v-model="condition.time" type="daterange" align="right" unlink-panels
         range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" value-format="yyyy-MM-dd" :picker-options="pickerOptions">
       </el-date-picker>
       <el-tooltip class="item" effect="dark" content="查询" placement="right-end">
@@ -17,7 +17,7 @@
       <el-tooltip class="item" effect="dark" content="excel导出" placement="right-end">
         <el-button icon="el-icon-paperclip" circle @click="exportExcel"></el-button>
       </el-tooltip>
-    </sticky>
+    </sub-navbar>
     <el-table ref="table" id="deliverTable" :data="tableData" border stripe :summary-method="getSummaries" show-summary
       :height="tableHeight" :cell-style="changeCellStyle" style="width:100%;">
       <el-table-column type="expand">
@@ -68,7 +68,7 @@
 </template>
 
 <script>
-  import Sticky from '@/components/Sticky' // 粘性header组件
+  import SubNavbar from '@/components/SubNavbar'
   import {
     shopList
   } from '@/api/shopService'
@@ -87,7 +87,7 @@
   export default {
     name: 'OrderStatusTable',
     components: {
-      Sticky
+      SubNavbar
     },
     filters: {},
     data() {

@@ -1,60 +1,27 @@
 <template>
   <div class="app-container">
-    <!-- <el-row class="sub-navbar" :gutter="10">
-      <el-col :span="4">
-        <el-select v-model="condition.checkResult" style='margin-right:5px;' @change="getList">
-          <el-option v-for="item in optionsForCheckResult" :key="item.value" :label="item.label" :value="item.value">
-        </el-option>
-        </el-select>
-      </el-col>
-      <el-col :span="4">
-        <el-select v-model="condition.targetMarket" clearable placeholder="地区" style='margin-right:5px;' @change="getList">
-          <el-option v-for="item in optionsForShopArea" :key="item" :label="item" :value="item">
-          </el-option>
-        </el-select>
-      </el-col>
-      <el-col :span="4">
-        <el-select v-model="condition.shopOwner" clearable placeholder="店铺所属" style='margin-right:5px;' @change="getList">
-          <el-option v-for="item in optionsForShopOwner" :key="item" :label="item" :value="item">
-          </el-option>
-        </el-select>
-      </el-col>
-      <el-col :span="4">
-        <el-date-picker style='margin-right: 5px;' v-model="condition.time" type="datetimerange" align="right"
-          unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['09:00:00','09:00:00']"
-          value-format="yyyy-MM-dd HH:mm:ss" :picker-options="pickerOptions" @change="getList">
-        </el-date-picker>
-      </el-col>
-      <el-col :span="4">
-        <el-select v-model="condition.advertiser" clearable placeholder="投放人" style='margin-right:5px;' @change="getList">
-          <el-option v-for="item in optionsForAdvertiser" :key="item" :label="item" :value="item">
-          </el-option>
-        </el-select>
-      </el-col>
-
-    </el-row> -->
-    <sticky :z-index="10" :class="'sub-navbar'">
-      <el-select v-model="condition.checkResult" style='margin-right:5px;' @change="getList">
+    <sub-navbar :z-index="10" :class="'sub-navbar'">
+      <el-select v-model="condition.checkResult" @change="getList">
         <el-option v-for="item in optionsForCheckResult" :key="item.value" :label="item.label" :value="item.value">
         </el-option>
       </el-select>
-      <el-select v-model="condition.targetMarket" clearable placeholder="地区" style='margin-right:5px;' @change="getList">
+      <el-select v-model="condition.targetMarket" clearable placeholder="地区" @change="getList">
         <el-option v-for="item in optionsForShopArea" :key="item" :label="item" :value="item">
         </el-option>
       </el-select>
-      <el-select v-model="condition.shopOwner" clearable placeholder="店铺所属" style='margin-right:5px;' @change="getList">
+      <el-select v-model="condition.shopOwner" clearable placeholder="店铺所属" @change="getList">
         <el-option v-for="item in optionsForShopOwner" :key="item" :label="item" :value="item">
         </el-option>
       </el-select>
-      <el-select v-model="condition.advertiser" clearable placeholder="投放人" style='margin-right:5px;' @change="getList">
+      <el-select v-model="condition.advertiser" clearable placeholder="投放人" @change="getList">
         <el-option v-for="item in optionsForAdvertiser" :key="item" :label="item" :value="item">
         </el-option>
       </el-select>
-      <el-date-picker style='margin-right: 5px;' v-model="condition.time" type="datetimerange" align="right"
+      <el-date-picker v-model="condition.time" type="datetimerange" align="right"
         unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['09:00:00','09:00:00']"
         value-format="yyyy-MM-dd HH:mm:ss" :picker-options="pickerOptions" @change="getList">
       </el-date-picker>
-    </sticky>
+    </sub-navbar>
     <el-table ref="table" v-loading="loading" :data="tableData" :row-class-name="tableRowClassName" :height="tableHeight" border style="width:100%;">
       <el-table-column type="index" :index="indexMethod">
       </el-table-column>
@@ -69,7 +36,7 @@
 </template>
 
 <script>
-  import Sticky from '@/components/Sticky' // 粘性header组件
+  import SubNavbar from '@/components/SubNavbar'
   import {
     shopList
   } from '@/api/shopService'
@@ -87,7 +54,7 @@
   export default {
     name: 'OrderSaleChart',
     components: {
-      Sticky
+      SubNavbar
     },
     filters: {},
     data() {
@@ -251,9 +218,6 @@
 </script>
 
 <style lang="scss" scoped>
-  ::v-deep .el-input {
-    font-size: 12px;
-  }
   ::v-deep .el-table {
     .first-row {
         background: #FF8888;

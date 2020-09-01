@@ -65,29 +65,56 @@ div:focus {
 }
 
 
+// .sub-navbar {
+//   height: 48px;
+//   line-height: 48px;
+//   position: relative;
+//   width: 100%;
+//   text-align: right;
+//   padding-right: 4px;
+//   transition: 600ms ease position;
+//   background: linear-gradient(90deg, rgba(32, 182, 249, 1) 0%, rgba(32, 182, 249, 1) 0%, rgba(33, 120, 241, 1) 100%, rgba(33, 120, 241, 1) 100%);
+
+//   .subtitle {
+//     font-size: 20px;
+//     color: #fff;
+//   }
+
+//   &.draft {
+//     background: #d0d0d0;
+//   }
+
+//   &.deleted {
+//     background: #d0d0d0;
+//   }
+// }
+
 .sub-navbar {
-  height: 48px;
+  min-height: 48px;
+  height: auto !important;
   line-height: 48px;
   position: relative;
   width: 100%;
-  text-align: right;
-  padding-right: 4px;
+  //flex布局，el-datepiker不在一行上
+  // display: flex;
+  // flex-flow: row-reverse wrap-reverse;
+  // justify-content: flex-start;
+  align-content: flex-start;
+  padding: 0 10px;
   transition: 600ms ease position;
   background: linear-gradient(90deg, rgba(32, 182, 249, 1) 0%, rgba(32, 182, 249, 1) 0%, rgba(33, 120, 241, 1) 100%, rgba(33, 120, 241, 1) 100%);
 
+  > div:nth-child(n){
+    margin-right: 5px;
+  }
+
   .subtitle {
-    font-size: 20px;
+    font-size: 14px;
     color: #fff;
   }
 
-  &.draft {
-    background: #d0d0d0;
-  }
-
-  &.deleted {
-    background: #d0d0d0;
-  }
 }
+
 //--------自定义滚动条-------
 //定义滚动条尺寸
 ::-webkit-scrollbar{

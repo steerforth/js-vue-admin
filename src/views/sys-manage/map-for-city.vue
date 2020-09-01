@@ -1,13 +1,13 @@
 <template>
   <div class="app-container">
-    <sticky :z-index="10" :class="'sub-navbar'">
-      <el-input style="margin-right: 5px;max-width: 230px;" placeholder="请输入城市名称" v-model="condition.query" clearable
-        @keyup.enter.native="loadMapForCity">
-      </el-input>
+    <sub-navbar :z-index="10" :class="'sub-navbar'">
       <el-select style="margin-right: 5px;" v-model="condition.type">
         <el-option v-for="item in options" :key="item.type" :label="item.name" :value="item.type">
         </el-option>
       </el-select>
+      <el-input style="margin-right: 5px;max-width: 230px;" placeholder="请输入城市名称" v-model="condition.query" clearable
+        @keyup.enter.native="loadMapForCity">
+      </el-input>
       <el-tooltip class="item" effect="dark" content="查询" placement="right-end">
         <el-button v-loading="loading" icon="el-icon-search" circle @click="loadMapForCity"></el-button>
       </el-tooltip>
@@ -22,7 +22,7 @@
         <el-button size="small" type="primary">点击上传</el-button>
         <div slot="tip" class="el-upload__tip">只能上传xls/xlsx文件</div>
       </el-upload> -->
-    </sticky>
+    </sub-navbar>
     <el-table v-loading="loading" ref="table" :data="mapForCityPage.records" :height="tableHeight" stripe style="width: 100%">
       <el-table-column label="类型" prop="type" :formatter="formatType" align="center">
       </el-table-column>
@@ -66,7 +66,7 @@
 </template>
 
 <script>
-  import Sticky from '@/components/Sticky' // 粘性header组件
+  import SubNavbar from '@/components/SubNavbar' // 粘性header组件
   import {
     page,
     deleteOne,
@@ -83,7 +83,7 @@
   export default {
     name: 'MapForCity',
     components: {
-      Sticky
+      SubNavbar
     },
     filters: {},
     data() {

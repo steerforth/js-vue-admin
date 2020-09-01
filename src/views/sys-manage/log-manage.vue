@@ -1,20 +1,20 @@
 <template>
   <div class="app-container">
-    <sticky :z-index="10" :class="'sub-navbar'">
-      <el-autocomplete style='margin-right: 5px;' class="inline-input" v-model="condition.path" :fetch-suggestions="querySearch" placeholder="请输入包名"></el-autocomplete>
-      <el-select style='margin-right: 5px;' v-model="condition.level" placeholder="日志级别">
+    <sub-navbar :z-index="10" :class="'sub-navbar'">
+      <el-autocomplete class="inline-input" v-model="condition.path" :fetch-suggestions="querySearch" placeholder="请输入包名"></el-autocomplete>
+      <el-select v-model="condition.level" placeholder="日志级别">
         <el-option v-for="item in optionsForLevel" :key="item" :label="item" :value="item">
         </el-option>
       </el-select>
       <el-tooltip class="item" effect="dark" content="设置" placement="right-end">
         <el-button v-loading="loading" icon="el-icon-set-up" circle @click="changeLevel"></el-button>
       </el-tooltip>
-    </sticky>
+    </sub-navbar>
   </div>
 </template>
 
 <script>
-  import Sticky from '@/components/Sticky' // 粘性header组件
+  import SubNavbar from '@/components/SubNavbar' // 粘性header组件
   import {
     changeLogLevel
   } from '@/api/logService'
@@ -23,7 +23,7 @@
   export default {
     name: 'LogManage',
     components: {
-      Sticky
+      SubNavbar
     },
     filters: {},
     data() {
