@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form :model="postForm" ref="postForm" :rules="rules" label-position="right" label-width="120px">
-      <sticky :z-index="10" :class-name="'sub-navbar'">
+      <sticky :z-index="10" :class-name="'sub-navbar '+subNavBarCss">
         <el-button @click="cancel">取 消</el-button>
         <el-button type="primary" @click="submitForm">保 存</el-button>
       </sticky>
@@ -31,7 +31,7 @@
 
 <script>
 import Sticky from '@/components/Sticky'
-import { getById } from '@/api/mapForCityService'
+import { getById, update } from '@/api/mapForCityService'
 
 export default {
   name: 'MapForCityDetail',
@@ -58,7 +58,11 @@ export default {
           trigger: ['change', 'blur']
         },
       }
-      // tempRoute: {}
+    }
+  },
+  computed:{
+    subNavBarCss(){
+      return this.isEdit ? 'edit' : 'add'
     }
   },
   created() {
@@ -87,11 +91,12 @@ export default {
     submitForm() {
       this.$refs.postForm.validate(valid => {
         if (valid) {
-          let that = this
+          let that = this;
           that.loading = true
-          update(data).then(
+          update(that.postForm).then(
             res => {
               that.loading = false
+              that.$message.success(res)
             },
             err => {
               that.loading = false
@@ -112,5 +117,5 @@ export default {
 </script>
 
 <style>
-  
+
 </style>
