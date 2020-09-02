@@ -1,27 +1,32 @@
 <template>
-  <el-form :model="postForm" ref="postForm" :rules="rules" label-position="right" label-width="120px">
-    <sticky :z-index="10" :class-name="'sub-navbar'">
-      <el-button @click="cancel">取 消</el-button>
-      <el-button type="primary" @click="submitForm">保 存</el-button>
-    </sticky>
-    <el-row>
-      <el-col :span="24">
-        <el-form-item label="原城市名" prop="k">
-          <el-input v-model="postForm.k"></el-input>
-        </el-form-item>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="24">
-        <el-form-item label="映射城市名" prop="v">
-          <el-input v-model="postForm.v"></el-input>
-        </el-form-item>
-      </el-col>
-    </el-row>
-  </el-form>
-  <!-- <div slot="footer" class="dialog-footer">
+  <div class="app-container">
+    <el-form :model="postForm" ref="postForm" :rules="rules" label-position="right" label-width="120px">
+      <sticky :z-index="10" :class-name="'sub-navbar'">
+        <el-button @click="cancel">取 消</el-button>
+        <el-button type="primary" @click="submitForm">保 存</el-button>
+      </sticky>
+      <div class="form-container">
+      <el-row>
+        <el-col :span="24">
+          <el-form-item label="原城市名" prop="k">
+            <el-input v-model="postForm.k"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="24">
+          <el-form-item label="映射城市名" prop="v">
+            <el-input v-model="postForm.v"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      </div>
+    </el-form>
+    </div>
+    <!-- <div slot="footer" class="dialog-footer">
 
-  </div> -->
+    </div> -->
+  </div>
 </template>
 
 <script>
@@ -107,4 +112,5 @@ export default {
 </script>
 
 <style>
+  
 </style>

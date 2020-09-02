@@ -5,6 +5,7 @@ const sysManageRouter = {
   path: '/sys-manage',
   component: Layout,
   name: 'SysManage',
+  redirect: '/sys-manage/log-manage',
   meta: {
     title: '系统管理',
     icon: 'table'

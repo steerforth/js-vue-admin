@@ -4,7 +4,7 @@ import Layout from '@/layout'
 const stasticsTableRouter = {
   path: '/stastics-table',
   component: Layout,
-  // redirect: '/stastics-table/order-status',
+  redirect: '/stastics-table/order-sale',
   name: 'StasticsTable',
   meta: {
     title: '统计图表',
