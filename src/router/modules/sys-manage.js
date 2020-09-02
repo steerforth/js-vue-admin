@@ -18,43 +18,43 @@ const sysManageRouter = {
       name: 'LogManage',
       meta: { title: '日志管理',roles:['menu-LogManage']}
     },
-    {
-      path: 'map-for-city',
-      component: () => import('@/views/sys-manage/map-for-city/index'),
-      redirect: '/sys-manage/map-for-city/list',
-      name: 'MapForCity',
-      meta: { title: '城市映射配置'},
-      children: [
-        {
-          path: 'list',
-          component: () => import('@/views/sys-manage/map-for-city/list'),
-          name: 'ListMapForCity',
-          meta: { title: '列表', roles:['menu-MapForCity'] },
-          hidden:true
-        },
-        {
-          path: 'edit/:id(\\d+)',
-          component: () => import('@/views/sys-manage/map-for-city/edit'),
-          name: 'EditMapForCity',
-          meta: { title: '编辑', noCache: true, activeMenu: '/sys-manage/map-for-city/list',roles:['menu-MapForCity'] },
-          hidden: true
-        },
+    // {
+    //   path: 'map-for-city',
+    //   component: () => import('@/views/sys-manage/map-for-city/index'),
+    //   redirect: '/sys-manage/map-for-city/list',
+    //   name: 'MapForCity',
+    //   meta: { title: '城市映射配置'},
+    //   children: [
+    //     {
+    //       path: 'list',
+    //       component: () => import('@/views/sys-manage/map-for-city/list'),
+    //       name: 'ListMapForCity',
+    //       meta: { title: '列表', roles:['menu-MapForCity'] },
+    //       hidden:true
+    //     },
+    //     {
+    //       path: 'edit/:id(\\d+)',
+    //       component: () => import('@/views/sys-manage/map-for-city/edit'),
+    //       name: 'EditMapForCity',
+    //       meta: { title: '编辑', noCache: true, activeMenu: '/sys-manage/map-for-city/list',roles:['menu-MapForCity'] },
+    //       hidden: true
+    //     },
 
-      ]
-    },
-    // {
-    //   path: 'map-for-city/list',
-    //   component: () => import('@/views/sys-manage/map-for-city/list'),
-    //   name: 'ListMapForCity',
-    //   meta: { title: '城市映射列表',roles:['menu-MapForCity']},
+    //   ]
     // },
-    // {
-    //   path: 'map-for-city/edit/:id(\\d+)',
-    //   component: () => import('@/views/sys-manage/map-for-city/edit'),
-    //   name: 'EditMapForCity',
-    //   meta: { title: '城市映射编辑', noCache: true, activeMenu: '/sys-manage/map-for-city/list',roles:['menu-MapForCity']},
-    //   hidden: true
-    // }
+    {
+      path: 'map-for-city/list',
+      component: () => import('@/views/sys-manage/map-for-city/list'),
+      name: 'ListMapForCity',
+      meta: { title: '城市映射配置',roles:['menu-MapForCity']},
+    },
+    {
+      path: 'map-for-city/edit/:id(\\d+)',
+      component: () => import('@/views/sys-manage/map-for-city/edit'),
+      name: 'EditMapForCity',
+      meta: { title: '编辑城市映射配置', noCache: true, activeMenu: '/sys-manage/map-for-city/list',roles:['menu-MapForCity']},
+      hidden: true
+    }
   ]
 }
 export default sysManageRouter
