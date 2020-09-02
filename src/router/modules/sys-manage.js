@@ -5,7 +5,7 @@ const sysManageRouter = {
   path: '/sys-manage',
   component: Layout,
   name: 'SysManage', //<keep-alive>使用
-  redirect: 'noRedirect',
+  redirect: '/sys-manage/log-manage',
   meta: {
     title: '系统管理',
     icon: 'table', //支持 svg-class，也支持 el-icon-x
@@ -20,23 +20,22 @@ const sysManageRouter = {
     },
     {
       path: 'map-for-city',
-      // component: () => import('@/views/sys-manage/map-for-city/list'),
+      component: () => import('@/views/sys-manage/map-for-city/index'),
       redirect: '/sys-manage/map-for-city/list',
       name: 'MapForCity',
-      alwaysShow: true,
       meta: { title: '城市映射配置'},
       children: [
         {
           path: 'list',
           component: () => import('@/views/sys-manage/map-for-city/list'),
           name: 'ListMapForCity',
-          meta: { title: '列表', roles:['menu-MapForCity'] }
+          meta: { title: '列表', roles:['menu-MapForCity'] },
+          hidden:true
         },
         {
           path: 'edit/:id(\\d+)',
           component: () => import('@/views/sys-manage/map-for-city/edit'),
           name: 'EditMapForCity',
-          // meta: { title: '编辑', noCache: true, activeMenu: '/sys-manage/map-for-city/list' },
           meta: { title: '编辑', noCache: true, activeMenu: '/sys-manage/map-for-city/list',roles:['menu-MapForCity'] },
           hidden: true
         },

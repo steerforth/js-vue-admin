@@ -58,21 +58,6 @@ export const constantRoutes = [
   },
   stasticsTableRouter,
   sysManageRouter,
-  // {
-  //   path: '/test',
-  //   component: Layout,
-  //   name: 'EditMapForCity22',
-  //   redirect: '/test/edit',
-  //   meta: { title: '编辑', icon: 'el-icon-s-help' },
-  //   hidden: false,
-  //   children:[{
-  //     path: 'edit',
-  //     name: '333',
-  //     component: () => import('@/views/sys-manage/map-for-city/edit'),
-  //     meta: { title: '编辑222', noCache: true },
-  //     hidden:true
-  //   }]
-  // },
   {
     path: '/example',
     component: Layout,
