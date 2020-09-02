@@ -48,7 +48,7 @@
 
 <script>
 import { validPhone } from '@/utils/validate'
-import { login } from '@/api/userService'
+import { login } from '@/api/userApi'
 
 export default {
   name: 'Login',

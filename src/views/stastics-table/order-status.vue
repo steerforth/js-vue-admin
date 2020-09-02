@@ -71,10 +71,10 @@
   import SubNavbar from '@/components/SubNavbar'
   import {
     shopList
-  } from '@/api/shopService'
+  } from '@/api/shopApi'
   import {
     deliverStatistic
-  } from '@/api/orderService'
+  } from '@/api/orderApi'
   import '@/utils/date'
   import {
     NAV_BAR,

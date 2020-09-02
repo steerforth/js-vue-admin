@@ -17,7 +17,7 @@
   import SubNavbar from '@/components/SubNavbar' // 粘性header组件
   import {
     changeLogLevel
-  } from '@/api/logService'
+  } from '@/api/logApi'
 
 
   export default {

@@ -31,10 +31,10 @@
   import LineChart from '@/components/Charts/LineChart'
   import {
     shopList
-  } from '@/api/shopService'
+  } from '@/api/shopApi'
   import {
     saleStatistic
-  } from '@/api/orderService'
+  } from '@/api/orderApi'
   import '@/utils/date'
 
   export default {

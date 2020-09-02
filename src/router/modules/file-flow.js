@@ -4,7 +4,7 @@ import Layout from '@/layout'
 const fileFlowRouter = {
   path: '/file-flow',
   component: Layout,
-  // alwaysShow: true,//自动展开
+  // alwaysShow: true,//只有一个子菜单时,自动展开
   redirect: '/file-flow/order-list',
   name: 'FileFlow',
   meta: {

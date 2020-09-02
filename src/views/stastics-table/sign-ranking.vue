@@ -46,10 +46,10 @@
   import PieChart from '@/components/Charts/PieChart'
   import {
     targetMarkets
-  } from '@/api/shopService'
+  } from '@/api/shopApi'
   import {
     signRanking
-  } from '@/api/orderItemService'
+  } from '@/api/orderItemApi'
   import '@/utils/date'
   import {
     NAV_BAR,

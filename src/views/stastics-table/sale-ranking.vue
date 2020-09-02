@@ -39,10 +39,10 @@
   import SubNavbar from '@/components/SubNavbar'
   import {
     shopList
-  } from '@/api/shopService'
+  } from '@/api/shopApi'
   import {
     itemList
-  } from '@/api/orderItemService'
+  } from '@/api/orderItemApi'
   import '@/utils/date'
   import {
     NAV_BAR,

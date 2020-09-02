@@ -31,35 +31,12 @@
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <el-button data-funccode='btn-DelSku' @click="remove(scope.row)" type="danger" size="mini">删除</el-button>
-          <!-- <el-button data-funccode='btn-EditSku' @click="edit(scope.row)" size="mini">编辑</el-button> -->
-          <!-- <router-link :to="'/sys-manage/map-for-city/edit/'+scope.row.id" class="link-type"> -->
-            <el-button data-funccode='btn-EditSku' size="mini" @click="handleRouter(scope.row.id)">编辑</el-button>
-          <!-- </router-link> -->
+          <router-link :to="'/sys-manage/map-for-city/edit/'+scope.row.id">
+            <el-button data-funccode='btn-EditSku' size="mini">编辑</el-button>
+          </router-link>
         </template>
       </el-table-column>
     </el-table>
-    <!-- <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
-      <el-form :model="formData" ref="formData" :rules="rules" label-position="right" label-width="120px">
-        <el-row>
-          <el-col :span="24">
-            <el-form-item label="原城市名" prop="k">
-              <el-input v-model="formData.k"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="24">
-            <el-form-item label="映射城市名" prop="v">
-              <el-input v-model="formData.v"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="saveForm('formData')">保 存</el-button>
-      </div>
-    </el-dialog> -->
     <el-pagination ref="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="condition.index"
       :page-sizes="[50, 100, 200]" :page-size="condition.size" layout="sizes, prev, pager, next, total" :total="mapForCityPage.total">
     </el-pagination>
@@ -73,7 +50,7 @@
     deleteOne,
     update,
     upload
-  } from '@/api/mapForCityService'
+  } from '@/api/mapForCityApi'
   import {
     NAV_BAR,
     PADDING_BOTTOM,
@@ -98,7 +75,6 @@
           name: "Imile物流",
           type: 2
         }],
-        uploading: false,
         mapForCityPage: {
           total: 0,
           records: []
@@ -110,21 +86,6 @@
           size: 50,
         },
         tableHeight: DEFAULT_TABLE,
-        dialogTitle: '',
-        dialogFormVisible: false,
-        formData: {},
-        rules: {
-          k: {
-            required: true,
-            message: '请输入原城市名',
-            trigger: ['change', 'blur']
-          },
-          v: {
-            required: true,
-            message: '请输入映射城市名',
-            trigger: ['change', 'blur']
-          },
-        }
       }
     },
     beforeMount() {
@@ -175,9 +136,6 @@
         this.$set(this.condition, "index", val);
         this.loadMapForCity();
       },
-      handleFileChange(file, fileList){
-
-      },
       uploadFile(params){
         const file = params.file,
         fileName = file.name,
@@ -221,38 +179,9 @@
         });
 
       },
-      handleRouter(id){
-        this.$router.push({ path: `/sys-manage/map-for-city/edit/${id}`})
-      },
-      edit(row) {
-        var entity = {};
-        for (var i in row) {
-          entity[i] = row[i];
-        }
-        this.$set(this, 'formData', entity);
-        this.$set(this, "dialogTitle", "编辑");
-        this.$set(this, "dialogFormVisible", true);
-      },
-      saveForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            let data = this.formData;
-            update(data).then(
-              res => {
-                this.loadMapForCity()
-              },
-              err => {
-
-              }
-            )
-            this.$set(this, "dialogFormVisible", false);
-          } else {
-            this.$message.warning('请填写正确的表单内容')
-            return false;
-          }
-        });
-
-      }
+      // handleRouter(id){
+      //   this.$router.push({ path: `/sys-manage/map-for-city/edit/${id}`})
+      // },
     }
   }
 </script>
