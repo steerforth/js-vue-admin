@@ -44,8 +44,12 @@ service.interceptors.response.use(
         //将续期的TOKEN存起来
        store.dispatch('user/storeToken',token)
     }
-
     const res = response.data
+
+    //大文件直接返回数据
+    if(response.config.responseType === 'blob'){
+      return res
+    }
 
     if (!res.success) {
       Message({
@@ -82,7 +86,7 @@ service.interceptors.response.use(
       		tip = "服务器系统内部错误"
       		break;
       	case 401:
-      		tip = "未授权"
+      		tip = "未授权,请重新登录"
       		break;
       	case 403:
           tip = "无权限执行此操作"
@@ -90,8 +94,8 @@ service.interceptors.response.use(
       	case 404:
           tip = "请求的路径不存在"
       		break;
-      	case 408:
-          tip = "请求超时"
+      	case 504:
+          tip = "网络超时"
       		break;
       	default:
       		tip = "未知错误:status=" + error.response.status

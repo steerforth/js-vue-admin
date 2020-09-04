@@ -58,7 +58,9 @@
   } from '@/api/shopApi'
   import {
     page,
-    upload
+    upload,
+    download4py,
+    download4yks
   } from '@/api/goodsSkuApi'
   import {
     NAV_BAR,
@@ -66,6 +68,7 @@
     DIFF,
     DEFAULT_TABLE
   } from '@/utils/dynamic-table'
+  import { getFileExtensions } from '@/utils/string'
 
   export default {
     name: 'GoodsSkuList',
@@ -162,12 +165,60 @@
         )
       },
       exportAsPy() {
-        //TODO
-        // window.open(App.Constants.HOST + "/goodsSku/download4py");
+        download4py().then(
+          res => {
+            if (!res) {
+              this.$message.warning("文件下载失败!")
+              return
+            }
+            let fileName = '普源商品信息导入.xlsx';
+            if (typeof window.navigator.msSaveBlob !== 'undefined') {
+              window.navigator.msSaveBlob(new Blob([res]), fileName)
+            }else{
+              let url = window.URL.createObjectURL(new Blob([res]))
+              let link = document.createElement('a')
+              link.style.display = 'none'
+              let test = url.substring(5,url.length);
+              link.href = url;
+              link.setAttribute('download', fileName)
+              document.body.appendChild(link)
+              link.click()
+              document.body.removeChild(link); //下载完成移除元素
+              window.URL.revokeObjectURL(url); //释放掉blob对象
+            }
+          },
+          err => {
+
+          }
+        )
       },
       exportAsYks() {
-        //TODO
-        // window.open(App.Constants.HOST + "/goodsSku/download4yks");
+        download4yks().then(
+          res => {
+            if (!res) {
+              this.$message.warning("文件下载失败!")
+              return
+            }
+            let fileName = '优客思商品信息导入.xlsx';
+            if (typeof window.navigator.msSaveBlob !== 'undefined') {
+              window.navigator.msSaveBlob(new Blob([res]), fileName)
+            }else{
+              let url = window.URL.createObjectURL(new Blob([res]))
+              let link = document.createElement('a')
+              link.style.display = 'none'
+              let test = url.substring(5,url.length);
+              link.href = url;
+              link.setAttribute('download', fileName)
+              document.body.appendChild(link)
+              link.click()
+              document.body.removeChild(link); //下载完成移除元素
+              window.URL.revokeObjectURL(url); //释放掉blob对象
+            }
+          },
+          err => {
+
+          }
+        )
       },
       getGoodsLink(row) {
         //twobee站点的规则
