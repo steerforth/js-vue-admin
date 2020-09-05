@@ -44,12 +44,13 @@ service.interceptors.response.use(
         //将续期的TOKEN存起来
        store.dispatch('user/storeToken',token)
     }
-    const res = response.data
-
-    //大文件直接返回数据
+    
+    //大文件处理
     if(response.config.responseType === 'blob'){
-      return res
+      return response;
     }
+    
+    const res = response.data
 
     if (!res.success) {
       Message({
