@@ -68,7 +68,7 @@
     DIFF,
     DEFAULT_TABLE
   } from '@/utils/dynamic-table'
-  import { handleFileDownload } from '@/utils/fileDownload'
+  import { handleFileDownload, handlePreUpload } from '@/utils/file-handler'
 
   export default {
     name: 'GoodsSkuList',
@@ -144,15 +144,7 @@
         )
       },
       uploadFile(params) {
-        const file = params.file,
-          fileName = file.name,
-          isExcel = getFileExtensions(fileName).indexOf(".xls") != -1;
-        if (!isExcel) {
-          this.$message.error("只能上传excel格式.xls,.xlsx!")
-          return
-        }
-        const form = new FormData()
-        form.append("file", file)
+        let form = handlePreUpload(params)
         let that = this
         upload(form, that.condition).then(
           res => {

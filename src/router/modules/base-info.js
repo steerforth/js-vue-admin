@@ -31,6 +31,13 @@ const baseInfoRouter = {
       name: 'Goods',
       meta: { title: '商品管理',roles: ['menu-GoodsManage']}
     },
+    {
+      path: 'goods/edit/:id(\\d+)',
+      component: () => import('@/views/base-info/goods/edit'),
+      name: 'EditGoods',
+      meta: { title: '编辑商品',noCache: true,activeMenu: '/base-info/goods/list'},
+      hidden: true
+    },
   ]
 }
 export default baseInfoRouter

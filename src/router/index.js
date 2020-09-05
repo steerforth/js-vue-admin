@@ -10,6 +10,7 @@ import Layout from '@/layout'
 import fileFlowRouter from './modules/file-flow'
 import stasticsTableRouter from './modules/stastics-table'
 import baseInfoRouter from './modules/base-info'
+import fileManageRouter from './modules/file-manage'
 import sysManageRouter from './modules/sys-manage'
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -169,6 +170,7 @@ export const constantRoutes = [
 export const asyncRoutes = [
   fileFlowRouter,
   baseInfoRouter,
+  fileManageRouter,
   sysManageRouter,
 // {
 //     path: '/permission',

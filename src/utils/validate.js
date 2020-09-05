@@ -37,10 +37,20 @@ export function validEmail(email) {
 
 /**
  * 验证正整数
- * @param {Object} email
+ * @param {Object} value
  * @returns {Boolean}
  */
 export function validPI(value) {
   const reg = /^[1-9]\d*$/
+  return reg.test(value)
+}
+
+/**
+ * 验证正数
+ * @param {Object} value
+ * @returns {Boolean}
+ */
+export function validPosNum(value) {
+  const reg = /^(0|[1-9][0-9]*)(\.\d+)?$/
   return reg.test(value)
 }
