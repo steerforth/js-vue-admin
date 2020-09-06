@@ -57,7 +57,8 @@
     DIFF,
     DEFAULT_TABLE
   } from '@/utils/dynamic-table'
-  import { getFileExtensions } from '@/utils/string'
+  import { handlePreUpload } from '@/utils/file-handler'
+
 
   export default {
     name: 'MapForCity',
@@ -137,16 +138,7 @@
         this.loadMapForCity();
       },
       uploadFile(params){
-        const file = params.file,
-        fileName = file.name,
-        // fileType = file.type,
-        isExcel = getFileExtensions(fileName).indexOf(".xls") != -1;
-        if (!isExcel) {
-          this.$message.error("只能上传excel格式.xls,.xlsx!")
-          return
-        }
-        const form = new FormData()
-        form.append("file", file)
+        const form = handlePreUpload(params)
         let that = this
         upload(form,that.condition).then(
           res => {

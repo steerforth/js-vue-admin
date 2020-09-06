@@ -13,3 +13,7 @@ export function uploadOrderFile(formData, condition) {
     params: condition
   })
 }
+
+export function statistics() {
+  return request.get('/logistics/statistics')
+}

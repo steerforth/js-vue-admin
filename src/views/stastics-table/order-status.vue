@@ -18,7 +18,7 @@
         <el-button icon="el-icon-paperclip" circle @click="exportExcel"></el-button>
       </el-tooltip>
     </sub-navbar>
-    <el-table ref="table" id="deliverTable" :data="tableData" border stripe :summary-method="getSummaries" show-summary
+    <el-table ref="table" :data="tableData" border stripe :summary-method="getSummaries" show-summary
       :height="tableHeight" :cell-style="changeCellStyle" style="width:100%;">
       <el-table-column type="expand">
         <template slot-scope="props" v-if="props.row.unAdDomains !='' ">
@@ -268,7 +268,7 @@
           ]
         };
         const name = '订单状态表.xlsx';
-        const table = document.getElementById("deliverTable");
+        const table = this.$refs.table.$el;
         const workbook = Xlsx.utils.book_new();
         const sheet = Xlsx.utils.table_to_sheet(table);
         sheet['!cols'] = options['!cols'];
