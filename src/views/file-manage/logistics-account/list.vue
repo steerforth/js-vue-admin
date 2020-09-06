@@ -1,13 +1,17 @@
 <template>
   <div class="app-container">
     <sub-navbar :z-index="10" :class="'sub-navbar'">
-      <el-upload style="display: inline-block;" action="noaction" :show-file-list="false" :http-request="uploadFile">
+      <el-select v-model="condition.type" @change="loadFiles">
+        <el-option v-for="item in options" :key="item.type" :label="item.name" :value="item.type">
+        </el-option>
+      </el-select>
+      <el-upload v-loading="loading" style="display: inline-block;" action="noaction" :show-file-list="false" :http-request="uploadFile">
         <el-tooltip class="item" effect="dark" content="文件上传" placement="right-end">
           <el-button icon="el-icon-upload2" circle></el-button>
         </el-tooltip>
       </el-upload>
     </sub-navbar>
-    <el-table :data="filesPage.records" ref="table" :height="tableHeight" stripe style="width: 100%">
+    <el-table v-loading="tableLoading" :data="filesPage.records" ref="table" :height="tableHeight" stripe style="width: 100%">
     	<el-table-column
     	  type="index"
     	  :index="indexMethod"
@@ -19,6 +23,8 @@
     	</el-table-column>
     	<el-table-column prop="uploadTime" label="上传时间" align="center">
     	</el-table-column>
+      <el-table-column prop="message" label="上传信息" align="center">
+      </el-table-column>
     	<el-table-column
     	  fixed="right"
     	  label="下载"
@@ -44,7 +50,7 @@
   } from '@/utils/dynamic-table'
   import {
     upload
-  } from '@/api/goodsApi'
+  } from '@/api/logisticsApi'
   import {
     page,
     downloadById
@@ -52,7 +58,7 @@
   import { handleFileDownload,handlePreUpload } from '@/utils/file-handler'
 
   export default {
-    name: 'PurchaseFileList',
+    name: 'LogisticsAccountFileList',
     components: {
       SubNavbar
     },
@@ -60,12 +66,20 @@
     data() {
       return {
         loading: false,
+        tableLoading: false,
         filesPage: {
           total: 0,
           records: []
         },
+        options:[{
+          name: "imile",
+          type: 7
+        }, {
+          name: "yokesi",
+          type: 8
+        }],
         condition: {
-          type: 9,
+          type: 7,
           index: 1,
           size: 20,
         },
@@ -90,14 +104,14 @@
       },
       loadFiles() {
         let that = this
-        that.loading = true
+        that.tableLoading = true
         page(this.condition).then(
           res => {
-            that.loading = false
+            that.tableLoading = false
             that.$set(that, 'filesPage', res)
           },
           err => {
-            that.loading = false
+            that.tableLoading = false
           }
         )
       },
@@ -116,23 +130,28 @@
       uploadFile(params) {
         const form = handlePreUpload(params)
         let that = this
+        that.loading = true
         upload(form, that.condition).then(
           res => {
+            that.loading = false
             that.$message.success(res)
-            that.loadGoodsSku()
+            that.loadFiles()
           },
           err => {
-
+            that.loading = false
           }
         )
       },
       downloadFile(id){
+        let that = this
+        that.tableLoading = true
         downloadById(id).then(
           res => {
+            that.tableLoading = false
             handleFileDownload(res)
           },
           err => {
-
+            that.tableLoading = false
           }
         )
       }

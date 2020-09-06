@@ -5,7 +5,7 @@ const fileManageRouter = {
   path: '/file-manage',
   component: Layout,
   name: 'FileManage', //<keep-alive>使用
-  redirect: '/file-manage/purchase-file',
+  redirect: '/file-manage/purchase',
   alwaysShow: true,
   meta: {
     title: '文件管理',
@@ -14,10 +14,22 @@ const fileManageRouter = {
   },
   children: [
     {
-      path: 'purchase-file',
-      component: () => import('@/views/file-manage/purchase-file/list'),
-      name: 'PurchaseFile',
-      meta: { title: '采购文件',roles:['menu-GoodsManage']}
+      path: 'purchase',
+      component: () => import('@/views/file-manage/purchase/list'),
+      name: 'Purchase',
+      meta: { title: '采购',roles:['menu-GoodsManage']}
+    },
+    {
+      path: 'logistics-account',
+      component: () => import('@/views/file-manage/logistics-account/list'),
+      name: 'LogisticsAccount',
+      meta: { title: '物流结算',roles:['menu-LogisticsFile']}
+    },
+    {
+      path: 'logistics-order',
+      component: () => import('@/views/file-manage/logistics-order/list'),
+      name: 'LogisticsOrder',
+      meta: { title: '物流订单',roles:['menu-LogisticsStatistics']}
     }
   ]
 }

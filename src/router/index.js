@@ -9,6 +9,7 @@ import Layout from '@/layout'
 /* Router Modules */
 import fileFlowRouter from './modules/file-flow'
 import stasticsTableRouter from './modules/stastics-table'
+import accountManageRouter from './modules/account-manage.js'
 import baseInfoRouter from './modules/base-info'
 import fileManageRouter from './modules/file-manage'
 import sysManageRouter from './modules/sys-manage'
@@ -169,6 +170,7 @@ export const constantRoutes = [
 //异步动态加载
 export const asyncRoutes = [
   fileFlowRouter,
+  accountManageRouter,
   baseInfoRouter,
   fileManageRouter,
   sysManageRouter,
