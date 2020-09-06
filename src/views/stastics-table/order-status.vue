@@ -9,7 +9,7 @@
         </el-option>
       </el-select>
       <el-date-picker v-model="condition.time" type="daterange" align="right" unlink-panels
-        range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" value-format="yyyy-MM-dd" :picker-options="pickerOptions">
+        range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" value-format="yyyy-MM-dd" :picker-options="pickerOptions" :clearable="false">
       </el-date-picker>
       <el-tooltip class="item" effect="dark" content="查询" placement="right-end">
         <el-button v-loading="loading" icon="el-icon-search" circle @click="reloadTable"></el-button>
@@ -35,7 +35,7 @@
       </el-table-column>
       <el-table-column prop="originOrderNum" label="下单量/单" header-align="center" align="center">
       </el-table-column>
-      <el-table-column prop="adCostAvg" label="平均转化广告成本(USD)" header-align="center" align="center">
+      <el-table-column prop="adCostAvg" label="广告平均转化成本(USD)" header-align="center" align="center">
       </el-table-column>
       <el-table-column prop="orderNumAfterCheck" label="审单后/单" header-align="center" align="center">
       </el-table-column>
@@ -230,7 +230,7 @@
             console.log(err)
           })
       },
-      reloadTable: function() {
+      reloadTable() {
         var advertiserShopIds = this.condition.advertiserShopIds;
         var shopIds = [];
         //去除分组的值
@@ -257,7 +257,7 @@
         )
 
       },
-      exportExcel: function(e) {
+      exportExcel() {
         const options = {
           '!cols': [{
               wpx: 30

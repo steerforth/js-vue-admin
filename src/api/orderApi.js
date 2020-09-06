@@ -22,3 +22,7 @@ export function saleStatistic(data) {
     }
   })
 }
+
+export function syncOrderStatus(data) {
+  return request.get('/order/syncOrderStatus')
+}

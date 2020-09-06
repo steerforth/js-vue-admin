@@ -14,7 +14,7 @@
         </el-option>
       </el-select>
       <el-date-picker v-model="condition.time" type="daterange" align="right" unlink-panels
-        range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" value-format="yyyy-MM-dd" :picker-options="pickerOptions">
+        range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" value-format="yyyy-MM-dd" :picker-options="pickerOptions" :clearable="false">
       </el-date-picker>
       <el-tooltip class="item" effect="dark" content="查询" placement="right-end">
         <el-button v-loading="loading" icon="el-icon-search" circle @click="reloadChart"></el-button>

@@ -15,7 +15,7 @@
       </el-select>
       <el-date-picker v-model="condition.time" type="datetimerange" align="right"
         unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['09:00:00','09:00:00']"
-        value-format="yyyy-MM-dd HH:mm:ss" :picker-options="pickerOptions" @change="getList">
+        value-format="yyyy-MM-dd HH:mm:ss" :picker-options="pickerOptions" @change="getList" :clearable="false">
       </el-date-picker>
     </sub-navbar>
     <div class="chart-container">
