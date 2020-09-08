@@ -15,7 +15,7 @@
         <el-button v-loading="loading" icon="el-icon-search" circle @click="reloadTable"></el-button>
       </el-tooltip>
       <el-tooltip class="item" effect="dark" content="excel导出" placement="right-end">
-        <el-button icon="el-icon-paperclip" circle @click="exportExcel"></el-button>
+        <el-button icon="el-icon-download" circle @click="exportExcel"></el-button>
       </el-tooltip>
     </sub-navbar>
     <el-table ref="table" :data="tableData" border stripe :summary-method="getSummaries" show-summary

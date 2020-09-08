@@ -9,7 +9,7 @@ const fileManageRouter = {
   alwaysShow: true,
   meta: {
     title: '文件管理',
-    icon: 'table', //支持 svg-class，也支持 el-icon-x
+    icon: 'el-icon-folder', //支持 svg-class，也支持 el-icon-x
     roles:['menu-FileManage']
   },
   children: [

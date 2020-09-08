@@ -8,7 +8,7 @@ const baseInfoRouter = {
   name: 'BaseInfoTable',
   meta: {
     title: '基础信息',
-    icon: 'table',
+    icon: 'el-icon-shopping-cart-2',
     roles: ['menu-BaseInfo']
   },
   children: [

@@ -8,7 +8,7 @@ const stasticsTableRouter = {
   name: 'StasticsTable',
   meta: {
     title: '统计图表',
-    icon: 'table'
+    icon: 'el-icon-pie-chart'
   },
   children: [
     {

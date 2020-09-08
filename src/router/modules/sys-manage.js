@@ -8,7 +8,7 @@ const sysManageRouter = {
   redirect: '/sys-manage/log-manage',
   meta: {
     title: '系统管理',
-    icon: 'table', //支持 svg-class，也支持 el-icon-x
+    icon: 'el-icon-s-tools', //支持 svg-class，也支持 el-icon-x
     roles:['menu-SysManage']
   },
   children: [

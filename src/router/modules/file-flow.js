@@ -9,7 +9,7 @@ const fileFlowRouter = {
   name: 'FileFlow',
   meta: {
     title: 'Excel文件流转',
-    icon: 'table',
+    icon: 'el-icon-tickets',
     roles:['menu-ExcelFile']
   },
   children: [

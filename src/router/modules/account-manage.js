@@ -8,7 +8,7 @@ const accountManageRouter = {
   redirect: '/account-manage/account/list',
   meta: {
     title: '成本管理',
-    icon: 'table', //支持 svg-class，也支持 el-icon-x
+    icon: 'el-icon-coin', //支持 svg-class，也支持 el-icon-x
     roles:['menu-AccountTop']
   },
   children: [

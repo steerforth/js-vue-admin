@@ -10,7 +10,8 @@ export function upload(formData, condition) {
 export function uploadOrderFile(formData, condition) {
   return request.post('/logistics/file/uploadOrderFile', formData, {
     'Content-Type': 'multipart/form-data',
-    params: condition
+    params: condition,
+    timeout: -1
   })
 }
 

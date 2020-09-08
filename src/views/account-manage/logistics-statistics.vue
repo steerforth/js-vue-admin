@@ -2,7 +2,7 @@
   <div class="app-container">
     <sub-navbar :z-index="10" :class="'sub-navbar'">
       <el-tooltip class="item" effect="dark" content="excel导出" placement="right-end">
-        <el-button icon="el-icon-paperclip" circle @click="exportExcel"></el-button>
+        <el-button icon="el-icon-download" circle @click="exportExcel"></el-button>
       </el-tooltip>
     </sub-navbar>
     <el-table v-loading="loading" ref="table" :data="records" :height="tableHeight" stripe style="width: 100%">
