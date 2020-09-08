@@ -319,7 +319,7 @@
                 return prev;
               }
             }, 0);
-            if (index == 2 || index == 14) {
+            if (index == 2 || index == 4 || index == 6 || index == 14) {
               sums[index] = sums[index].toFixed(2);
             }
           } else {

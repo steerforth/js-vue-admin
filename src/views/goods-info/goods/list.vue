@@ -14,7 +14,7 @@
       </el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <router-link :to="'/base-info/goods/edit/'+scope.row.id">
+          <router-link :to="'/goods-info/goods/edit/'+scope.row.id">
             <el-button size="mini">编辑</el-button>
           </router-link>
         </template>
