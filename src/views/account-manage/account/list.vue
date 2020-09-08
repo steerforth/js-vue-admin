@@ -17,26 +17,25 @@
         <el-button @click="syncOrderStatus">同步订单派送结果</el-button>
       </el-button-group>
     </sub-navbar>
-    <!-- 动态生成标题 -->
     <el-table v-loading="loading" ref="table" :data="tableData" border stripe :summary-method="getSummaries" show-summary
       :height="tableHeight" style="width:100%;">
-      <el-table-column prop="orderDay" label="日期" sortable header-align="center" align="center" fixed="left">
+      <el-table-column prop="orderDay" label="日期" sortable header-align="center" align="center">
       </el-table-column>
       <el-table-column prop="adCost" label="广告投入" header-align="center" align="center">
       </el-table-column>
       <el-table-column prop="originOrderNum" label="原始订单数量" header-align="center" align="center">
       </el-table-column>
-      <el-table-column prop="originOrderMoney" :label="'原始订单金额('+curCurrencyCode+')'" header-align="center" align="center">
+      <el-table-column prop="originOrderMoney" :label="'原始订单金额('+curShop.currencyCode+')'" header-align="center" align="center">
       </el-table-column>
       <el-table-column prop="adCostAvg" label="广告平均转化成本(USD)" header-align="center" align="center">
       </el-table-column>
       <el-table-column prop="orderNumAfterCheck" label="审单成功单量" header-align="center" align="center">
       </el-table-column>
-      <el-table-column prop="orderMoneyAfterCheck" :label="'审单成功订单金额('+curCurrencyCode+')'" header-align="center" align="center">
+      <el-table-column prop="orderMoneyAfterCheck" :label="'审单成功订单金额('+curShop.currencyCode+')'" header-align="center" align="center">
       </el-table-column>
       <el-table-column prop="adCostAvgAfterCheck" label="审单成功转化成本(USD)" header-align="center" align="center">
       </el-table-column>
-      <el-table-column :formatter="formatCost" label="审单费用(CNY)" header-align="center" align="center">
+      <el-table-column prop="checkCost" label="审单费用(CNY)" header-align="center" align="center">
       </el-table-column>
       <el-table-column prop="purchaseCost" label="采购费用(CNY)" header-align="center" align="center">
       </el-table-column>
@@ -46,14 +45,17 @@
       </el-table-column>
       <el-table-column prop="signOrderNum" label="实际签收单量" header-align="center" align="center">
       </el-table-column>
-      <el-table-column prop="signOrderMoney" :label="'实际签收订单金额('+curCurrencyCode+')'" header-align="center" align="center">
+      <el-table-column prop="signOrderMoney" :label="'实际签收订单金额('+curShop.currencyCode+')'" header-align="center" align="center">
       </el-table-column>
-      <el-table-column prop="signRate | getFinishStutas(signFinishedStatus)" label="签收率" header-align="center" align="center">
+      <el-table-column prop="signRate" label="签收率" header-align="center" align="center">
+      </el-table-column>
+      <el-table-column :formatter="formatSignStatus" label="签收状态" header-align="center" align="center">
       </el-table-column>
       <el-table-column prop="signOrderMoneyAvg" label="平均客单价(USD)" header-align="center" align="center">
       </el-table-column>
       <el-table-column prop="profit" label="净利润(USD)" header-align="center" align="center">
       </el-table-column>
+      <!-- 高度不平的BUG -->
       <el-table-column
       	fixed="right"
       	label="操作"
@@ -112,7 +114,7 @@
     },
     data() {
       return {
-        curCurrencyCode:'',
+        curShop:'',
         clearable:false,
         loading: false,
         condition: {
@@ -154,7 +156,8 @@
           res => {
             that.$set(this,"optionsForShops",res)
             if(res != null && res.length > 0){
-              that.$set(this.condition,"shopId",res[0].id)
+              that.$set(that.condition,"shopId",res[0].id)
+              that.$set(that,'curShop',res[0]);
             }
             that.reloadTable();
           },
@@ -166,7 +169,7 @@
         var flag = false;
         for (var shop of this.optionsForShops) {
            if(shop.id == value){
-             this.$set(this,'curCurrencyCode',shop.currencyCode);
+             this.$set(this,'curShop',shop);
              flag = true;
            }
         }
@@ -181,7 +184,7 @@
       reloadTable() {
         let that = this;
         that.loading = true;
-        accountList(this.condition).then(
+        accountList(that.condition).then(
           res => {
             that.loading = false;
             that.$set(that, 'tableData', res);
@@ -193,14 +196,24 @@
         )
 
       },
-      formatCost(row, column){
-        if (column.label === '审单费用(CNY)') {
-          return (row.checkCost == null? "":row.checkCost )+ '/' + (row.checkCost2 == null? "":row.checkCost2);
+      formatSignStatus(row, column){
+        if (row.signFinishedStatus === 'UNFINISHED') {
+          return "未完结"
+        } else if (row.signFinishedStatus === 'FINISHED') {
+          return "已完结"
+        } else {
+          return "未知"
         }
-        return ''
       },
+      // formatCost(row, column){
+      //   if (column.label === '审单费用(CNY)') {
+      //     return (row.checkCost == null? "":row.checkCost )+ '/' + (row.checkCost2 == null? "":row.checkCost2);
+      //   }
+      //   return ''
+      // },
       //TODO
       getSummaries(param) {
+        let that = this;
         const {
           columns,
           data
@@ -224,7 +237,13 @@
 
           if (column.label === '平均客单价(USD)') {
             //实际签收订单金额（SAR/UAE）*美元汇率 /实际签收单量
-            sums[index] = sums[10] == 0 ? 0 : (sums[11] / sums[10]).toFixed(2);
+            sums[index] = sums[12] == 0 ? 0 : (sums[13]*that.curShop.exchangeRateUSD / sums[12]).toFixed(2);
+            return;
+          }
+
+          if (column.label === '签收率') {
+            //实际签收单量 /审单成功单量
+            sums[index] = sums[5] == 0 ? 0 : (sums[12] / sums[5]).toFixed(2);
             return;
           }
 
@@ -239,7 +258,7 @@
                 return prev;
               }
             }, 0);
-            //保留小数
+            //保留2位小数
             if (index == 1 || index == 9 || index == 10 || index == 15) {
               sums[index] = sums[index].toFixed(2);
             }

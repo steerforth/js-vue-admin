@@ -1,4 +1,4 @@
-//babel-plugin-dynamic-import-node插件
+//vue-cli@4 babel-plugin-dynamic-import-node插件
 module.exports = {
   presets: [
     '@vue/cli-plugin-babel/preset'
