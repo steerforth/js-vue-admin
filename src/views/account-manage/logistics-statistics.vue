@@ -97,7 +97,6 @@
         )
       },
       buildDataPage(resData){
-        debugger
         var column2Obj = resData['imile@88174'];
         var column3Obj = resData['imile@88172'];
         var column4Obj = resData['imile@88138'];

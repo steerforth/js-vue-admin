@@ -55,16 +55,15 @@
       </el-table-column>
       <el-table-column prop="profit" label="净利润(USD)" header-align="center" align="center">
       </el-table-column>
-      <!-- 高度不平的BUG -->
+      <!-- TODO fixed导致的高度不平的BUG -->
       <el-table-column
       	fixed="right"
       	label="操作"
       	width="80">
-        <!-- TODO 传month和shop -->
         <template slot-scope="scope">
-          <router-link :to="'/account-manage/account/edit/'+scope.row.id">
-            <el-button size="mini">编辑</el-button>
-          </router-link>
+          <!-- <router-link :to="'/account-manage/account/edit/'+scope.row.id"> -->
+            <el-button size="mini" @click="jumpEdit(scope.row)">编辑</el-button>
+          <!-- </router-link> -->
         </template>
       </el-table-column>
     </el-table>
@@ -291,6 +290,13 @@
 
           }
         )
+      },
+      jumpEdit(row){
+        if(!row.id){
+          this.$message.warning('未生成实体,不可编辑')
+          return
+        }
+        this.$router.push({name:"EditAccount",params:{account:row}})
       }
     }
   }

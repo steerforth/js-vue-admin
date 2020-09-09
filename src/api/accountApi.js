@@ -7,6 +7,9 @@ export function accountList(condition) {
   })
 }
 
+export function update(condition) {
+  return request.post('/account/save', condition)
+}
 
 export function recalculateByMonth(condition,shopIds) {
   return request.post('/account/recalculateByMonth', shopIds, {

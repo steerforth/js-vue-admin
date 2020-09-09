@@ -19,7 +19,7 @@ const accountManageRouter = {
       meta: { title: '成本核算',roles:['menu-Account']}
     },
     {
-      path: 'account/edit/:id(\\d+)',
+      path: 'account/edit',
       component: () => import('@/views/account-manage/account/edit'),
       name: 'EditAccount',
       meta: { title: '编辑成本',noCache: true,activeMenu: '/account-manage/account/list',roles:['menu-Account']},
