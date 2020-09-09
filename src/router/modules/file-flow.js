@@ -32,6 +32,12 @@ const fileFlowRouter = {
       meta: { title: '转寄处理', roles: ['menu-Resend'] }
     },
     {
+      path: 'overseas-storage',
+      component: () => import('@/views/file-flow/overseas-storage'),
+      name: 'OverseasStorage',
+      meta: { title: '海外仓库存', roles: ['menu-DeliverFromStore'] }
+    },
+    {
       path: 'deliver-from-store',
       component: () => import('@/views/file-flow/deliver-from-store'),
       name: 'DeliverFromStore',
