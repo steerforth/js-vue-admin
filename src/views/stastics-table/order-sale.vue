@@ -3,7 +3,7 @@
     <sub-navbar :z-index="10" :class="'sub-navbar'">
       <el-cascader style='min-width:310px'
       	:options="optionsForMulti"
-      	:props="propsForMulti"
+      	:multiple="'true'"
       	collapse-tags
       	clearable
         placeholder="投放人/站点"
@@ -52,10 +52,6 @@
           advertiserShopIds: []
         },
         optionsForShopArea: [],
-        //多选
-        propsForMulti: {
-          multiple: true
-        },
         optionsForMulti: [],
         pickerOptions: {
           shortcuts: [{

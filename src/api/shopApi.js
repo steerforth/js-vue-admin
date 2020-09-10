@@ -8,3 +8,7 @@ export function targetMarkets() {
   return request.get('/shop/targetMarkets')
 }
 
+export function optionForAgent() {
+  return request.get('/shop/optionForAgent')
+}
+

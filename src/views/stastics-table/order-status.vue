@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <sub-navbar :z-index="10" :class="'sub-navbar'">
-      <el-cascader style='min-width:310px' :options="optionsForMulti" :props="propsForMulti" placeholder="投放人/站点"
+      <el-cascader style='min-width:310px' :options="optionsForMulti" :multiple="'true'" placeholder="投放人/站点"
         collapse-tags clearable v-model="condition.advertiserShopIds">
       </el-cascader>
       <el-select v-model="condition.targetMarket" clearable placeholder="地区">
@@ -99,10 +99,6 @@
           advertiserShopIds: []
         },
         optionsForShopArea: [],
-        //多选
-        propsForMulti: {
-          multiple: true
-        },
         optionsForMulti: [],
         pickerOptions: {
           shortcuts: [{
