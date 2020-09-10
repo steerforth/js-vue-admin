@@ -19,7 +19,7 @@ const adManageRouter = {
       meta: { title: '充值记录',roles:['menu-AdRecharge']}
     },
     {
-      path: 'recharge/edit',
+      path: 'recharge/edit/:id(\\d+)',
       component: () => import('@/views/ad-manage/recharge/edit'),
       name: 'EditRecharge',
       meta: { title: '编辑充值记录',noCache: true,activeMenu: '/ad-manage/recharge/list',roles:['menu-AdRecharge']},

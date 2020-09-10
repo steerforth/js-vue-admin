@@ -1,11 +1,14 @@
 <template>
   <div class="app-container">
     <sub-navbar :z-index="10" :class="'sub-navbar'">
-      <el-cascader style='min-width:310px' :options="optionsForMulti" :multiple="'true'" placeholder="广告代理/站点"
-        collapse-tags clearable v-model="condition.shopIds">
+      <el-cascader style='min-width:310px' :options="optionsForMulti" :props="{multiple: true}" placeholder="广告代理/站点"
+        collapse-tags clearable v-model="shopIdsArr">
       </el-cascader>
       <el-tooltip class="item" effect="dark" content="查询" placement="right-end">
         <el-button v-loading="loading" icon="el-icon-search" circle @click="loadPage"></el-button>
+      </el-tooltip>
+      <el-tooltip class="item" effect="dark" content="新增记录" placement="right-end">
+        <el-button icon="el-icon-plus" circle @click="goAdd"></el-button>
       </el-tooltip>
     </sub-navbar>
     <el-table v-loading="loading" ref="table" :data="page.records" :height="tableHeight" stripe style="width: 100%">
@@ -39,8 +42,8 @@
   } from '@/api/shopApi'
   import {
     page,
-    upload
-  } from '@/api/goodsSkuApi'
+    deleteOne
+  } from '@/api/adRechargeApi'
   import {
     NAV_BAR,
     PADDING_BOTTOM,
@@ -58,6 +61,8 @@
       return {
         loading: false,
         optionsForMulti:[],
+        //for多选
+        shopIdsArr:[],
         page: {
           total: 0,
           records: []
@@ -87,17 +92,24 @@
           this.$refs.pagination.$el.offsetHeight);
       },
       loadPage() {
-        let that = this
+        let that = this, shopIds = [];
+
+        //去除分组的值
+        for (var shopIdArr of that.shopIdsArr) {
+          shopIds.push(shopIdArr[1])
+        }
+        that.$set(that.condition,'shopIds',shopIds)
+
         that.loading = true
-        // page(this.condition).then(
-        //   res => {
-        //     that.loading = false
-        //     that.$set(that, 'page', res)
-        //   },
-        //   err => {
-        //     that.loading = false
-        //   }
-        // )
+        page(that.condition).then(
+          res => {
+            that.loading = false
+            that.$set(that, 'page', res)
+          },
+          err => {
+            that.loading = false
+          }
+        )
       },
       handleSizeChange(val) {
         this.$set(this.condition, "pageIndex", 1);
@@ -112,23 +124,7 @@
         let that = this
         optionForAgent().then(
           res => {
-            var optionsForMulti = [];
-            for(var option of res){
-              var op = {};
-              op.label = option.agent;
-              op.value = 'null';
-              var children = [];
-              if(option.shops != null){
-                for(var shop of option.shops){
-                  var child = {};
-                  child.label = shop.name;
-                  child.value = shop.id;
-                  children.push(child);
-                }
-              }
-              op.children = children;
-              optionsForMulti.push(op);
-            }
+            var optionsForMulti = this.buildOptionForMulti(res);
             that.$set(that, 'optionsForMulti', optionsForMulti);
             that.loadPage()
           },
@@ -137,6 +133,50 @@
           }
         )
       },
+      buildOptionForMulti(optionForAgent){
+        var optionsForMulti = [];
+        for(var option of optionForAgent){
+          var op = {};
+          op.label = option.agent;
+          op.value = 'null';
+          var children = [];
+          if(option.shops != null){
+            for(var shop of option.shops){
+              var child = {};
+              child.label = shop.name;
+              child.value = shop.id;
+              children.push(child);
+            }
+          }
+          op.children = children;
+          optionsForMulti.push(op);
+        }
+        return optionsForMulti;
+      },
+      remove(row){
+      	this.$confirm('此操作将删除[日期:'+row.rechargeTime+',网店:'+row.shopName+']的广告充值记录, 是否继续?', '提示', {
+      	  confirmButtonText: '确定',
+      	  cancelButtonText: '取消',
+      	  type: 'warning'
+      	}).then(() => {
+          deleteOne(row.id).then(
+            res => {
+              this.loadPage()
+            },
+            err => {
+
+            }
+          )
+      	}).catch(action => {
+      		if(action === 'cancel'){
+            this.$message.info('已取消删除')
+      		}
+      	});
+
+      },
+      goAdd(){
+        this.$router.push('/ad-manage/recharge/add')
+      }
     }
   }
 </script>

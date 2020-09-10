@@ -17,7 +17,7 @@
         <el-option v-for="item in optionsForAdvertiser" :key="item" :label="item" :value="item">
         </el-option>
       </el-select>
-      <el-date-picker v-model="condition.time" type="datetimerange" align="right"
+      <el-date-picker v-model="pickerTime" type="datetimerange" align="right"
         unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['09:00:00','09:00:00']"
         value-format="yyyy-MM-dd HH:mm:ss" :picker-options="pickerOptions" @change="getList" :clearable="false">
       </el-date-picker>
@@ -61,12 +61,14 @@
       return {
         loading: false,
         condition: {
-          time: [],
+          start:null,
+          end:null,
           checkResult: 1,
           shopOwner: null,
           advertiser: null,
           targetMarket: null
         },
+        pickerTime:[],
         optionsForCheckResult:[{label:'销售排行',value:1},{label:'下单排行',value:-1}],
         optionsForShopArea: [],
         optionsForShopOwner: [],
@@ -115,7 +117,7 @@
       }
     },
     beforeMount() {
-      this.$set(this.condition, 'time', this.initTime);
+      this.$set(this, 'pickerTime', this.initTime);
     },
     mounted() {
       this.$nextTick(() => {
@@ -145,7 +147,7 @@
       },
       getList(){
       	// $('.container').scrollTop(0);
-      	if(this.condition.time == null){
+      	if(this.pickerTime == null){
       		this.$message({
       		  message: '请选择时间',
       		  type: 'warning'
@@ -153,8 +155,8 @@
       		return;
       	}
       	var data = {
-      		end: this.condition.time[1],
-      		start: this.condition.time[0],
+      		end: this.pickerTime[1],
+      		start: this.pickerTime[0],
       		shopOwner: this.condition.shopOwner,
       		advertiser: this.condition.advertiser,
       		checkResult: this.condition.checkResult,

@@ -59,6 +59,7 @@
   import {
     page,
     upload,
+    deleteOne,
     download4py,
     download4yks
   } from '@/api/goodsSkuApi'
@@ -180,6 +181,26 @@
         //twobee站点的规则
         var link = 'https://' + row.domain + '/info.html?id=' + row.goodsId;
         return link;
+      },
+      remove(row){
+      	this.$confirm('此操作将删除['+row.domain+'站点的'+row.sku+'], 是否继续?', '提示', {
+      	  confirmButtonText: '确定',
+      	  cancelButtonText: '取消',
+      	  type: 'warning'
+      	}).then(() => {
+          deleteOne(row.id).then(
+            res => {
+              this.loadGoodsSku();
+            },
+            err => {
+
+            }
+          )
+      	}).catch(action => {
+      		if(action === 'cancel'){
+            this.$message.info('已取消删除')
+      		}
+      	});
       }
     }
   }

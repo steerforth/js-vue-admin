@@ -1,14 +1,14 @@
 <template>
   <div class="app-container">
     <sub-navbar :z-index="10" :class="'sub-navbar'">
-      <el-cascader style='min-width:310px' :options="optionsForMulti" :multiple="'true'" placeholder="投放人/站点"
-        collapse-tags clearable v-model="condition.advertiserShopIds">
+      <el-cascader style='min-width:310px' :options="optionsForMulti" :props="{multiple: true}" placeholder="投放人/站点"
+        collapse-tags clearable v-model="advertiserShopIds">
       </el-cascader>
       <el-select v-model="condition.targetMarket" clearable placeholder="地区">
         <el-option v-for="item in optionsForShopArea" :key="item" :label="item" :value="item">
         </el-option>
       </el-select>
-      <el-date-picker v-model="condition.time" type="daterange" align="right" unlink-panels
+      <el-date-picker v-model="pickerTime" type="daterange" align="right" unlink-panels
         range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" value-format="yyyy-MM-dd" :picker-options="pickerOptions" :clearable="false">
       </el-date-picker>
       <el-tooltip class="item" effect="dark" content="查询" placement="right-end">
@@ -94,11 +94,15 @@
       return {
         loading: false,
         condition: {
-          time: [],
+          start: null,
+          end:null,
           targetMarket: null,
-          advertiserShopIds: []
+          shopIds: []
         },
+        pickerTime:[],
         optionsForShopArea: [],
+        //for multi
+        advertiserShopIds:[],
         optionsForMulti: [],
         pickerOptions: {
           shortcuts: [{
@@ -150,7 +154,7 @@
     //   }
     // },
     beforeMount() {
-      this.$set(this.condition, 'time', this.initTime);
+      this.$set(this, 'pickerTime', this.initTime);
     },
     mounted() {
       // alert('inner height:'+window.innerHeight)
@@ -227,19 +231,17 @@
           })
       },
       reloadTable() {
-        var advertiserShopIds = this.condition.advertiserShopIds;
-        var shopIds = [];
+        let that = this,advertiserShopIds = this.advertiserShopIds,shopIds = [];
         //去除分组的值
         for (var advertiserShopId of advertiserShopIds) {
           shopIds.push(advertiserShopId[1]);
         }
         var data = {
-          start: this.condition.time[0],
-          end: this.condition.time[1],
+          start: that.pickerTime[0],
+          end: that.pickerTime[1],
           shopIds: shopIds,
           targetMarket: this.condition.targetMarket,
         }
-        let that = this;
         that.loading = true;
         deliverStatistic(data).then(
           res => {
