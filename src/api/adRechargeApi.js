@@ -31,3 +31,9 @@ export function getById(id) {
     }
   })
 }
+
+export function reportList(condition) {
+  return request.get('/adrecharge/reportList', {
+    params: condition
+  })
+}

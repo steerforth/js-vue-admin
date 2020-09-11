@@ -18,7 +18,7 @@
       </el-table-column>
       <el-table-column prop="agent" label="广告代理商" align="center">
       </el-table-column>
-      <el-table-column prop="money" label="充值金额" align="center">
+      <el-table-column prop="money" label="充值金额/$" align="center">
       </el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">

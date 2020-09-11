@@ -99,12 +99,7 @@
       }
     },
     created() {
-      if (this.isEdit) {
-        const id = this.$route.params && this.$route.params.id
-        this.fetchData(id)
-      }else{
-        this.loadShops()
-      }
+      this.loadShops()
     },
     methods: {
       loadShops() {
@@ -112,6 +107,10 @@
         shopList().then(
           res => {
             that.$set(that,'shops',res)
+            if (that.isEdit) {
+              const id = that.$route.params && that.$route.params.id
+              that.fetchData(id)
+            }
           },
           err => {
 
