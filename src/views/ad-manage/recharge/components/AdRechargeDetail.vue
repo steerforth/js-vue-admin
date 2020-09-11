@@ -9,22 +9,24 @@
         <el-row>
           <el-col :span="24">
             <el-form-item label="充值日期" prop="rechargeTime">
-              <el-input v-model="postForm.rechargeTime" readonly></el-input>
-              <!-- <el-select v-model="postForm.domain" placeholder="请输入站点" >
-        			    <el-option
-        			      v-for="item in shops"
-        			      :key="item.id"
-        			      :label="item.name"
-        			      :value="item.domain">
-        			    </el-option>
-        			</el-select> -->
+              <el-date-picker
+                v-model="postForm.rechargeTime"
+                type="date"
+                placeholder="选择日期"
+                value-format="yyyy-MM-dd"
+                :readonly="isEdit">
+              </el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="24">
-            <el-form-item label="充值店铺" prop="shopName">
-              <el-input v-model="postForm.shopName" readonly></el-input>
+            <el-form-item label="充值店铺" prop="shopId">
+              <el-select v-model="postForm.shopId" clearable filterable placeholder="请输入站点" :disabled="isEdit">
+                <el-option v-for="item in shops" :key="item.id" :label="item.name" :value="item.id">
+                </el-option>
+              </el-select>
+              <!-- <el-input v-model="postForm.shopName" readonly></el-input> -->
             </el-form-item>
           </el-col>
         </el-row>
@@ -47,6 +49,9 @@
     saveOrUpdate
   } from '@/api/adRechargeApi.js'
   import {
+    shopList
+  } from '@/api/shopApi'
+  import {
     validElPosNum
   } from '@/utils/el-form-validate'
 
@@ -65,13 +70,14 @@
       return {
         loading: false,
         postForm: {},
+        shops:[],
         rules: {
           rechargeTime:{
           	required: true,
           	message: '请选择充值日期',
           	trigger: ['change', 'blur']
           },
-          shopName:{
+          shopId:{
           	required: true,
           	message: '请选择充值店铺',
           	trigger: ['change', 'blur']
@@ -96,9 +102,22 @@
       if (this.isEdit) {
         const id = this.$route.params && this.$route.params.id
         this.fetchData(id)
+      }else{
+        this.loadShops()
       }
     },
     methods: {
+      loadShops() {
+        let that = this
+        shopList().then(
+          res => {
+            that.$set(that,'shops',res)
+          },
+          err => {
+
+          }
+        )
+      },
       fetchData(id) {
         let that = this
         getById(id).then(
