@@ -20,17 +20,17 @@ const fileManageRouter = {
       meta: { title: '采购',roles:['menu-GoodsManage']}
     },
     {
+      path: 'logistics-order',
+      component: () => import('@/views/file-manage/logistics-order/list'),
+      name: 'LogisticsOrder',
+      meta: { title: '物流订单',roles:['menu-LogisticsStatistics']}
+    },
+    {
       path: 'logistics-account',
       component: () => import('@/views/file-manage/logistics-account/list'),
       name: 'LogisticsAccount',
       meta: { title: '物流结算',roles:['menu-LogisticsFile']}
     },
-    {
-      path: 'logistics-order',
-      component: () => import('@/views/file-manage/logistics-order/list'),
-      name: 'LogisticsOrder',
-      meta: { title: '物流订单',roles:['menu-LogisticsStatistics']}
-    }
   ]
 }
 export default fileManageRouter

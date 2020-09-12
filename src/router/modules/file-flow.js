@@ -5,7 +5,7 @@ const fileFlowRouter = {
   path: '/file-flow',
   component: Layout,
   // alwaysShow: true,//只有一个子菜单时,自动展开
-  redirect: '/file-flow/order-list',
+  redirect: '/file-flow/order',
   name: 'FileFlow',
   meta: {
     title: 'Excel文件流转',
@@ -14,10 +14,17 @@ const fileFlowRouter = {
   },
   children: [
     {
-      path: 'order-list',
-      component: () => import('@/views/file-flow/order-list'),
+      path: 'order/list',
+      component: () => import('@/views/file-flow/order/list'),
       name: 'OrderList',
       meta: { title: '订单列表', roles: ['menu-OrderList']}
+    },
+    {
+      path: 'order/edit/:id(\\d+)',
+      component: () => import('@/views/file-flow/order/edit'),
+      name: 'EditOrder',
+      meta: { title: '编辑订单',noCache: true,activeMenu: '/file-flow/order/list',roles:['btn-EditOrder']},
+      hidden: true
     },
     {
       path: 'order-file',

@@ -33,7 +33,7 @@
           placeholder="密码"
           name="pwd"
           tabindex="2"
-          auto-complete="on"
+          autocomplete="on"
           @keyup.enter.native="handleLogin"
         />
         <span class="show-pwd" @click="showPwd">
