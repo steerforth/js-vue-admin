@@ -18,7 +18,7 @@
         <el-button icon="el-icon-download" circle @click="exportExcel"></el-button>
       </el-tooltip>
     </sub-navbar>
-    <el-table ref="table" :data="tableData" border stripe :summary-method="getSummaries" show-summary
+    <el-table v-loading="loading" ref="table" :data="tableData" border stripe :summary-method="getSummaries" show-summary
       :height="tableHeight" :cell-style="changeCellStyle" style="width:100%;">
       <el-table-column type="expand">
         <template slot-scope="props" v-if="props.row.unAdDomains !='' ">
@@ -331,10 +331,5 @@
 </script>
 
 <style lang="scss" scoped>
-
-  /* 解决el-button转圈遮罩层为正方形的BUG ::v-deep样式穿透*/
-  ::v-deep .el-loading-mask{
-    border-radius: 50%;
-  }
 
 </style>

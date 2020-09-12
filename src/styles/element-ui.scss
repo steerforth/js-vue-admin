@@ -59,3 +59,9 @@
   text-align: right;
   padding: 10px 20px;
 }
+
+
+/* 解决圆形的el-button转圈遮罩层为正方形的BUG ::v-deep样式穿透*/
+.el-button.is-circle .el-loading-mask {
+  border-radius: 50%;
+}

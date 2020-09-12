@@ -30,14 +30,6 @@
           <el-dropdown-item v-if="checkPermission(['btn-ImportOrder'])" command="download" divided>下载</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-      <!-- <el-tooltip class="item" effect="dark" content="下载" placement="right-end">
-        <el-button icon="el-icon-download" circle @click="download"></el-button>
-      </el-tooltip> -->
-      <!-- <el-button-group>
-        <el-button @click="importOrders">导入订单</el-button>
-        <el-button @click="getRepeatOrders">订单去重</el-button>
-        <el-button @click="exportFile">生成订单与审单</el-button>
-      </el-button-group> -->
     </sub-navbar>
     <el-table v-loading="loading" ref="table" :data="orderPage.records" :height="tableHeight" stripe style="width: 100%">
       <el-table-column
@@ -310,7 +302,7 @@
         importOrders(condition).then(
           res => {
             that.$set(that,'loading',false)
-        
+
             let hasFailed = false;
             for(let i=0; i< res.length; i++){
             	if(!res[i].success){
@@ -325,7 +317,7 @@
             		}, 250);
             	}
             }
-        
+
             if(!hasFailed){
             	that.$notify({
             	  title: '提示',
@@ -334,7 +326,7 @@
             	  type: "success"
             	});
             }
-        
+
             that.handleSizeChange(20)
           },
           err => {
@@ -363,10 +355,6 @@
 </script>
 
 <style lang="scss" scoped>
-  /* 解决el-button转圈遮罩层为正方形的BUG ::v-deep样式穿透*/
-  ::v-deep .el-loading-mask {
-    border-radius: 50%;
-  }
 
   .el-input {
     max-width: 230px;

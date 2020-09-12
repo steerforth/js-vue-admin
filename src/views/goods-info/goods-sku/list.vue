@@ -207,11 +207,6 @@
 </script>
 
 <style lang="scss" scoped>
-  /* 解决el-button转圈遮罩层为正方形的BUG ::v-deep样式穿透*/
-  ::v-deep .el-loading-mask {
-    border-radius: 50%;
-  }
-
   .el-input {
     max-width: 230px;
   }
