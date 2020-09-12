@@ -49,6 +49,7 @@
 <script>
 import { validPhone } from '@/utils/validate'
 import { login } from '@/api/userApi'
+import { timeFix } from '@/utils/string.js'
 
 export default {
   name: 'Login',
@@ -106,8 +107,13 @@ export default {
           this.loading = true
           login(this.loginForm).then(
             res => {
-              this.$router.push({ path: this.redirect || '/' })
               this.loading = false
+              this.$router.push({ path: this.redirect || '/' })
+              this.$notify({
+                title: `${timeFix()}`,
+                message: '欢迎回来!',
+                duration: 4000
+              });
             },
             err => {
               console.log(err)
