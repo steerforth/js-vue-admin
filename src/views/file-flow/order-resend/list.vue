@@ -31,7 +31,7 @@
           <el-button @click="downloadCheckFile(scope.row.id)" type="text" size="mini">审单结果</el-button>
           <el-button @click="downloadBySrcId(scope.row.id,'4')" type="text" size="mini">IMILE转寄运单表</el-button>
           <el-button @click="downloadBySrcId(scope.row.id,'17')" type="text" size="mini">合联转寄运单表</el-button>
-          <el-button @click="downloadBySrcId(scope.row.id,'14')" type="text" size="mini">剩余审单结果</el-button>
+          <el-button @click="downloadBySrcId(scope.row.id,'14')" type="text" size="mini">结余审单结果</el-button>
         </template>
       </el-table-column>
     </el-table>
