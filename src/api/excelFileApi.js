@@ -21,3 +21,10 @@ export function downloadById(id) {
     responseType: 'blob'
   })
 }
+
+export function downloadByType(condition) {
+  return request.get('/excelFile/downloadByType', {
+    params:condition,
+    responseType: 'blob'
+  })
+}

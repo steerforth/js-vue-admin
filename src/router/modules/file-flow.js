@@ -34,14 +34,14 @@ const fileFlowRouter = {
       hidden: true
     },
     {
-      path: 'order-file',
-      component: () => import('@/views/file-flow/order-file'),
+      path: 'order-file/list',
+      component: () => import('@/views/file-flow/order-file/list'),
       name: 'OrderFile',
       meta: { title: '订单文件', roles: ['menu-OrderFile'] }
     },
     {
-      path: 'order-resend',
-      component: () => import('@/views/file-flow/order-resend'),
+      path: 'order-resend/list',
+      component: () => import('@/views/file-flow/order-resend/list'),
       name: 'OrderResend',
       meta: { title: '转寄处理', roles: ['menu-Resend'] }
     },

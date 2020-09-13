@@ -41,6 +41,13 @@ export function downloadOrders(condition) {
   })
 }
 
+export function downloadPurchaseFile(condition) {
+  return request.get('/order/file/purchase/download', {
+    responseType: 'blob',
+    params: condition,
+  })
+}
+
 export function getById(id) {
   return request.get('/order', {
     params: {
@@ -88,5 +95,14 @@ export function deleteOrders(ids){
         indices: false
       })
     },
+  })
+}
+
+export function uploadOrderFile(formData, shopId) {
+  return request.post('/order/file/upload', formData, {
+    'Content-Type': 'multipart/form-data',
+    params: {
+      shopId: shopId
+    }
   })
 }

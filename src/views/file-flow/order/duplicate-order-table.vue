@@ -70,6 +70,9 @@
       window.addEventListener('resize', this.handleResize);
       this.getRepeatOrders()
     },
+	destroyed() {
+	  window.removeEventListener('resize', this.handleResize)
+	},
     methods: {
       handleResize() {
         this.$set(this, 'tableHeight', window.innerHeight - this.$refs.table.$el.offsetTop - NAV_BAR - PADDING_BOTTOM);
