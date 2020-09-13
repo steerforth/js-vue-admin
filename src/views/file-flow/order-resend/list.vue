@@ -126,14 +126,12 @@
         return index + 1;
       },
       uploadImileTempstorage(params){
-        debugger
         this.uploadTempstorage(params,'IMILE')
       },
       uploadHLTempstorage(params) {
         this.uploadTempstorage(params,'HL')
       },
       uploadTempstorage(params,type){
-        debugger
         const form = handlePreUpload(params)
         form.append('type',type)
         let that = this
