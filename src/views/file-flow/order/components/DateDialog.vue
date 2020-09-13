@@ -1,5 +1,6 @@
 <template>
-  <el-dialog :title="title" :visible.sync="visible">
+  <!-- TODO 点击右上角x号 会报错，改变子组件的visible -->
+  <el-dialog :title="title" :visible.sync="visible" :show-close="false">
   	<el-form :model="postForm" ref="postForm" :rules="rules" label-position="right" label-width="80px">
   		<el-row>
   			<el-col :span="24">
@@ -18,7 +19,7 @@
   				</el-form-item>
   			</el-col>
   		</el-row>
-  		<el-row>
+  		<el-row v-if="isImport">
   			<el-col :span="24">
   				<el-form-item label="站点选择" prop="selectedShops">
   					<el-select style="width: 100%;" v-model="postForm.selectedShops" multiple clearable filterable placeholder="无选项时默认所有站点全部导入">
@@ -34,7 +35,7 @@
   		</el-row>
   	</el-form>
   	<div slot="footer" class="dialog-footer">
-  	    <el-button @click="visible = false">取 消</el-button>
+  	    <el-button @click="cancel">取 消</el-button>
   	    <el-button type="primary" @click="submitForm">执 行</el-button>
   	</div>
   </el-dialog>
@@ -63,7 +64,13 @@
         type: Array,
         default: [],
         required:true
-      }
+      },
+      //是否为订单导入 或 导出
+      isImport:{
+        type: Boolean,
+        default: false,
+        required:true
+      },
     },
     data() {
       return {
@@ -102,13 +109,20 @@
       submitForm() {
         this.$refs.postForm.validate(valid => {
           if (valid) {
-            var condition = {
-              startTime: this.postForm.timeArr[0],
-              endTime: this.postForm.timeArr[1],
-              selectedShops: this.postForm.selectedShops
+            if(this.isImport){
+              var condition = {
+                startTime: this.postForm.timeArr[0],
+                endTime: this.postForm.timeArr[1],
+                selectedShops: this.postForm.selectedShops
+              }
+              this.$emit('submit','import',condition)
+            }else{
+              var condition = {
+                startTime: this.postForm.timeArr[0],
+                endTime: this.postForm.timeArr[1],
+              }
+              this.$emit('submit','export',condition)
             }
-
-            this.$emit('import-submit',condition)
 
           } else {
             this.$message.warning('请填写正确的表单内容')
@@ -116,6 +130,9 @@
           }
         })
       },
+      cancel(){
+        this.$emit('cancel')
+      }
     },
 
   }

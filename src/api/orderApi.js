@@ -66,3 +66,27 @@ export function importOrders(condition) {
     timeout: -1
   })
 }
+
+export function exportFiles(condition) {
+  return request.post('/order/export/files', null, {
+    params: condition,
+    timeout: 10000
+  })
+}
+
+export function repeatOrders(condition) {
+  return request.get('/order/getRepeatOrders')
+}
+
+export function deleteOrders(ids){
+  return request.post('/order/delete/orders', null, {
+    params: {
+      ids: ids
+    },
+    paramsSerializer: params => {
+      return qs.stringify(params, {
+        indices: false
+      })
+    },
+  })
+}

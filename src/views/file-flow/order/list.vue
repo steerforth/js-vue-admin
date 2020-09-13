@@ -26,7 +26,7 @@
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item v-if="checkPermission(['btn-ImportOrder'])" command="import">导入订单</el-dropdown-item>
           <el-dropdown-item v-if="checkPermission(['btn-CleanRepeatOrder'])" command="rmDupli">订单去重</el-dropdown-item>
-          <el-dropdown-item v-if="checkPermission(['btn-ExportOrder'])" command="createFile">生成订单与审单</el-dropdown-item>
+          <el-dropdown-item v-if="checkPermission(['btn-ExportOrder'])" command="export">生成订单与审单</el-dropdown-item>
           <el-dropdown-item v-if="checkPermission(['btn-ImportOrder'])" command="download" divided>下载</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -128,7 +128,7 @@
     <el-pagination ref="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="condition.pageIndex"
       :page-sizes="[20, 50, 100, 200]" :page-size="condition.pageSize" layout="sizes, prev, pager, next, total" :total="orderPage.total">
     </el-pagination>
-    <date-dialog :title="dialogTitle" :shops-for-options="shopsForOptions" :visible="dialogVisible" @import-submit="handleImportSubmit"></date-dialog>
+    <date-dialog :title="dialogTitle" :is-import="dialogIsImport" :shops-for-options="shopsForOptions" :visible="dialogVisible" @submit="handleSubmit" @cancel="dialogCancel"></date-dialog>
   </div>
 </template>
 
@@ -141,7 +141,8 @@
   import {
     page,
     downloadOrders,
-    importOrders
+    importOrders,
+    exportFiles
   } from '@/api/orderApi'
   import {
     NAV_BAR,
@@ -209,7 +210,9 @@
         tableHeight: DEFAULT_TABLE,
         //dialog
         dialogVisible: false,
-        dialogTitle: ''
+        dialogTitle: '',
+        //订单导入/审单文件导出
+        dialogIsImport:false
       }
     },
     computed:{
@@ -278,10 +281,10 @@
             this.openImportDialog()
         		break;
         	case "rmDupli":
-
+             this.$router.push('/file-flow/order/duplicate')
         		break;
-        	case "createFile":
-
+        	case "export":
+            this.openExportDialog()
         		break;
         	case "download":
         		this.download()
@@ -293,15 +296,25 @@
       },
       openImportDialog(){
         this.$set(this,'dialogVisible',true)
+        this.$set(this,'dialogIsImport',true)
         this.$set(this,'dialogTitle','站点自动导入订单')
       },
+      handleSubmit(event,condition){
+        if(event === 'import'){
+          this.handleImportSubmit(condition)
+        }else if(event === 'export'){
+          this.handleExportSubmit(condition)
+        }else{
+          log.error('未知事件')
+        }
+      },
       handleImportSubmit(condition){
-        let that = this;
+        let that = this
+        that.loading = true
         that.$set(that,'dialogVisible',false)
-        that.$set(that,'loading',true)
         importOrders(condition).then(
           res => {
-            that.$set(that,'loading',false)
+            that.loading = false
 
             let hasFailed = false;
             for(let i=0; i< res.length; i++){
@@ -330,9 +343,31 @@
             that.handleSizeChange(20)
           },
           err => {
-            that.$set(that,'loading',false)
+            that.loading = false
           }
         )
+      },
+      openExportDialog(){
+        this.$set(this,'dialogVisible',true)
+        this.$set(this,'dialogIsImport',false)
+        this.$set(this,'dialogTitle','生成订单和待审单文件')
+      },
+      handleExportSubmit(condition){
+        let that = this
+        that.loading = true
+        that.$set(that,'dialogVisible',false)
+        exportFiles(condition).then(
+          res => {
+            that.loading = false
+            this.$message.success(res)
+          },
+          err => {
+            that.loading = false
+          }
+        )
+      },
+      dialogCancel(){
+        this.$set(this,'dialogVisible',false)
       },
       download() {
         this.condition.orderNo = this.calcuOrderNo

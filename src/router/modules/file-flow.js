@@ -27,6 +27,13 @@ const fileFlowRouter = {
       hidden: true
     },
     {
+      path: 'order/duplicate',
+      component: () => import('@/views/file-flow/order/duplicate-order-table'),
+      name: 'DuplicateOrder',
+      meta: { title: '订单去重',noCache: true,activeMenu: '/file-flow/order/list',roles:['btn-CleanRepeatOrder']},
+      hidden: true
+    },
+    {
       path: 'order-file',
       component: () => import('@/views/file-flow/order-file'),
       name: 'OrderFile',

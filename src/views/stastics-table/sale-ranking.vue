@@ -146,7 +146,6 @@
           PADDING_BOTTOM);
       },
       getList(){
-      	// $('.container').scrollTop(0);
       	if(this.pickerTime == null){
       		this.$message({
       		  message: '请选择时间',
