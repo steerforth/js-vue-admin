@@ -34,6 +34,13 @@ const fileFlowRouter = {
       hidden: true
     },
     {
+      path: 'order/tracking-detail',
+      component: () => import('@/views/file-flow/order/tracking-detail'),
+      name: 'TrackingDetail',
+      meta: { title: '轨迹跟踪',noCache: true,activeMenu: '/file-flow/order/list'},
+      hidden: true
+    },
+    {
       path: 'order-file/list',
       component: () => import('@/views/file-flow/order-file/list'),
       name: 'OrderFile',

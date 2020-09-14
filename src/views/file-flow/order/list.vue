@@ -43,7 +43,7 @@
         width="200"
         fixed="left">
         <template slot-scope="scope">
-      	<a :href="scope.row.goodsLink" target="_blank">{{ scope.row.title }}</a>
+          <el-link :href="scope.row.goodsLink" type="info">{{scope.row.title}}</el-link>
         </template>
       </el-table-column>
       <el-table-column
@@ -78,9 +78,9 @@
         label="配送状态"
         width="100">
         <template slot-scope="scope">
-        	<a :class="{'no-link': scope.row.deliverStatus==null}" @click="getTrackingDetails(scope.row)">
-      		{{scope.row.deliverStatus | getDeliverStatus}}
-      	</a>
+          <el-link type="primary" :disabled="scope.row.deliverStatus==null" @click="goTrackingDetails(scope.row)">{{scope.row.deliverStatus | getDeliverStatus}}</el-link>
+        	<!-- <a :class="{'no-link': scope.row.deliverStatus==null}" @click="getTrackingDetails(scope.row)"> -->
+      	<!-- </a> -->
         </template>
       </el-table-column>
       <el-table-column
@@ -380,6 +380,13 @@
 
           }
         )
+      },
+      goTrackingDetails(row){
+        if(row.deliverStatus == null){
+          this.$message.warning('当前并没有配送信息')
+          return;
+        }
+        this.$router.push({ name: 'TrackingDetail', params: {orderNo: row.orderNo,trackingNo: row.trackingNo,passageway: row.passageway }})
       },
       //TODO 调用4次?
       checkPermission(value){

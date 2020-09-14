@@ -71,6 +71,12 @@ export function deleteOrders(ids){
   })
 }
 
+export function trackingDetails(condition) {
+  return request.post('/order/getTrackingDetails', null, {
+    params: condition,
+    timeout: 60000
+  })
+}
 
 export function downloadOrders(condition) {
   return request.get('/order/download', {
