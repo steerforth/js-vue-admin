@@ -33,21 +33,6 @@ export function page(condition) {
   })
 }
 
-export function downloadOrders(condition) {
-  return request.get('/order/download', {
-    responseType: 'blob',
-    params: condition,
-    timeout: -1
-  })
-}
-
-export function downloadPurchaseFile(condition) {
-  return request.get('/order/file/purchase/download', {
-    responseType: 'blob',
-    params: condition,
-  })
-}
-
 export function getById(id) {
   return request.get('/order', {
     params: {
@@ -59,18 +44,6 @@ export function getById(id) {
 export function update(condition) {
   return request.post('/order/update', null, {
     params: condition
-  })
-}
-
-export function importOrders(condition) {
-  return request.post('/order/import/orders', null, {
-    params: condition,
-    paramsSerializer: params => {
-      return qs.stringify(params, {
-        indices: false
-      })
-    },
-    timeout: -1
   })
 }
 
@@ -98,11 +71,40 @@ export function deleteOrders(ids){
   })
 }
 
+
+export function downloadOrders(condition) {
+  return request.get('/order/download', {
+    responseType: 'blob',
+    params: condition,
+    timeout: -1
+  })
+}
+
+export function downloadPurchaseFile(condition) {
+  return request.get('/order/file/purchase/download', {
+    responseType: 'blob',
+    params: condition,
+  })
+}
+
 export function uploadOrderFile(formData, shopId) {
   return request.post('/order/file/upload', formData, {
     'Content-Type': 'multipart/form-data',
     params: {
       shopId: shopId
-    }
+    },
+    timeout: -1
+  })
+}
+
+export function importOrders(condition) {
+  return request.post('/order/import/orders', null, {
+    params: condition,
+    paramsSerializer: params => {
+      return qs.stringify(params, {
+        indices: false
+      })
+    },
+    timeout: -1
   })
 }

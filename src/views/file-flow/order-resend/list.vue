@@ -3,17 +3,17 @@
     <sub-navbar :z-index="10" :class="'sub-navbar'">
       <el-upload style="display: inline-block;" action="noaction" :show-file-list="false" :http-request="uploadImileTempstorage">
         <el-tooltip class="item" effect="dark" content="文件上传" placement="right-end">
-          <el-button icon="el-icon-upload2">imile暂存库</el-button>
+          <el-button v-loading="loadingIMILE" icon="el-icon-upload2">imile暂存库</el-button>
         </el-tooltip>
       </el-upload>
       <el-upload style="display: inline-block;" action="noaction" :show-file-list="false" :http-request="uploadHLTempstorage">
         <el-tooltip class="item" effect="dark" content="文件上传" placement="right-end">
-          <el-button icon="el-icon-upload2">合联暂存库</el-button>
+          <el-button v-loading="loadingHL" icon="el-icon-upload2">合联暂存库</el-button>
         </el-tooltip>
       </el-upload>
       <el-upload style="display: inline-block;" action="noaction" :show-file-list="false" :http-request="uploadCheckResult">
         <el-tooltip class="item" effect="dark" content="文件上传" placement="right-end">
-          <el-button icon="el-icon-upload2">审单结果</el-button>
+          <el-button v-loading="loadingCK" icon="el-icon-upload2">审单结果</el-button>
         </el-tooltip>
       </el-upload>
     </sub-navbar>
@@ -72,6 +72,9 @@
     data() {
       return {
         loading: false,
+        loadingIMILE: false,
+        loadingHL: false,
+        loadingCK: false,
         tableHeight: DEFAULT_TABLE,
         page: {
           total: 0,
@@ -136,14 +139,17 @@
         form.append('type',type)
         let that = this
         that.loading = true
+        that['loading'+type] = true
         uploadTempstorage(form).then(
           res => {
             that.loading = false
+            that['loading'+type] = false
             that.$message.success(res)
             that.loadPage()
           },
           err => {
             that.loading = false
+            that['loading'+type] = false
           }
         )
       },
@@ -151,14 +157,17 @@
         const form = handlePreUpload(params)
         let that = this
         that.loading = true
+        that.loadingCK = true
         uploadCheckResult(form).then(
           res => {
             that.loading = false
+            that.loadingCK = false
             that.$message.success(res)
             that.loadPage()
           },
           err => {
             that.loading = false
+            that.loadingCK = false
           }
         )
       },

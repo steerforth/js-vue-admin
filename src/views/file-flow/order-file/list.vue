@@ -5,9 +5,9 @@
         <el-option v-for="item in shops" :key="item.id" :label="item.name" :value="item.id">
         </el-option>
       </el-select>
-      <el-upload v-loading="loading" style="display: inline-block;" action="noaction" :show-file-list="false" :http-request="uploadFile">
+      <el-upload style="display: inline-block;" action="noaction" :show-file-list="false" :http-request="uploadFile">
         <el-tooltip class="item" effect="dark" content="文件上传" placement="right-end">
-          <el-button icon="el-icon-upload2" circle></el-button>
+          <el-button v-loading="loadingUp" icon="el-icon-upload2" circle></el-button>
         </el-tooltip>
       </el-upload>
     </sub-navbar>
@@ -71,6 +71,7 @@
     data() {
       return {
         loading: false,
+        loadingUp: false,
         shops:[],
         selectedShop:null,
         tableHeight: DEFAULT_TABLE,
@@ -143,14 +144,17 @@
         }
         const form = handlePreUpload(params)
         that.loading = true
+        that.loadingUp = true
         uploadOrderFile(form, that.selectedShop).then(
           res => {
             that.loading = false
+            that.loadingUp = false
             that.$message.success(res)
             that.loadPage()
           },
           err => {
             that.loading = false
+            that.loadingUp = false
           }
         )
       },

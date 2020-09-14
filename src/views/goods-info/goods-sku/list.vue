@@ -12,7 +12,7 @@
       </el-tooltip>
       <el-upload style="display: inline-block;" action="noaction" :show-file-list="false" :http-request="uploadFile">
         <el-tooltip class="item" effect="dark" content="sku文件上传" placement="right-end">
-          <el-button icon="el-icon-upload2" circle></el-button>
+          <el-button v-loading="loadingUp" icon="el-icon-upload2" circle></el-button>
         </el-tooltip>
       </el-upload>
       <el-button-group>
@@ -80,6 +80,7 @@
     data() {
       return {
         loading: false,
+        loadingUp: false,
         shops: [],
         skuPage: {
           total: 0,
@@ -145,15 +146,19 @@
         )
       },
       uploadFile(params) {
-        let form = handlePreUpload(params)
-        let that = this
+        let form = handlePreUpload(params),that = this;
+        that.loadingUp = true
+        that.loading = true
         upload(form, that.condition).then(
           res => {
+            that.loadingUp = false
+            that.loading = false
             that.$message.success(res)
             that.loadGoodsSku()
           },
           err => {
-
+            that.loadingUp = false
+            that.loading = false
           }
         )
       },

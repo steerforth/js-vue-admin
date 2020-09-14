@@ -9,13 +9,13 @@
         <el-option v-for="item in optionsForPassageway[condition.type]" :key="item" :label="item" :value="item">
         </el-option>
       </el-select>
-      <el-upload v-loading="loading" style="display: inline-block;" action="noaction" :show-file-list="false" :http-request="uploadFile">
+      <el-upload style="display: inline-block;" action="noaction" :show-file-list="false" :http-request="uploadFile">
         <el-tooltip class="item" effect="dark" content="文件上传" placement="right-end">
-          <el-button icon="el-icon-upload2" circle></el-button>
+          <el-button v-loading="loadingUp" icon="el-icon-upload2" circle></el-button>
         </el-tooltip>
       </el-upload>
     </sub-navbar>
-    <el-table v-loading="tableLoading" :data="filesPage.records" ref="table" :height="tableHeight" stripe style="width: 100%">
+    <el-table v-loading="loading" :data="filesPage.records" ref="table" :height="tableHeight" stripe style="width: 100%">
     	<el-table-column
     	  type="index"
     	  :index="indexMethod"
@@ -68,7 +68,7 @@
     data() {
       return {
         loading: false,
-        tableLoading:false,
+        loadingUp: false,
         filesPage: {
           total: 0,
           records: []
@@ -115,14 +115,14 @@
       },
       loadFiles() {
         let that = this
-        that.tableLoading = true
+        that.loading = true
         page(this.condition).then(
           res => {
-            that.tableLoading = false
+            that.loading = false
             that.$set(that, 'filesPage', res)
           },
           err => {
-            that.tableLoading = false
+            that.loading = false
           }
         )
       },
@@ -144,27 +144,30 @@
         form.append("passageway",this.passageway);
         let that = this
         that.loading = true
+        that.loadingUp = true
         uploadOrderFile(form, that.condition).then(
           res => {
             that.loading = false
+            that.loadingUp = false
             that.$message.success(res)
             that.loadFiles()
           },
           err => {
             that.loading = false
+            that.loadingUp = false
           }
         )
       },
       downloadFile(id){
         let that = this
-        that.tableLoading = true
+        that.loading = true
         downloadById(id).then(
           res => {
-            that.tableLoading = false
+            that.loading = false
             handleFileDownload(res)
           },
           err => {
-            that.tableLoading = false
+            that.loading = false
           }
         )
       }
