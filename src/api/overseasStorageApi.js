@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import qs from 'qs'
 
 export function page(condition) {
   return request.get('/overseasStorage/page', {
@@ -17,6 +18,17 @@ export function getById(id) {
 export function saveOrUpdate(condition) {
   return request.post('/overseasStorage/saveOrUpdate', null, {
     params: condition
+  })
+}
+
+export function match(condition) {
+  return request.post('/overseasStorage/match', null, {
+    params: condition,
+    paramsSerializer: params => {
+      return qs.stringify(params, {
+        indices: false
+      })
+    }
   })
 }
 

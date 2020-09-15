@@ -13,18 +13,28 @@ export function page(condition) {
   })
 }
 
+export function getById(id) {
+  return request.get('/excelFile', {
+    params: {
+      id: id
+    }
+  })
+}
+
 export function downloadById(id) {
   return request.get('/excelFile/download', {
     params:{
       id:id
     },
-    responseType: 'blob'
+    responseType: 'blob',
+    timeout: 60000
   })
 }
 
 export function downloadByType(condition) {
   return request.get('/excelFile/downloadByType', {
     params:condition,
-    responseType: 'blob'
+    responseType: 'blob',
+    timeout: 60000
   })
 }
