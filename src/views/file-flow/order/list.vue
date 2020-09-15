@@ -79,9 +79,13 @@
         width="100">
         <template slot-scope="scope">
           <el-link type="primary" :disabled="scope.row.deliverStatus==null" @click="goTrackingDetails(scope.row)">{{scope.row.deliverStatus | getDeliverStatus}}</el-link>
-        	<!-- <a :class="{'no-link': scope.row.deliverStatus==null}" @click="getTrackingDetails(scope.row)"> -->
-      	<!-- </a> -->
         </template>
+      </el-table-column>
+      <el-table-column
+        prop="payType"
+        label="支付类型"
+        width="100"
+        :formatter="formatPayType">
       </el-table-column>
       <el-table-column
         prop="domain"
@@ -274,6 +278,15 @@
       handleCurrentChange(val) {
         this.$set(this.condition, "pageIndex", val);
         this.loadOrders();
+      },
+      formatPayType(row, column){
+      	if(row.payType === 'ONLINE'){
+      		return "在线支付"
+      	}else if(row.payType === 'COD'){
+      		return "到付"
+      	}else{
+      		return "未知"
+      	}
       },
       handleCommand(command){
         switch (command){

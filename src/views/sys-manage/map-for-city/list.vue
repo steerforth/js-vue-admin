@@ -17,7 +17,7 @@
         :show-file-list="false"
         :http-request="uploadFile">
         <el-tooltip class="item" effect="dark" content="文件上传" placement="right-end">
-          <el-button icon="el-icon-upload2" circle></el-button>
+          <el-button v-loading="loadingUp" icon="el-icon-upload2" circle></el-button>
         </el-tooltip>
       </el-upload>
     </sub-navbar>
@@ -69,6 +69,7 @@
     data() {
       return {
         loading: false,
+        loadingUp: false,
         options: [{
           name: "Yokesi物流",
           type: 1
@@ -140,13 +141,18 @@
       uploadFile(params){
         const form = handlePreUpload(params)
         let that = this
+        that.loading = true
+        that.loadingUp = true
         upload(form,that.condition).then(
           res => {
+            that.loading = false
+            that.loadingUp = false
             that.$message.success(res)
             that.loadMapForCity()
           },
           err => {
-
+            that.loading = false
+            that.loadingUp = false
           }
         )
       },

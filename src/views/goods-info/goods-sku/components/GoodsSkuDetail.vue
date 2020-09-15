@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="postForm" ref="postForm" :rules="rules" label-position="right" label-width="120px">
+    <el-form v-loading="loading" :model="postForm" ref="postForm" :rules="rules" label-position="right" label-width="120px">
       <sticky :z-index="10" :class-name="'sub-navbar '+subNavBarCss">
         <el-button @click="cancel">返 回</el-button>
         <el-button type="primary" @click="submitForm">保 存</el-button>

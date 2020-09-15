@@ -20,13 +20,6 @@ export function update(condition) {
   })
 }
 
-export function upload(formData, condition) {
-  return request.post('/goodsSku/import', formData, {
-    'Content-Type': 'multipart/form-data',
-    params: condition
-  })
-}
-
 export function getById(id) {
   return request.get('/goodsSku', {
     params: {
@@ -35,14 +28,30 @@ export function getById(id) {
   })
 }
 
+export function distinctPage(condition) {
+  return request.get('/goodsSku/distinct/page', {
+    params: condition
+  })
+}
+
+export function upload(formData, condition) {
+  return request.post('/goodsSku/import', formData, {
+    'Content-Type': 'multipart/form-data',
+    params: condition,
+    timeout: 60000
+  })
+}
+
 export function download4py() {
   return request.get('/goodsSku/download4py', {
-    responseType: 'blob'
+    responseType: 'blob',
+    timeout: 60000
   })
 }
 
 export function download4yks() {
   return request.get('/goodsSku/download4yks', {
-    responseType: 'blob'
+    responseType: 'blob',
+    timeout: 60000
   })
 }

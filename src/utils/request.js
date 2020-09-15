@@ -44,12 +44,12 @@ service.interceptors.response.use(
         //将续期的TOKEN存起来
        store.dispatch('user/storeToken',token)
     }
-    
+
     //大文件处理
     if(response.config.responseType === 'blob'){
       return response;
     }
-    
+
     const res = response.data
 
     if (!res.success) {
@@ -82,9 +82,12 @@ service.interceptors.response.use(
 
     let tip = null;
     if(error.response){
+      debugger
       switch (error.response.status) {
       	case 500:
-      		tip = "服务器系统内部错误"
+          //后台定义的返回结构
+          let msg = error.response.data && error.response.data.errMsg
+      		tip = "服务器系统内部错误"+ (msg == null? "" : ": "+msg)
       		break;
       	case 401:
       		tip = "未授权,请重新登录"

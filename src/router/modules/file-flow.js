@@ -5,7 +5,7 @@ const fileFlowRouter = {
   path: '/file-flow',
   component: Layout,
   // alwaysShow: true,//只有一个子菜单时,自动展开
-  redirect: '/file-flow/order',
+  redirect: '/file-flow/order/list',
   name: 'FileFlow',
   meta: {
     title: 'Excel文件流转',
@@ -53,14 +53,28 @@ const fileFlowRouter = {
       meta: { title: '转寄处理', roles: ['menu-Resend'] }
     },
     {
-      path: 'overseas-storage',
-      component: () => import('@/views/file-flow/overseas-storage'),
+      path: 'overseas-storage/list',
+      component: () => import('@/views/file-flow/overseas-storage/list'),
       name: 'OverseasStorage',
       meta: { title: '海外仓库存', roles: ['menu-DeliverFromStore'] }
     },
     {
+      path: 'overseas-storage/edit/:id(\\d+)',
+      component: () => import('@/views/file-flow/overseas-storage/edit'),
+      name: 'EditOverseasStorage',
+      meta: { title: '编辑海外仓库存',noCache: true,activeMenu: '/file-flow/overseas-storage/list',roles:['menu-DeliverFromStore']},
+      hidden: true
+    },
+    {
+      path: 'overseas-storage/add',
+      component: () => import('@/views/file-flow/overseas-storage/add'),
+      name: 'AddOverseasStorage',
+      meta: { title: '新增海外仓库存',noCache: true,activeMenu: '/file-flow/overseas-storage/list',roles:['menu-DeliverFromStore']},
+      hidden: true
+    },
+    {
       path: 'deliver-from-store',
-      component: () => import('@/views/file-flow/deliver-from-store'),
+      component: () => import('@/views/file-flow/deliver-from-store/list'),
       name: 'DeliverFromStore',
       meta: { title: '海外仓发货', roles: ['menu-DeliverFromStore'] }
     },
