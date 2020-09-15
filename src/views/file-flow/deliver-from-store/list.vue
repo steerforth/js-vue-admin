@@ -2,44 +2,42 @@
   <div class="app-container">
     <sub-navbar :z-index="10" :class="'sub-navbar'">
       <el-select style="width: 540px;" v-model="selectedPassageways" multiple clearable placeholder="请选择匹配的通道">
-          <el-option
-            v-for="value in options"
-            :key="value"
-            :label="value"
-            :value="value">
-          </el-option>
+        <el-option v-for="value in options" :key="value" :label="value" :value="value">
+        </el-option>
       </el-select>
       <el-button v-loading="loading" type="primary" @click="match">匹配</el-button>
     </sub-navbar>
-    <el-table v-loading="loading" :data="page.records" ref="table" :height="tableHeight" style="width: 100%" highlight-current-row @current-change="handleSelectRow">
-    	<el-table-column
-    	  type="index"
-    	  :index="indexMethod"
-    	  width="50">
-    	</el-table-column>
-    	<el-table-column prop="name" label="文件名">
-    	</el-table-column>
-    	<el-table-column prop="uploaderName" label="上传人" align="center">
-    	</el-table-column>
-    	<el-table-column prop="uploadTime" label="上传时间" align="center">
-    	</el-table-column>
-    	<el-table-column prop="message" label="上传信息" align="center">
-    	</el-table-column>
-    	<el-table-column
-    	  fixed="right"
-    	  label="下载"
-    	  align="center">
-    	  <template slot-scope="scope">
-    	    <el-button @click="download(scope.row.id)" type="text" size="mini">本文件</el-button>
-    	    <el-button @click="downloadByType(scope.row.id,'4')" type="text" size="mini">imile运单</el-button>
-    		<el-button @click="downloadByType(scope.row.id,'5')" type="text" size="mini">yokesi运单</el-button>
-    		<el-button @click="downloadByType(scope.row.id,'16')" type="text" size="mini">结余审单结果</el-button>
-    	  </template>
-    	</el-table-column>
+    <el-table v-loading="loading" :data="page.records" ref="table" :height="tableHeight" style="width: 100%"
+      highlight-current-row @current-change="handleSelectRow">
+      <el-table-column type="index" :index="indexMethod" width="50">
+      </el-table-column>
+      <el-table-column prop="name" label="文件名">
+      </el-table-column>
+      <el-table-column prop="uploaderName" label="上传人" align="center">
+      </el-table-column>
+      <el-table-column prop="uploadTime" label="上传时间" align="center">
+      </el-table-column>
+      <el-table-column prop="message" label="上传信息" align="center">
+      </el-table-column>
+      <el-table-column fixed="right" label="下载" align="center">
+        <template slot-scope="scope">
+          <el-link type="primary" class="mini" @click="download(scope.row.id)">本文件</el-link>
+          <el-link type="primary" class="mini" @click="downloadBySrcAndType(scope.row.id,'4')">imile运单</el-link>
+          <el-link type="primary" class="mini" @click="downloadBySrcAndType(scope.row.id,'5')">yokesi运单</el-link>
+          <el-link type="primary" class="mini" @click="downloadBySrcAndType(scope.row.id,'16')">结余审单结果</el-link>
+        </template>
+      </el-table-column>
     </el-table>
     <el-pagination ref="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="condition.index"
       :page-sizes="[20, 50, 100]" :page-size="condition.size" layout="sizes, prev, pager, next, total" :total="page.total">
     </el-pagination>
+    <el-dialog title="警告" :visible.sync="tipVisible" width="50%">
+      <span>该文件已有匹配记录,继续可能会导致重复减库存,确定继续吗?</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="tipVisible = false">取 消</el-button>
+        <el-button type="primary" @click="doMatch">继 续</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -58,9 +56,11 @@
     page,
     getById,
     downloadById,
-    downloadByType
+    downloadBySrcAndType
   } from '@/api/excelFileApi'
-  import { handleFileDownload } from '@/utils/file-handler'
+  import {
+    handleFileDownload
+  } from '@/utils/file-handler'
 
   export default {
     name: 'DeliverFromStoreList',
@@ -73,18 +73,18 @@
         loading: false,
         tableHeight: DEFAULT_TABLE,
         page: {
-        	total: 0,
-        	records:[]
+          total: 0,
+          records: []
         },
         condition: {
           type: 14,
-        	index: 1,
-        	size: 20,
+          index: 1,
+          size: 20,
         },
-        selectedPassageways:['yokesi@20125','imile@88172'],
-        options:['yokesi@20125','imile@88174','imile@88172','imile@88138'],
+        selectedPassageways: ['yokesi@20125', 'imile@88172'],
+        options: ['yokesi@20125', 'imile@88174', 'imile@88172', 'imile@88138'],
         currentRow: null,
-        tipVisible:false
+        tipVisible: false
       }
     },
     beforeMount() {},
@@ -126,10 +126,10 @@
         this.$set(this.condition, "index", val);
         this.loadPage();
       },
-      indexMethod(index){
-      	return index+1;
+      indexMethod(index) {
+        return index + 1;
       },
-      download(id){
+      download(id) {
         let that = this
         that.loading = true
         downloadById(id).then(
@@ -142,14 +142,14 @@
           }
         )
       },
-      downloadByType(srcId,type){
+      downloadBySrcAndType(srcId, type) {
         let that = this
         let condition = {
           srcId: srcId,
           type: type
         }
         that.loading = true
-        downloadByType(condition).then(
+        downloadBySrcAndType(condition).then(
           res => {
             that.loading = false
             handleFileDownload(res)
@@ -159,24 +159,24 @@
           }
         )
       },
-      match(){
-      	if(this.currentRow == null){
-      		this.$message.warning("请选择对应的行");
-      		return;
-      	}
+      match() {
+        if (this.currentRow == null) {
+          this.$message.warning("请选择对应的行");
+          return;
+        }
 
-      	if(this.selectedPassageways.length == 0){
-      		this.$message.warning("请选择匹配的物流通道");
-      		return;
-      	}
+        if (this.selectedPassageways.length == 0) {
+          this.$message.warning("请选择匹配的物流通道");
+          return;
+        }
 
         let that = this
         getById(this.currentRow.id).then(
           res => {
-            if(res.message == null){
+            if (res.message == null) {
               this.doMatch()
-            }else{
-              that.$set(that,"tipVisible",true);
+            } else {
+              that.$set(that, "tipVisible", true);
             }
           },
           err => {
@@ -185,27 +185,28 @@
         )
 
       },
-      doMatch(){
-      	let condition = {
-          passageways: this.selectedPassageways,
-          fileId: this.currentRow.id
-        }, that = this;
-      	that.loading = true
+      doMatch() {
+        let condition = {
+            passageways: this.selectedPassageways,
+            fileId: this.currentRow.id
+          },
+          that = this;
+        that.loading = true
         match(condition).then(
           res => {
             that.loading = false
+            that.$set(that, "tipVisible", false);
             this.loadPage()
             this.$message.success(res);
           },
           err => {
             that.loading = false
+            that.$set(that, "tipVisible", false);
           }
         )
-        //TODO
-      	this.$set(this,"tipVisible",false);
       },
-      handleSelectRow(row){
-      	this.currentRow = row;
+      handleSelectRow(row) {
+        this.currentRow = row;
       },
     }
   }

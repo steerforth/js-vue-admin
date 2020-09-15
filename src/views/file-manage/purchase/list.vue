@@ -8,25 +8,19 @@
       </el-upload>
     </sub-navbar>
     <el-table v-loading="loading" :data="filesPage.records" ref="table" :height="tableHeight" stripe style="width: 100%">
-    	<el-table-column
-    	  type="index"
-    	  :index="indexMethod"
-    	  width="50">
-    	</el-table-column>
-    	<el-table-column prop="name" label="文件名">
-    	</el-table-column>
-    	<el-table-column prop="uploaderName" label="上传人" align="center">
-    	</el-table-column>
-    	<el-table-column prop="uploadTime" label="上传时间" align="center">
-    	</el-table-column>
-    	<el-table-column
-    	  fixed="right"
-    	  label="下载"
-    	  align="center">
-    	  <template slot-scope="scope">
-    	    <el-button @click="downloadFile(scope.row.id)" type="text" size="mini">本文件</el-button>
-    	  </template>
-    	</el-table-column>
+      <el-table-column type="index" :index="indexMethod" width="50">
+      </el-table-column>
+      <el-table-column prop="name" label="文件名">
+      </el-table-column>
+      <el-table-column prop="uploaderName" label="上传人" align="center">
+      </el-table-column>
+      <el-table-column prop="uploadTime" label="上传时间" align="center">
+      </el-table-column>
+      <el-table-column fixed="right" label="下载" align="center">
+        <template slot-scope="scope">
+          <el-link type="primary" class="mini" @click="download(scope.row.id)">本文件</el-link>
+        </template>
+      </el-table-column>
     </el-table>
     <el-pagination ref="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="condition.index"
       :page-sizes="[100, 200, 300]" :page-size="condition.size" layout="sizes, prev, pager, next, total" :total="filesPage.total">
@@ -49,7 +43,10 @@
     page,
     downloadById
   } from '@/api/excelFileApi'
-  import { handleFileDownload,handlePreUpload } from '@/utils/file-handler'
+  import {
+    handleFileDownload,
+    handlePreUpload
+  } from '@/utils/file-handler'
 
   export default {
     name: 'PurchaseFileList',
@@ -111,8 +108,8 @@
         this.$set(this.condition, "index", val);
         this.loadFiles();
       },
-      indexMethod(index){
-      	return index+1;
+      indexMethod(index) {
+        return index + 1;
       },
       uploadFile(params) {
         const form = handlePreUpload(params)
@@ -132,7 +129,7 @@
           }
         )
       },
-      downloadFile(id){
+      download(id) {
         let that = this
         that.loading = true
         downloadById(id).then(

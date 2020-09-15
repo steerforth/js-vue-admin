@@ -73,20 +73,20 @@ const fileFlowRouter = {
       hidden: true
     },
     {
-      path: 'deliver-from-store',
+      path: 'deliver-from-store/list',
       component: () => import('@/views/file-flow/deliver-from-store/list'),
       name: 'DeliverFromStore',
       meta: { title: '海外仓发货', roles: ['menu-DeliverFromStore'] }
     },
     {
-      path: 'direct-mail',
-      component: () => import('@/views/file-flow/direct-mail'),
+      path: 'direct-mail/list',
+      component: () => import('@/views/file-flow/direct-mail/list'),
       name: 'DirectMail',
       meta: { title: '直邮', roles: ['menu-DirectMail'] }
     },
     {
-      path: 'deliver-type',
-      component: () => import('@/views/file-flow/deliver-type'),
+      path: 'deliver-type/list',
+      component: () => import('@/views/file-flow/deliver-type/list'),
       name: 'DeliverType',
       meta: { title: '销售发货清单', roles: ['menu-Deliver'] }
     }

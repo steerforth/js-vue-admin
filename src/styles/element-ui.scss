@@ -65,3 +65,11 @@
 .el-button.is-circle .el-loading-mask {
   border-radius: 50%;
 }
+
+.el-link+.el-link{
+  margin-left: 8px;
+}
+
+.mini.el-link{
+  font-size: 12px;
+}

@@ -103,6 +103,20 @@ export function uploadOrderFile(formData, shopId) {
   })
 }
 
+export function uploadCheckResultForDirectMail(formData) {
+  return request.post('/order/check/file/upload', formData, {
+    'Content-Type': 'multipart/form-data',
+    timeout: -1
+  })
+}
+
+export function uploadDeliverType(formData) {
+  return request.post('/order/deliver/file/upload', formData, {
+    'Content-Type': 'multipart/form-data',
+    timeout: -1
+  })
+}
+
 export function importOrders(condition) {
   return request.post('/order/import/orders', null, {
     params: condition,

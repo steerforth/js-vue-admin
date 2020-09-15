@@ -28,10 +28,10 @@
       </el-table-column>
       <el-table-column fixed="right" label="下载" align="center">
         <template slot-scope="scope">
-          <el-button @click="downloadCheckFile(scope.row.id)" type="text" size="mini">审单结果</el-button>
-          <el-button @click="downloadBySrcId(scope.row.id,'4')" type="text" size="mini">IMILE转寄运单表</el-button>
-          <el-button @click="downloadBySrcId(scope.row.id,'17')" type="text" size="mini">合联转寄运单表</el-button>
-          <el-button @click="downloadBySrcId(scope.row.id,'14')" type="text" size="mini">结余审单结果</el-button>
+          <el-link type="primary" class="mini" @click="download(scope.row.id)">审单结果</el-link>
+          <el-link type="primary" class="mini" @click="downloadBySrcAndType(scope.row.id,'4')">imile转寄运单表</el-link>
+          <el-link type="primary" class="mini" @click="downloadBySrcAndType(scope.row.id,'17')">合联转寄运单表</el-link>
+          <el-link type="primary" class="mini" @click="downloadBySrcAndType(scope.row.id,'14')">结余审单结果</el-link>
         </template>
       </el-table-column>
     </el-table>
@@ -56,7 +56,7 @@
   import {
     page,
     downloadById,
-    downloadByType
+    downloadBySrcAndType
   } from '@/api/excelFileApi'
   import {
     handleFileDownload,
@@ -171,7 +171,7 @@
           }
         )
       },
-      downloadCheckFile(id) {
+      download(id) {
         let that = this
         that.loading = true
         downloadById(id).then(
@@ -184,14 +184,14 @@
           }
         )
       },
-      downloadBySrcId(srcId, type) {
+      downloadBySrcAndType(srcId, type) {
         let that = this
         let condition = {
           srcId: srcId,
           type: type
         }
         that.loading = true
-        downloadByType(condition).then(
+        downloadBySrcAndType(condition).then(
           res => {
             that.loading = false
             handleFileDownload(res)

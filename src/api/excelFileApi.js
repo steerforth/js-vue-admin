@@ -31,8 +31,8 @@ export function downloadById(id) {
   })
 }
 
-export function downloadByType(condition) {
-  return request.get('/excelFile/downloadByType', {
+export function downloadBySrcAndType(condition) {
+  return request.get('/excelFile/downloadBySrcAndType', {
     params:condition,
     responseType: 'blob',
     timeout: 60000
