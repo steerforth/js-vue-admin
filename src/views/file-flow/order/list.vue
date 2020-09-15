@@ -43,7 +43,7 @@
         width="200"
         fixed="left">
         <template slot-scope="scope">
-          <el-link :href="scope.row.goodsLink" type="info">{{scope.row.title}}</el-link>
+          <el-link :href="scope.row.goodsLink" target="_blank" type="info">{{scope.row.title}}</el-link>
         </template>
       </el-table-column>
       <el-table-column
