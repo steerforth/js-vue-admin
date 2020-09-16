@@ -53,10 +53,12 @@
       </el-table-column>
       <el-table-column
         prop="amount"
+        align="center"
         label="数量">
       </el-table-column>
       <el-table-column
         prop="price"
+        align="center"
         label="单价">
       </el-table-column>
       <el-table-column
@@ -76,6 +78,7 @@
       <el-table-column
         prop="deliverStatus"
         label="配送状态"
+        align="center"
         width="100">
         <template slot-scope="scope">
           <el-link type="primary" :disabled="scope.row.deliverStatus==null" @click="goTrackingDetails(scope.row)">{{scope.row.deliverStatus | getDeliverStatus}}</el-link>
@@ -85,6 +88,7 @@
         prop="payType"
         label="支付类型"
         width="100"
+        align="center"
         :formatter="formatPayType">
       </el-table-column>
       <el-table-column

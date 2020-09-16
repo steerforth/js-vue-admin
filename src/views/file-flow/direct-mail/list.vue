@@ -118,8 +118,6 @@
       },
       upload(params) {
         const form = handlePreUpload(params)
-        //TODO 删除，后台接口改造
-        form.append('shopId', 1)
         let that = this
         that.loading = true
         that.loadingUp = true
