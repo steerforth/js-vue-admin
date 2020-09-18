@@ -82,7 +82,6 @@ service.interceptors.response.use(
 
     let tip = null;
     if(error.response){
-      debugger
       switch (error.response.status) {
       	case 500:
           //后台定义的返回结构

@@ -18,6 +18,7 @@
       </el-table-column>
       <el-table-column prop="amount" label="计划采购数量" align="center">
       </el-table-column>
+      <!-- TODO显示 -->
       <el-table-column prop="amount" label="计划采购总数量" align="center">
       </el-table-column>
     </el-table>
@@ -107,7 +108,7 @@
         		{ wpx: 90 },
         		{ wpx: 90 },
         ]};
-        
+
         const name = '待采购明细.xlsx';
         const table =  this.$refs.table.$el;
         const workbook = Xlsx.utils.book_new();

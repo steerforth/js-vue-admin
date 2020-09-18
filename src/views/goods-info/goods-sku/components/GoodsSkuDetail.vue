@@ -79,7 +79,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="数量" prop="amount">
-              <el-input v-model="postForm.amount"></el-input>
+              <el-input-number size="medium" v-model="postForm.amount" :precision="0" :min="1" label="库存数量"></el-input-number>
             </el-form-item>
           </el-col>
         </el-row>
@@ -95,7 +95,8 @@
     update
   } from '@/api/goodsSkuApi'
   import {
-    validElPI
+    validElPI,
+    validElPINotRequired
   } from '@/utils/el-form-validate'
 
   export default {
@@ -120,7 +121,7 @@
           // 	trigger: ['change', 'blur']
           // },
           goodsId: [{
-            validator: validElPI,
+            validator: validElPINotRequired,
             trigger: ['change', 'blur']
           }],
           // sku:{
