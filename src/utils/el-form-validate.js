@@ -9,7 +9,7 @@ export function validElPI(rule,value,callback){
 }
 
 export function validElPINotRequired(rule,value,callback){
-  if(value == undefined){
+  if(value == undefined || value == ''){
     callback()
   }
   validElPI(rule,value,callback)
