@@ -1,6 +1,6 @@
 <template>
   <div class="app-container" v-loading="loading">
-    <el-form :model="postForm" ref="postForm" :rules="rules" label-position="right" label-width="120px">
+    <el-form :model="postForm" ref="postForm" :rules="rules" label-position="right">
       <sticky :z-index="10" :class-name="'sub-navbar '+subNavBarCss">
         <el-button @click="cancel">返 回</el-button>
         <el-button type="info" @click="submitForm">存为草稿</el-button>
@@ -43,19 +43,18 @@
       <el-table v-loading="tableLoading" :data="postForm.tableData" stripe style="width:100%" height="380px">
         <el-table-column label="SKU">
           <template slot-scope="scope">
-            <!-- <el-form-item :prop="'tableData.' + scope.$index + '.sku'" :rules='rules.sku'> -->
+            <el-form-item :prop="'tableData.' + scope.$index + '.sku'" :rules='rules.sku'>
               <el-input v-model="scope.row.sku" placeholder="请选择sku" @click.native="openSkuTableDialog(scope.$index)" readonly></el-input>
-            <!-- </el-form-item> -->
+            </el-form-item>
           </template>
         </el-table-column>
         <el-table-column property="skuName" label="sku名称"></el-table-column>
         <el-table-column property="saleSituation" label="日均销售(件) / 时长(天)"></el-table-column>
         <el-table-column label="备货数量">
           <template slot-scope="scope">
-            <!-- TODO样式 SKU重复校验-->
-            <!-- <el-form-item :prop="'tableData.' + scope.$index + '.amount'" :rules='rules.amount'> -->
+            <el-form-item :prop="'tableData.' + scope.$index + '.amount'" :rules='rules.amount'>
               <el-input v-model="scope.row.amount" placeholder="请输入数量"></el-input>
-            <!-- </el-form-item> -->
+            </el-form-item>
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center">
@@ -153,6 +152,7 @@
           }
         )
       },
+      //            <!--编辑界面 样式问题 SKU重复校验-->
       submitForm() {
         this.$refs.postForm.validate(valid => {
           if (valid) {
@@ -167,6 +167,7 @@
             //     that.loading = false
             //   }
             // )
+            that.loading = false
           } else {
             this.$message.warning('请填写正确的表单内容')
             return false
@@ -202,5 +203,10 @@
   }
 </script>
 
-<style>
+<style lang="scss" scoped>
+  // el-form的label-width和el-table中的el-form-item冲突
+  //TODO 没生效
+  ::v-deep .el-form-item .el-form-item__label{
+    width: 120px;
+  }
 </style>
