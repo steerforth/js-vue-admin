@@ -4,7 +4,7 @@
       <el-button-group>
         <el-button @click="firstStock">新品首备</el-button>
         <el-button @click="supplyStock">补充备货</el-button>
-        <!-- <el-button icon="el-icon-plus" @click="insertOrUpdate">新增计划</el-button> -->
+        <el-button @click="goAdd">新增计划</el-button>
       </el-button-group>
     </sub-navbar>
     <el-table ref="table" :data="page.records" :height="tableHeight" stripe style="width: 100%">
@@ -28,8 +28,8 @@
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <el-button @click="remove(scope.row.id)" type="danger" size="mini" v-if="scope.row.status == 'DRAFT'">删除</el-button>
-          <!-- <router-link :to="'/goods-info/goods-sku/edit/'+scope.row.id"> -->
-            <el-button size="mini">{{scope.row.status == 'DRAFT' ? '修改' : '查看'}}</el-button>
+          <!-- <router-link :to="'/stock-plan/goods-sku/edit/'+scope.row.id"> -->
+            <el-button size="mini" @click="goEdit(scope.row)">{{scope.row.status == 'DRAFT' ? '修改' : '查看'}}</el-button>
           <!-- </router-link> -->
         </template>
       </el-table-column>
@@ -47,7 +47,7 @@
     firstStock,
     supplyStock,
     deleteOne
-  } from '@/api/stockApi'
+  } from '@/api/stockPlanApi'
   import {
     NAV_BAR,
     PADDING_BOTTOM,
@@ -205,6 +205,12 @@
             that.loading = false
           }
         )
+      },
+      goEdit(row){
+        this.$router.push({name:"EditStockPlan",params:{stockPlan:row}})
+      },
+      goAdd(){
+        this.$router.push({name:"AddStockPlan"})
       }
     }
   }

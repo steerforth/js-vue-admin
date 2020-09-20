@@ -19,6 +19,20 @@ const stockManageRouter = {
       meta: { title: '备货计划',roles:['menu-StockPlan']}
     },
     {
+      path: 'stock-plan/edit',
+      component: () => import('@/views/stock-manage/stock-plan/edit'),
+      name: 'EditStockPlan',
+      meta: { title: '编辑备货计划',noCache: true,activeMenu: '/stock-manage/stock-plan/list',roles:['menu-StockPlan']},
+      hidden: true
+    },
+    {
+      path: 'stock-plan/add',
+      component: () => import('@/views/stock-manage/stock-plan/add'),
+      name: 'AddStockPlan',
+      meta: { title: '新增备货计划',noCache: true,activeMenu: '/stock-manage/stock-plan/list',roles:['menu-StockPlan']},
+      hidden: true
+    },
+    {
       path: 'purchase-schedule/list',
       component: () => import('@/views/stock-manage/purchase-schedule/list'),
       name: 'PurchaseSchedule',

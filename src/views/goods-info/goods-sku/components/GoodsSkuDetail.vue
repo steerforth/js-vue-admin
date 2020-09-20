@@ -28,12 +28,12 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="创建时间" prop="sku">
+            <el-form-item label="创建时间" prop="createAt">
               <el-input v-model="postForm.createAt" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="更新时间" prop="shortSku">
+            <el-form-item label="更新时间" prop="updateAt">
               <el-input v-model="postForm.updateAt" readonly></el-input>
             </el-form-item>
           </el-col>

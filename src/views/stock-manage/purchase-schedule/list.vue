@@ -31,8 +31,8 @@
 <script>
   import SubNavbar from '@/components/SubNavbar'
   import {
-    stockPlanItems
-  } from '@/api/stockApi'
+    stockPlanItemsByStatus
+  } from '@/api/stockPlanApi'
   import {
     NAV_BAR,
     PADDING_BOTTOM,
@@ -78,7 +78,7 @@
       loadPage() {
         let that = this
         that.loading = true
-        stockPlanItems(this.condition).then(
+        stockPlanItemsByStatus(this.condition).then(
           res => {
             that.loading = false
             that.$set(that, 'page', res)

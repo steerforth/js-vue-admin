@@ -80,17 +80,17 @@
           }
         )
       },
-      handleSkuSizeChange(val) {
+      handleSizeChange(val) {
       	this.$set(this.condition, "index", 1);
       	this.$set(this.condition, "size", val);
       	this.loadPage();
       },
-      handleSkuCurrentChange(val) {
+      handleCurrentChange(val) {
       	this.$set(this.condition, "index", val);
       	this.loadPage();
       },
       dbClick(row, column, event){
-        this.$emit('db-click', row.sku, row.name)
+        this.$emit('db-click', row)
       }
     },
 

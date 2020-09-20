@@ -186,10 +186,10 @@
         }
         this.$set(this,"dialogVisible",true)
       },
-      handleSkuDbClick(sku, cnName){
+      handleSkuDbClick(goodsSku){
          this.$set(this,"dialogVisible",false)
-         this.$set(this.postForm,'sku',sku)
-         this.$set(this.postForm,'goodsName',cnName)
+         this.$set(this.postForm,'sku',goodsSku.sku)
+         this.$set(this.postForm,'goodsName',goodsSku.name)
       }
     },
 
