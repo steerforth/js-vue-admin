@@ -36,3 +36,7 @@ export function stockPlanItemsByPlan(planId) {
     }
   })
 }
+
+export function saveOrUpdate(entity) {
+  return request.post('/stock/stockPlan/insertOrUpdate',entity)
+}

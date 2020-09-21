@@ -15,7 +15,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="目的仓" prop="target">
-              <el-select v-model="postForm.target" placeholder="请选择">
+              <el-select v-model="postForm.target" placeholder="请选择" :disabled="postForm.status == 'RELEASE' || postForm.type != 'COMMON'">
                   <el-option
                     v-for="item in targetOptions"
                     :key="item.value"
@@ -49,7 +49,7 @@
           </template>
         </el-table-column>
         <el-table-column property="skuName" label="sku名称"></el-table-column>
-        <el-table-column property="saleSituation" label="日均销售(件) / 时长(天)"></el-table-column>
+        <el-table-column property="saleSituation" label="日均销售(件) / 时长(天)" v-if="showSituationColumn"></el-table-column>
         <el-table-column label="备货数量">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.amount'" :rules='rules.amount'>
@@ -57,7 +57,7 @@
             </el-form-item>
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center">
+        <el-table-column label="操作" align="center" v-if="showOpColumn">
           <template slot-scope="scope">
             <el-button @click="removeItem(scope.$index)" type="danger" size="mini" v-if="scope.row.status == 'DRAFT' || !scope.row.status">删除</el-button>
           </template>
@@ -68,12 +68,13 @@
   </div>
 </template>
 
+<!-- 1.提交SKU重复校验  2.草稿发布不校验空 3.计划发布人 后台处理 -->
 <script>
   import Sticky from '@/components/Sticky'
   import GoodsSkuTable from '@/components/Service/GoodsSkuTable'
   import {
     stockPlanItemsByPlan,
-    // update
+    saveOrUpdate
   } from '@/api/stockPlanApi'
   import {
     validElPI
@@ -129,11 +130,18 @@
     computed: {
       subNavBarCss() {
         return this.isEdit ? 'edit' : 'add'
+      },
+      showSituationColumn(){
+        return this.postForm.type && this.postForm.type != 'COMMON'
+      },
+      showOpColumn(){
+        return !this.postForm.status || this.postForm.status === 'DRAFT'
       }
     },
     created() {
       if (this.isEdit) {
         const stockPlan = this.$route.params && this.$route.params.stockPlan
+        alert('type：'+stockPlan.type+'  status:'+stockPlan.status)
         this.$set(this, 'postForm', stockPlan)
         this.fetchData(stockPlan.id)
       }
@@ -152,22 +160,24 @@
           }
         )
       },
-      //            <!--编辑界面 样式问题 SKU重复校验-->
       submitForm() {
         this.$refs.postForm.validate(valid => {
           if (valid) {
+            //重复SKU校验
+            if(this.checkDuplicateSku()){
+              return;
+            }
             let that = this;
             that.loading = true
-            // update(that.postForm).then(
-            //   res => {
-            //     that.loading = false
-            //     that.$message.success(res)
-            //   },
-            //   err => {
-            //     that.loading = false
-            //   }
-            // )
-            that.loading = false
+            saveOrUpdate(that.postForm).then(
+              res => {
+                that.loading = false
+                that.$message.success(res)
+              },
+              err => {
+                that.loading = false
+              }
+            )
           } else {
             this.$message.warning('请填写正确的表单内容')
             return false
@@ -176,6 +186,18 @@
       },
       cancel() {
         this.$router.go(-1)
+      },
+      checkDuplicateSku(){
+        let tableData = this.postForm.tableData
+        var hash = {}
+        for(let data of tableData){
+          if(hash[data.sku]) {
+            this.$message.success('存在重复的SKU:'+data.sku)
+            return true
+          }
+          hash[data.sku] = true
+        }
+        return false
       },
       removeItem(index){
         this.postForm.tableData.splice(index, 1);
@@ -205,8 +227,11 @@
 
 <style lang="scss" scoped>
   // el-form的label-width和el-table中的el-form-item冲突
-  //TODO 没生效
-  ::v-deep .el-form-item .el-form-item__label{
+  ::v-deep .form-container .el-form-item .el-form-item__label{
     width: 120px;
   }
+  ::v-deep .form-container .el-form-item .el-form-item__content{
+    margin-left: 120px;
+  }
+
 </style>

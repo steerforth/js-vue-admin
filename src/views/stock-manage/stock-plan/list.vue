@@ -4,7 +4,7 @@
       <el-button-group>
         <el-button @click="firstStock">新品首备</el-button>
         <el-button @click="supplyStock">补充备货</el-button>
-        <el-button @click="goAdd">新增计划</el-button>
+        <el-button @click="goAdd">新增普通计划</el-button>
       </el-button-group>
     </sub-navbar>
     <el-table ref="table" :data="page.records" :height="tableHeight" stripe style="width: 100%">
