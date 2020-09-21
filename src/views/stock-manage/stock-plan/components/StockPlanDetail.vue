@@ -3,8 +3,8 @@
     <el-form :model="postForm" ref="postForm" :rules="rules" label-position="right">
       <sticky :z-index="10" :class-name="'sub-navbar '+subNavBarCss">
         <el-button @click="cancel">返 回</el-button>
-        <el-button type="info" @click="submitForm">存为草稿</el-button>
-        <el-button type="primary" @click="submitForm">发 布</el-button>
+        <el-button type="info" @click="submitForm('DRAFT')">存为草稿</el-button>
+        <el-button type="primary" @click="submitForm('RELEASE')">发 布</el-button>
       </sticky>
       <div class="form-container">
         <el-row>
@@ -40,10 +40,10 @@
         </el-row>
       </div>
       <el-button type="primary" plain @click="addItem" v-if="!isEdit">新增明细</el-button>
-      <el-table v-loading="tableLoading" :data="postForm.tableData" stripe style="width:100%" height="380px">
+      <el-table v-loading="tableLoading" :data="postForm.items" stripe style="width:100%" height="380px">
         <el-table-column label="SKU">
           <template slot-scope="scope">
-            <el-form-item :prop="'tableData.' + scope.$index + '.sku'" :rules='rules.sku'>
+            <el-form-item :prop="'items.' + scope.$index + '.sku'" :rules='rules.sku'>
               <el-input v-model="scope.row.sku" placeholder="请选择sku" @click.native="openSkuTableDialog(scope.$index)" readonly></el-input>
             </el-form-item>
           </template>
@@ -52,7 +52,7 @@
         <el-table-column property="saleSituation" label="日均销售(件) / 时长(天)" v-if="showSituationColumn"></el-table-column>
         <el-table-column label="备货数量">
           <template slot-scope="scope">
-            <el-form-item :prop="'tableData.' + scope.$index + '.amount'" :rules='rules.amount'>
+            <el-form-item :prop="'items.' + scope.$index + '.amount'" :rules='rules.amount'>
               <el-input v-model="scope.row.amount" placeholder="请输入数量"></el-input>
             </el-form-item>
           </template>
@@ -98,7 +98,7 @@
         // tableData: [],
         dialogVisible: false,
         postForm: {
-          tableData:[]
+          items:[]
         },
         curIndex:0,
         targetOptions: [
@@ -141,9 +141,12 @@
     created() {
       if (this.isEdit) {
         const stockPlan = this.$route.params && this.$route.params.stockPlan
-        alert('type：'+stockPlan.type+'  status:'+stockPlan.status)
         this.$set(this, 'postForm', stockPlan)
         this.fetchData(stockPlan.id)
+      }else{
+        //新增 为普通备货
+        this.$set(this.postForm,'type','COMMON')
+        this.$set(this.postForm,'target','IMILE_UAE')
       }
     },
     methods: {
@@ -152,7 +155,7 @@
         that.tableLoading = true
         stockPlanItemsByPlan(planId).then(
           res => {
-            that.postForm.tableData = res
+            that.postForm.items = res
             that.tableLoading = false
           },
           err => {
@@ -160,15 +163,16 @@
           }
         )
       },
-      submitForm() {
+      submitForm(status) {
         this.$refs.postForm.validate(valid => {
           if (valid) {
             //重复SKU校验
             if(this.checkDuplicateSku()){
               return;
             }
-            let that = this;
+            let that = this
             that.loading = true
+            that.postForm.status = status
             saveOrUpdate(that.postForm).then(
               res => {
                 that.loading = false
@@ -188,11 +192,11 @@
         this.$router.go(-1)
       },
       checkDuplicateSku(){
-        let tableData = this.postForm.tableData
+        let tableData = this.postForm.items
         var hash = {}
         for(let data of tableData){
           if(hash[data.sku]) {
-            this.$message.success('存在重复的SKU:'+data.sku)
+            this.$message.warn('存在重复的SKU:'+data.sku)
             return true
           }
           hash[data.sku] = true
@@ -200,10 +204,10 @@
         return false
       },
       removeItem(index){
-        this.postForm.tableData.splice(index, 1);
+        this.postForm.items.splice(index, 1);
       },
       addItem(){
-        this.postForm.tableData.unshift({});
+        this.postForm.items.unshift({});
       },
       openSkuTableDialog(index){
         if(this.isEdit){
@@ -213,11 +217,11 @@
         this.$set(this,"dialogVisible",true)
       },
       handleSkuDbClick(goodsSku){
-        let row = this.postForm.tableData[this.curIndex]
+        let row = this.postForm.items[this.curIndex]
         row.sku = goodsSku.sku
         row.skuName = goodsSku.name
         row.skuNameEn = goodsSku.nameEn
-        this.$set(this.postForm.tableData,this.curIndex,row)
+        this.$set(this.postForm.items,this.curIndex,row)
         this.$set(this,"dialogVisible",false)
       }
     },
