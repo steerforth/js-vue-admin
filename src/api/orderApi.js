@@ -90,6 +90,7 @@ export function downloadPurchaseFile(condition) {
   return request.get('/order/file/purchase/download', {
     responseType: 'blob',
     params: condition,
+    timeout: -1
   })
 }
 

@@ -1,17 +1,13 @@
 <template>
   <div class="app-container">
     <sub-navbar :z-index="10" :class="'sub-navbar'">
-      <el-select v-model="condition.type" @change="loadFiles">
-        <el-option v-for="item in options" :key="item.type" :label="item.name" :value="item.type">
-        </el-option>
-      </el-select>
       <el-upload style="display: inline-block;" action="noaction" :show-file-list="false" :http-request="uploadFile">
         <el-tooltip class="item" effect="dark" content="文件上传" placement="right-end">
           <el-button v-loading="loadingUp" icon="el-icon-upload2" circle></el-button>
         </el-tooltip>
       </el-upload>
     </sub-navbar>
-    <el-table v-loading="loading" :data="filesPage.records" ref="table" :height="tableHeight" stripe style="width: 100%">
+    <el-table v-loading="loading" :data="page.records" ref="table" :height="tableHeight" stripe style="width: 100%">
       <el-table-column type="index" :index="indexMethod" width="50">
       </el-table-column>
       <el-table-column prop="name" label="文件名">
@@ -20,8 +16,6 @@
       </el-table-column>
       <el-table-column prop="uploadTime" label="上传时间" align="center">
       </el-table-column>
-      <el-table-column prop="message" label="上传信息" align="center">
-      </el-table-column>
       <el-table-column fixed="right" label="下载" align="center">
         <template slot-scope="scope">
           <el-link type="primary" class="mini" @click="download(scope.row.id)">本文件</el-link>
@@ -29,11 +23,12 @@
       </el-table-column>
     </el-table>
     <el-pagination ref="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="condition.index"
-      :page-sizes="[20, 50, 100]" :page-size="condition.size" layout="sizes, prev, pager, next, total" :total="filesPage.total">
+      :page-sizes="[20, 50, 100]" :page-size="condition.size" layout="sizes, prev, pager, next, total" :total="page.total">
     </el-pagination>
   </div>
 </template>
 
+<!-- TODO 采购文件上传 逻辑 显示页面修改 -->
 <script>
   import SubNavbar from '@/components/SubNavbar'
   import {
@@ -44,7 +39,7 @@
   } from '@/utils/dynamic-table'
   import {
     upload
-  } from '@/api/logisticsApi'
+  } from '@/api/goodsApi'
   import {
     page,
     downloadById
@@ -55,7 +50,7 @@
   } from '@/utils/file-handler'
 
   export default {
-    name: 'LogisticsAccountFileList',
+    name: 'PurchaseFileList',
     components: {
       SubNavbar
     },
@@ -64,19 +59,12 @@
       return {
         loading: false,
         loadingUp: false,
-        filesPage: {
+        page: {
           total: 0,
           records: []
         },
-        options: [{
-          name: "imile",
-          type: 7
-        }, {
-          name: "yokesi",
-          type: 8
-        }],
         condition: {
-          type: 7,
+          type: 9,
           index: 1,
           size: 20,
         },
@@ -105,7 +93,7 @@
         page(this.condition).then(
           res => {
             that.loading = false
-            that.$set(that, 'filesPage', res)
+            that.$set(that, 'page', res)
           },
           err => {
             that.loading = false
@@ -127,18 +115,18 @@
       uploadFile(params) {
         const form = handlePreUpload(params)
         let that = this
-        that.loadingUp = true
         that.loading = true
+        that.loadingUp = true
         upload(form, that.condition).then(
           res => {
-            that.loadingUp = false
             that.loading = false
+            that.loadingUp = false
             that.$message.success(res)
             that.loadFiles()
           },
           err => {
-            that.loadingUp = false
             that.loading = false
+            that.loadingUp = false
           }
         )
       },

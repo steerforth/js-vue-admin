@@ -40,10 +40,16 @@ const stockManageRouter = {
       hidden: true
     },
     {
-      path: 'purchase-schedule/list',
-      component: () => import('@/views/stock-manage/purchase-schedule/list'),
-      name: 'PurchaseSchedule',
-      meta: { title: '采购进度',roles:['menu-PurchaseOrderFile']},
+      path: 'unpurchase/list',
+      component: () => import('@/views/stock-manage/unpurchase/list'),
+      name: 'Unpurchase',
+      meta: { title: '未采购明细',roles:['menu-PurchaseOrderFile']},
+    },
+    {
+      path: 'purchase-file/list',
+      component: () => import('@/views/stock-manage/purchase-file/list'),
+      name: 'PurchaseFile',
+      meta: { title: '采购文件',roles:['menu-PurchaseOrderFile']},
     },
     {
       path: 'stock-schedule/list',

@@ -89,6 +89,12 @@ const fileFlowRouter = {
       component: () => import('@/views/file-flow/deliver-type/list'),
       name: 'DeliverType',
       meta: { title: '销售发货清单', roles: ['menu-Deliver'] }
+    },
+    {
+      path: 'bill-trace/list',
+      component: () => import('@/views/file-flow/bill-trace/list'),
+      name: 'BillTrace',
+      meta: { title: '国内物流跟踪', roles: ['menu-Deliver'] }
     }
   ]
 }

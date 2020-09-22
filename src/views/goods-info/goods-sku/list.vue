@@ -1,14 +1,14 @@
 <template>
   <div class="app-container">
     <sub-navbar :z-index="10" :class="'sub-navbar'">
-      <el-input placeholder="请输入ID/规格/中文名/SKU" v-model="condition.query" clearable @keyup.enter.native="loadGoodsSku">
+      <el-input placeholder="请输入ID/规格/中文名/SKU" v-model="condition.query" clearable @keyup.enter.native="loadPage">
       </el-input>
       <el-select v-model="condition.domain" clearable filterable placeholder="请输入站点">
         <el-option v-for="item in shops" :key="item.id" :label="item.name" :value="item.domain">
         </el-option>
       </el-select>
       <el-tooltip class="item" effect="dark" content="查询" placement="right-end">
-        <el-button v-loading="loading" icon="el-icon-search" circle @click="loadGoodsSku"></el-button>
+        <el-button v-loading="loading" icon="el-icon-search" circle @click="loadPage"></el-button>
       </el-tooltip>
       <el-upload style="display: inline-block;" action="noaction" :show-file-list="false" :http-request="uploadFile">
         <el-tooltip class="item" effect="dark" content="sku文件上传" placement="right-end">
@@ -20,7 +20,7 @@
         <el-button icon="el-icon-download" @click="exportAsYks">Yokesi产品表</el-button>
       </el-button-group>
     </sub-navbar>
-    <el-table v-loading="loading" ref="table" :data="skuPage.records" :height="tableHeight" stripe style="width: 100%">
+    <el-table v-loading="loading" ref="table" :data="page.records" :height="tableHeight" stripe style="width: 100%">
       <el-table-column prop="domain" label="域名" width="200" align="center">
       </el-table-column>
       <el-table-column prop="goodsId" label="ID" width="60" align="center">
@@ -46,7 +46,7 @@
       </el-table-column>
     </el-table>
     <el-pagination ref="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="condition.pageIndex"
-      :page-sizes="[100, 200, 300]" :page-size="condition.pageSize" layout="sizes, prev, pager, next, total" :total="skuPage.total">
+      :page-sizes="[100, 200, 300]" :page-size="condition.pageSize" layout="sizes, prev, pager, next, total" :total="page.total">
     </el-pagination>
   </div>
 </template>
@@ -82,7 +82,7 @@
         loading: false,
         loadingUp: false,
         shops: [],
-        skuPage: {
+        page: {
           total: 0,
           records: []
         },
@@ -111,13 +111,13 @@
         this.$set(this, 'tableHeight', window.innerHeight - this.$refs.table.$el.offsetTop - NAV_BAR - PADDING_BOTTOM -
           this.$refs.pagination.$el.offsetHeight);
       },
-      loadGoodsSku() {
+      loadPage() {
         let that = this
         that.loading = true
         page(this.condition).then(
           res => {
             that.loading = false
-            that.$set(that, 'skuPage', res)
+            that.$set(that, 'page', res)
           },
           err => {
             that.loading = false
@@ -127,18 +127,18 @@
       handleSizeChange(val) {
         this.$set(this.condition, "pageIndex", 1);
         this.$set(this.condition, "pageSize", val);
-        this.loadGoodsSku();
+        this.loadPage();
       },
       handleCurrentChange(val) {
         this.$set(this.condition, "pageIndex", val);
-        this.loadGoodsSku();
+        this.loadPage();
       },
       loadShops() {
         let that = this
         shopList().then(
           res => {
             that.$set(that,'shops',res)
-            that.loadGoodsSku()
+            that.loadPage()
           },
           err => {
 
@@ -154,7 +154,7 @@
             that.loadingUp = false
             that.loading = false
             that.$message.success(res)
-            that.loadGoodsSku()
+            that.loadPage()
           },
           err => {
             that.loadingUp = false
@@ -190,7 +190,7 @@
       	}).then(() => {
           deleteOne(row.id).then(
             res => {
-              this.loadGoodsSku();
+              this.loadPage();
             },
             err => {
 

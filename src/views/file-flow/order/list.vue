@@ -11,7 +11,7 @@
       <el-input placeholder="请输入手机号" v-model="condition.shortPhoneNum" clearable>
       </el-input>
       <el-select v-model="condition.deliverStatus" clearable placeholder="请选择状态">
-        <el-option v-for="item in statusForOptions" :key="item.value" :label="item.name" :value="item.value">
+        <el-option v-for="item in statusForOptions" :key="item.value" :label="item.label" :value="item.value">
         </el-option>
       </el-select>
       <el-select v-model="condition.shopId" clearable filterable placeholder="请选择站点">
@@ -31,7 +31,7 @@
         </el-dropdown-menu>
       </el-dropdown>
     </sub-navbar>
-    <el-table v-loading="loading" ref="table" :data="orderPage.records" :height="tableHeight" stripe style="width: 100%">
+    <el-table v-loading="loading" ref="table" :data="page.records" :height="tableHeight" stripe style="width: 100%">
       <el-table-column
         prop="orderNo"
         label="订单号"
@@ -134,7 +134,7 @@
       </el-table-column>
     </el-table>
     <el-pagination ref="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="condition.pageIndex"
-      :page-sizes="[20, 50, 100, 200]" :page-size="condition.pageSize" layout="sizes, prev, pager, next, total" :total="orderPage.total">
+      :page-sizes="[20, 50, 100, 200]" :page-size="condition.pageSize" layout="sizes, prev, pager, next, total" :total="page.total">
     </el-pagination>
     <date-dialog :title="dialogTitle" :is-import="dialogIsImport" :shops-for-options="shopsForOptions" :visible="dialogVisible" @submit="handleSubmit" @cancel="dialogCancel"></date-dialog>
   </div>
@@ -202,9 +202,9 @@
     data() {
       return {
         loading: false,
-        statusForOptions:[{'name':'正在配送','value':'DISTRIBUTION'},{'name':'配送成功','value':'SUCCESS'},{'name':'暂存_途中','value':'RETURN'},{'name':'暂存_在库','value':'TEMPORARY'},{'name':'转寄','value':'FORWARD'},{'name':'商家已取消','value':'CANCEL'},{'name':'COD退款','value':'CODREFUND'}],
+        statusForOptions:[{'label':'正在配送','value':'DISTRIBUTION'},{'label':'配送成功','value':'SUCCESS'},{'label':'暂存_途中','value':'RETURN'},{'label':'暂存_在库','value':'TEMPORARY'},{'label':'转寄','value':'FORWARD'},{'label':'商家已取消','value':'CANCEL'},{'label':'COD退款','value':'CODREFUND'}],
         shopsForOptions: [],
-        orderPage: {
+        page: {
           total: 0,
           records: []
         },
@@ -255,7 +255,7 @@
         page(that.condition).then(
           res => {
             that.loading = false
-            that.$set(that, 'orderPage', res)
+            that.$set(that, 'page', res)
           },
           err => {
             that.loading = false

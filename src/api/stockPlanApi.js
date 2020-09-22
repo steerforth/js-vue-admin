@@ -40,3 +40,10 @@ export function stockPlanItemsByPlan(planId) {
 export function saveOrUpdate(entity) {
   return request.post('/stock/stockPlan/insertOrUpdate',entity)
 }
+
+//TODO 改get
+export function planItemPage(condition) {
+  return request.post('/stock/stock-plan-item/page', null, {
+    params: condition
+  })
+}
