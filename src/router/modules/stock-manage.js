@@ -33,6 +33,13 @@ const stockManageRouter = {
       hidden: true
     },
     {
+      path: 'stock-plan/see',
+      component: () => import('@/views/stock-manage/stock-plan/see'),
+      name: 'SeeStockPlan',
+      meta: { title: '查看备货计划',noCache: true,activeMenu: '/stock-manage/stock-plan/list'},
+      hidden: true
+    },
+    {
       path: 'purchase-schedule/list',
       component: () => import('@/views/stock-manage/purchase-schedule/list'),
       name: 'PurchaseSchedule',

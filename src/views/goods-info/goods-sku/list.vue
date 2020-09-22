@@ -27,7 +27,7 @@
       </el-table-column>
       <el-table-column prop="spec" label="在售规格" align="center">
         <template slot-scope="scope">
-          <a :href="getGoodsLink(scope.row)" target="_blank">{{ scope.row.spec }}</a>
+          <a :href="scope.row.goodsLink" target="_blank">{{ scope.row.spec }}</a>
         </template>
       </el-table-column>
       <el-table-column prop="name" label="中文名" width="200" align="center">
@@ -181,11 +181,6 @@
 
           }
         )
-      },
-      getGoodsLink(row) {
-        //twobee站点的规则
-        var link = 'https://' + row.domain + '/info.html?id=' + row.goodsId;
-        return link;
       },
       remove(row){
       	this.$confirm('此操作将删除['+row.domain+'站点的'+row.sku+'], 是否继续?', '提示', {

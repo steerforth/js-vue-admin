@@ -1,6 +1,6 @@
 <template>
   <div>
-    <stock-plan-detail :is-edit="true"></stock-plan-detail>
+    <stock-plan-detail :type="'edit'"></stock-plan-detail>
   </div>
 </template>
 

@@ -83,6 +83,13 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row>
+          <el-col :span="24">
+            <el-form-item label="商品链接" prop="goodsLink">
+              <el-input v-model="postForm.goodsLink"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </div>
     </el-form>
   </div>
