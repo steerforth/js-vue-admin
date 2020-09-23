@@ -9,7 +9,7 @@
         @keyup.enter.native="loadMapForCity">
       </el-input>
       <el-tooltip class="item" effect="dark" content="查询" placement="right-end">
-        <el-button v-loading="loading" icon="el-icon-search" circle @click="loadMapForCity"></el-button>
+        <el-button v-loading="loading" icon="el-icon-search" circle @click="doQuery"></el-button>
       </el-tooltip>
       <el-upload
         style="display: inline-block;"
@@ -106,6 +106,10 @@
       handleResize() {
         this.$set(this, 'tableHeight', window.innerHeight - this.$refs.table.$el.offsetTop - NAV_BAR - PADDING_BOTTOM -
           this.$refs.pagination.$el.offsetHeight);
+      },
+      doQuery(){
+        this.$set(this.condition, "index", 1);
+        this.loadMapForCity();
       },
       loadMapForCity() {
         let that = this;

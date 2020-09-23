@@ -4,7 +4,7 @@
       <el-input placeholder="请输入国内运单号" v-model="condition.query" clearable @keyup.enter.native="loadPage">
       </el-input>
       <el-tooltip class="item" effect="dark" content="查询" placement="right-end">
-        <el-button v-loading="loading" icon="el-icon-search" circle @click="loadPage"></el-button>
+        <el-button v-loading="loading" icon="el-icon-search" circle @click="doQuery"></el-button>
       </el-tooltip>
     </sub-navbar>
     <el-table v-loading="loading" ref="table" :data="page.records" :height="tableHeight" stripe style="width: 100%">
@@ -88,6 +88,10 @@
       handleResize() {
         this.$set(this, 'tableHeight', window.innerHeight - this.$refs.table.$el.offsetTop - NAV_BAR - PADDING_BOTTOM -
           this.$refs.pagination.$el.offsetHeight);
+      },
+      doQuery(){
+        this.$set(this.condition, "index", 1);
+        this.loadPage();
       },
       loadPage() {
         let that = this
