@@ -57,6 +57,12 @@ const stockManageRouter = {
       name: 'StockSchedule',
       meta: { title: '收货、发货进度',roles:['menu-StockProgress']},
     },
+    {
+      path: 'stock-schedule/local-checkin',
+      component: () => import('@/views/stock-manage/stock-schedule/local-checkin'),
+      name: 'LocalCheckin',
+      meta: { title: '本地仓到货处理',roles:['menu-StockProgress']},
+    },
   ]
 }
 export default stockManageRouter

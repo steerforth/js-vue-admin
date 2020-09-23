@@ -12,15 +12,15 @@
         </el-option>
       </el-select>
       <!-- <el-tooltip class="item" effect="dark" content="查询" placement="left-end">
-        <el-button v-loading="loading" icon="el-icon-search" circle @click="loadOrders"></el-button>
+        <el-button v-loading="loading" icon="el-icon-search" circle @click="doQuery"></el-button>
       </el-tooltip> -->
       <el-dropdown @command="handleCommand">
         <el-button icon="el-icon-more" circle></el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="import">本地仓到货</el-dropdown-item>
-          <el-dropdown-item command="rmDupli">发货登记</el-dropdown-item>
-          <el-dropdown-item command="export">yokesi仓到货单</el-dropdown-item>
-          <el-dropdown-item command="download">imile海外仓到货处理</el-dropdown-item>
+          <el-dropdown-item command="localArrived">本地仓到货</el-dropdown-item>
+          <el-dropdown-item command="localSendout">发货登记</el-dropdown-item>
+          <el-dropdown-item command="yokesiArrived">yokesi仓到货单</el-dropdown-item>
+          <el-dropdown-item command="imileArrived">imile海外仓到货处理</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </sub-navbar>
@@ -166,8 +166,6 @@
         this.loadPage();
       },
       targetFormatter(row, column){
-        // let target = this.statusHash[row.target]
-        // return target == null ? '未知': target
         if(row.target === 'IMILE_UAE'){
         	return "imile@阿联酋"
         }else if(row.target === 'IMILE_KSA'){
@@ -184,6 +182,25 @@
         	return "未知"
         }
       },
+      handleCommand(command){
+        switch (command){
+        	case "localArrived":
+            this.$router.push('/stock-manage/stock-schedule/local-checkin')
+        		break;
+        	case "localSendout":
+            // this.$router.push('/file-flow/order/duplicate')
+        		break;
+        	case "yokesiArrived":
+            // this.openExportDialog()
+        		break;
+        	case "imileArrived":
+        		// this.download()
+        		break;
+        	default:
+        		this.$message.error('未知的下拉菜单项')
+        		break;
+        }
+      }
     }
   }
 </script>
