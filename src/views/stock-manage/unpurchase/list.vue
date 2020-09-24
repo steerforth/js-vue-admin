@@ -18,7 +18,7 @@
       </el-table-column>
       <el-table-column prop="amount" label="计划采购数量" align="center">
       </el-table-column>
-      <!-- TODO显示 -->
+      <!-- TODO显示 只显示一行 合并单元格 -->
       <el-table-column prop="amount" label="计划采购总数量" align="center">
       </el-table-column>
     </el-table>

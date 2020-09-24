@@ -1,5 +1,4 @@
 import request from '@/utils/request'
-import qs from 'qs'
 
 export function stockPlanItemsByStatus(condition) {
   return request.post('/stock/stockPlanItem/list', null, {
@@ -58,16 +57,11 @@ export function deliverForPlanByBilNo(billNo) {
   })
 }
 
-export function handleArrivedFromImile(condition, arriveDate) {
+export function handleArrivedFromImile(arriveDate,condition) {
   return request.post('/stock/upload/imile-arrived-records', condition, {
     params: {
       arriveDateStr: arriveDate,
     },
-    // paramsSerializer: params => {
-    //   return qs.stringify(params, {
-    //     indices: false
-    //   })
-    // }
   })
 }
 

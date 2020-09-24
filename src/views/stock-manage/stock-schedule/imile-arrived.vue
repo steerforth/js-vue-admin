@@ -16,7 +16,6 @@
         <el-row>
           <el-col :span="24">
             <el-form-item label="到货日期:" prop="arriveDate">
-              <!-- TODO 格式化 format -->
               <el-date-picker type="date" v-model="postForm.arriveDate" placeholder="选择日期" :picker-options="pickerOptions" :clearable="false" value-format="yyyy-MM-dd">
               </el-date-picker>
             </el-form-item>

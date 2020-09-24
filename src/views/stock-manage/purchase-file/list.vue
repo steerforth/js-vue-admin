@@ -28,7 +28,7 @@
   </div>
 </template>
 
-<!-- TODO 采购文件上传 逻辑 显示页面修改 -->
+<!-- TODO 采购文件上传后 回传的页面 逻辑 显示页面修改 -->
 <script>
   import SubNavbar from '@/components/SubNavbar'
   import {

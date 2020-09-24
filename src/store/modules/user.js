@@ -44,7 +44,6 @@ const actions = {
   },
 
   // user login
-  //TODO REMOVE
   // login({ commit }, userInfo) {
   //   const { username, password } = userInfo
   //   return new Promise((resolve, reject) => {

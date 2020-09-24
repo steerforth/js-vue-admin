@@ -196,9 +196,4 @@
     width: 100%;
     height: calc(100vh - 138px);
   }
-
-  ::v-deep .el-loading-mask{
-    border-radius: 50%;
-  }
-
 </style>
