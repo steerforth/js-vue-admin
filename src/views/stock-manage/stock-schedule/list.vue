@@ -11,15 +11,16 @@
         <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value">
         </el-option>
       </el-select>
-      <!-- <el-tooltip class="item" effect="dark" content="查询" placement="left-end">
-        <el-button v-loading="loading" icon="el-icon-search" circle @click="doQuery"></el-button>
-      </el-tooltip> -->
       <el-dropdown @command="handleCommand">
         <el-button icon="el-icon-more" circle></el-button>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item command="localArrived">本地仓到货</el-dropdown-item>
           <el-dropdown-item command="localSendout">发货登记</el-dropdown-item>
-          <el-dropdown-item command="yokesiArrived">yokesi仓到货单</el-dropdown-item>
+          <el-dropdown-item command="yokesiArrived">
+            <el-upload style="display: inline-block;" action="noaction" :show-file-list="false" :http-request="uploadFile">
+              yokesi仓到货单上传
+            </el-upload>
+          </el-dropdown-item>
           <el-dropdown-item command="imileArrived">imile海外仓到货处理</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -65,7 +66,8 @@
 <script>
   import SubNavbar from '@/components/SubNavbar'
   import {
-    planItemPage
+    planItemPage,
+    uploadArrivedFromYokesi
   } from '@/api/stockPlanApi'
   import {
     NAV_BAR,
@@ -76,7 +78,7 @@
   import { handlePreUpload } from '@/utils/file-handler'
 
   export default {
-    name: 'GoodsSkuList',
+    name: 'StockScheduleList',
     components: {
       SubNavbar
     },
@@ -124,6 +126,7 @@
         	pageIndex: 1,
         	pageSize: 20,
         },
+        multiSel:[],
         tableHeight: DEFAULT_TABLE
       }
     },
@@ -188,18 +191,60 @@
             this.$router.push('/stock-manage/stock-schedule/local-checkin')
         		break;
         	case "localSendout":
-            // this.$router.push('/file-flow/order/duplicate')
+            this.goLocalSendout()
         		break;
         	case "yokesiArrived":
-            // this.openExportDialog()
         		break;
         	case "imileArrived":
-        		// this.download()
+        		this.$router.push('/stock-manage/stock-schedule/imile-arrived')
         		break;
         	default:
         		this.$message.error('未知的下拉菜单项')
         		break;
         }
+      },
+      handleSelectionChange(val) {
+      	this.multiSel = val;
+      },
+      goLocalSendout(){
+        if(this.multiSel.length == 0){
+          this.$message.warning('请选择相应的备货计划')
+        	return;
+        }
+
+        //单选，编辑或新增
+        if(this.multiSel.length == 1){
+          this.$router.push({name:"LocalSendout",params:{selection:this.multiSel[0]}})
+        }else{
+          //批量处理
+        	var target = this.multiSel[0].target;
+        	for(var sel of this.multiSel){
+        		if(target != sel.target){
+              this.$message.warning('请选择相同的目的仓')
+        			return;
+        		}
+        		if(sel.deliverToOverseaAmount > 0){
+              this.$message.warning('备货计划(sku='+sel.sku+',发布时间='+sel.releaseTime+')请单独编辑处理!')
+        			return;
+        		}
+        	}
+          this.$router.push({name:"LocalSendoutBatch",params:{selection:this.multiSel}})
+        }
+      },
+      uploadFile(params){
+        const form = handlePreUpload(params)
+        let that = this
+        that.loading = true
+        uploadArrivedFromYokesi(form).then(
+          res => {
+            that.loading = false
+            that.$message.success(res)
+            that.loadPage()
+          },
+          err => {
+            that.loading = false
+          }
+        )
       }
     }
   }

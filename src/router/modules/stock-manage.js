@@ -61,7 +61,29 @@ const stockManageRouter = {
       path: 'stock-schedule/local-checkin',
       component: () => import('@/views/stock-manage/stock-schedule/local-checkin'),
       name: 'LocalCheckin',
-      meta: { title: '本地仓到货处理',roles:['menu-StockProgress']},
+      meta: { title: '本地仓到货处理',noCache: true,activeMenu: '/stock-manage/stock-schedule/list',roles:['menu-StockProgress']},
+      hidden: true
+    },
+    {
+      path: 'stock-schedule/local-sendout-batch',
+      component: () => import('@/views/stock-manage/stock-schedule/local-sendout-batch'),
+      name: 'LocalSendoutBatch',
+      meta: { title: '本地仓发货处理(批量)',noCache: true,activeMenu: '/stock-manage/stock-schedule/list',roles:['menu-StockProgress']},
+      hidden: true
+    },
+    {
+      path: 'stock-schedule/local-sendout',
+      component: () => import('@/views/stock-manage/stock-schedule/local-sendout'),
+      name: 'LocalSendout',
+      meta: { title: '本地仓发货处理',noCache: true,activeMenu: '/stock-manage/stock-schedule/list',roles:['menu-StockProgress']},
+      hidden: true
+    },
+    {
+      path: 'stock-schedule/imile-arrived',
+      component: () => import('@/views/stock-manage/stock-schedule/imile-arrived'),
+      name: 'ImileArrived',
+      meta: { title: 'imile到货处理',noCache: true,activeMenu: '/stock-manage/stock-schedule/list',roles:['menu-StockProgress']},
+      hidden: true
     },
   ]
 }
