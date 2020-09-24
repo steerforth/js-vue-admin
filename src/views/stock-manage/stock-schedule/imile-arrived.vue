@@ -127,12 +127,11 @@
         this.$refs.postForm.validate(valid => {
           if (valid) {
             let that = this
-            // if(that.postForm.tableData.length == 0){
-            //   that.$message.warning('无可提交数据')
-            //   return;
-            // }
+            if(that.postForm.tableData.length == 0){
+              that.$message.warning('无可提交数据')
+              return;
+            }
             that.loading = true
-            debugger
             handleArrivedFromImile(that.postForm.arriveDate, that.postForm.tableData).then(
               res => {
                 that.loading = false
